@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "discord.js": "^13.0.0-dev.t1628256616.1200bba",
+    "node-fetch": "^2.6.1",
+    "pretty-ms": "^7.0.1",
+    "quick.db": "^7.1.3"
+  }
+}

@@ -14,15 +14,15 @@ const boardInit = (game) => {
         var ActionRow = new MessageActionRow();
         row.forEach((square, y) => {
             var specs;
-            if (!square)specs = { style: 'SECONDARY', label: ' ', disabled: false };
-            else if (square == 'x')specs = { style: 'PRIMARY', label: 'X', disabled: true };
-            else if (square == 'o')specs = { style: 'DANGER', label: 'O', disabled: true };
-            else if (square == 'fin')specs = { style: 'SECONDARY', label: ' ', disabled: true };
+            if (!square)specs = { style: 'SECONDARY', label: '🍞', disabled: false };
+            else if (square == 'x')specs = { style: 'PRIMARY', label: '<:peanutbutter:877666741994541066>', disabled: true };
+            else if (square == 'o')specs = { style: 'DANGER', label: '<:jam:877665567341948959>', disabled: true };
+            else if (square == 'fin')specs = { style: 'SECONDARY', label: '🍞', disabled: true };
             ActionRow.addComponents(
                 new MessageButton()
                     .setCustomId(`tictactoast_${x}${y}_${game.turn}_fun`)
                     .setStyle(specs.style)
-                    .setLabel(specs.label)
+                    .setEmoji(specs.label)
                     .setDisabled(specs.disabled)
             );
         });
@@ -74,7 +74,7 @@ module.exports.run = async (client, message, args) => {
         client.games.set(message.author.id, target.id);
         client.games.set(target.id, message.author.id);
         await message.reply({
-            embeds: [embed.setAuthor(`${turner.username}'s turn! ${message.author.id > target.id ? "🔴" : "🔵"}`, turner.displayAvatarURL({format: 'png'}))],
+            embeds: [embed.setAuthor(`${turner.username}'s turn! ${message.author.id > target.id ? "<:jam:877665567341948959>" : "<:peanutbutter:877666741994541066>"}`, turner.displayAvatarURL({format: 'png'}))],
             components: boardInit(game)
         });  
     }
@@ -97,13 +97,13 @@ module.exports.button = async (client, interaction) => {
             });
         });
         client.games.delete(parseInt(interaction.user.id) + parseInt(target));
-        embed.setAuthor(`${winner.username} has won! ${target > interaction.user.id ? "🔴" : "🔵"}`, winner.displayAvatarURL({format: 'png'}));
+        embed.setAuthor(`${winner.username} has won! ${target > interaction.user.id ? "<:jam:877665567341948959>" : "<:peanutbutter:877666741994541066>"}`, winner.displayAvatarURL({format: 'png'}));
     } else if (turnout == 'tie') {
         client.games.delete(parseInt(interaction.user.id) + parseInt(target));
         embed.setDescription('Aw it was a tie.');
     } else {
         await client.games.set(parseInt(interaction.user.id) + parseInt(target), games);
-        embed.setAuthor(`${turner.username}'s turn! ${interaction.user.id > target ? "🔴" : "🔵"}`, turner.displayAvatarURL({format: 'png'}));
+        embed.setAuthor(`${turner.username}'s turn! ${interaction.user.id > target ? "<:jam:877665567341948959>" : "<:peanutbutter:877666741994541066>"}`, turner.displayAvatarURL({format: 'png'}));
     };
     await interaction.update({
         embeds: [embed],

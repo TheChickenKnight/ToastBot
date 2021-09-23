@@ -3,6 +3,7 @@
     "@discordjs/opus": "^0.5.3",
     "@discordjs/voice": "^0.6.0",
     "canvas": "^2.8.0",
+    "custom-env": "^2.0.1",
     "discord.js": "^13.2.0-dev.1630886694.f57791c",
     "ffmpeg-static": "^4.4.0",
     "google-tts-api": "^2.0.2",

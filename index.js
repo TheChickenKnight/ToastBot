@@ -2,6 +2,7 @@ const { Client, Intents, Collection, MessageActionRow, Interaction, MessageSelec
 const fs = require('fs');
 const db = require('quick.db');
 const { token } = require('./config.json');
+require('custom-env').env();
 
 const client = new Client({intents: [ Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES]});
 
@@ -82,4 +83,4 @@ client.once('ready', async () => {
     client.on('messageDelete', message => client.snipe.set(message.guildId, message)); //snipe command
 });
 
-client.login(token);
+client.login(process.env.TOKEN);

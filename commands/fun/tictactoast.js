@@ -10,7 +10,7 @@ module.exports.info = {
 
 const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 
-const boardInit = (game) => {
+const boardInit = game => {
     var array2D = [];
     game.board.forEach((row, x) => {
         var ActionRow = new MessageActionRow();
@@ -22,7 +22,7 @@ const boardInit = (game) => {
             else if (square == 'fin')specs = { style: 'SECONDARY', label: '🍞', disabled: true };
             ActionRow.addComponents(
                 new MessageButton()
-                    .setCustomId(`tictactoast_${x}${y}_${game.solo ? game.turn + 'bot' : game.turn}_fun`)
+                    .setCustomId(`tictactoast_${x}${y}_${game.turn}_fun`)
                     .setStyle(specs.style)
                     .setEmoji(specs.label)
                     .setDisabled(specs.disabled)
@@ -32,7 +32,7 @@ const boardInit = (game) => {
     });
     return array2D;
 }
-const hasWon = (board) => {
+const hasWon = board => {
     var tie = true;
     var hor = false;
     board.forEach(row => {
@@ -52,19 +52,19 @@ const hasWon = (board) => {
     if (board[0][2] == 'x' && board[1][1] == 'x' && board[2][0] == 'x')return 'x';
     if (board[0][2] == 'o' && board[1][1] == 'o' && board[2][0] == 'o')return 'o';//diagonals
     if (tie)return 'tie';//tie
-    return false;//none
 } 
 
 module.exports.run = async (client, message, args) => { 
     var embed = new MessageEmbed().setColor(client.randToastColor()).setTitle("** **              TicTacToe              ** **");
-    const target = message.mentions.members.first();
+    var target = message.mentions.members.first();
+    if (!target)target = { id: 'bot' };
     if (target.id == message.author.id)embed.setDescription("❌ You can't play TicTacToe by yourself!").setFooter("Are you really this lonely?");
     else if (client.tictactoe.has(message.author.id + target.id))embed.setDescription(`❌ You're already in a game with ${target}!`);
     else {
         const turn = Math.round(Math.random()) ? message.author.id : target.id;
-        const turner = await client.users.fetch(turn);
+        const turner = (turn == 'bot' ? await client.users.fetch(client.user.id) : await client.users.fetch(turn));
         const game = {
-            solo: false,
+            solo: target.id == 'bot' ? true : false,
             turn: turn,
             board: [ ["", "", ""], ["", "", ""], ["", "", ""] ]
         };
@@ -80,19 +80,24 @@ module.exports.run = async (client, message, args) => {
 
 module.exports.button = async (client, interaction) => {
     var embed = new MessageEmbed().setColor(client.randToastColor()).setTitle("** **              TicTacToe              ** **");
-    const target = await client.tictactoe.get(interaction.user.id) || 0;
+    var target = await client.tictactoe.get(interaction.user.id) || 0;
     var games = client.tictactoe.get(parseInt(interaction.user.id) + parseInt(target));
     games.board[interaction.customId.split('_')[1].charAt(0)][interaction.customId.split('_')[1].charAt(1)] = interaction.user.id > target ? "x" : "o";
     if (games.solo) {
-        var x, y;
-        do {
-            x = Math.floor(Math.random() * 3);
-            y = Math.floor(Math.random() * 3);
-        } while (games.board[x][y])
-        games.board[x][y] = interaction.user.id > target ? "o" : "x";
+        setTimeout(() => {
+            var x, y;
+            do {
+                x = Math.floor(Math.random() * 3);
+                y = Math.floor(Math.random() * 3);
+            } while (games.board[x][y])
+            games.board[x][y] = interaction.user.id > target ? "o" : "x";
+            interaction.customId = `tictactoast_${x}${y}_${games.turn}_fun`;
+            this.button(client, interaction);
+        }, 2000);
     }
     games.turn = target;
     const winner = await client.users.fetch(interaction.user.id);
+    if (target == 'bot')target = client.user.id;
     const turner = await client.users.fetch(target);
     const turnout = hasWon(games.board);
     if (turnout == 'x' || turnout == 'o') {
@@ -111,8 +116,15 @@ module.exports.button = async (client, interaction) => {
         await client.tictactoe.set(parseInt(interaction.user.id) + parseInt(target), games);
         embed.setAuthor(`${turner.username}'s turn! ${interaction.user.id > target ? "🟥" : "🟦"}`, turner.displayAvatarURL({format: 'png'}));
     };
-    await interaction.update({
-        embeds: [embed],
-        components: boardInit(games)
-    });  
+    try {
+        await interaction.update({
+            embeds: [embed],
+            components: boardInit(games)
+        });  
+    } catch {
+        await interaction.editReply({
+            embeds: [embed],
+            components: boardInit(games)
+        });  
+    }
 }

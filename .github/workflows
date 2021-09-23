@@ -1,0 +1,3 @@
+on: push
+env:
+    TOKEN: ODczMjU1MTQ4MzM4Njg4MDYw.YQ1wOw.WNpOdBEfTo0tuaOhSP-UDJ6xLEs

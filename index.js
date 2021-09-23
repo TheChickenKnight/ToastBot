@@ -83,4 +83,4 @@ client.once('ready', async () => {
     client.on('messageDelete', message => client.snipe.set(message.guildId, message)); //snipe command
 });
 
-client.login(process.env.TOKEN);
+client.login(token);

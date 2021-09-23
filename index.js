@@ -34,7 +34,7 @@ console.log(`Loaded all ${commandFiles.length} command(s)`);
 
 client.once('ready', async () => {
 
-    client.user.setActivity(`in ${client.guilds.cache.size} servers!`, { type: 'COMPETING' });
+    client.user.setActivity(`${client.guilds.cache.size} servers!`, { type: 'COMPETING' });
     client.user.setStatus('idle');
 
     console.log(`ToastBot is finally ready!`);

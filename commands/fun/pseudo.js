@@ -32,3 +32,4 @@ module.exports.run = async (client, message, args) => {
         avatarURL: author.displayAvatarURL({format: 'png'}),
     });
 }
+

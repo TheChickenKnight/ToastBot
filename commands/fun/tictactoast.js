@@ -4,10 +4,12 @@ module.exports.info = {
     cooldown: 20,
     section: 'fun',
     description: 'TicTacToe but nothing is different at all',
+    ai: 'maybe at some point...or just random',
     usage: 'ttt/tictactoe/tictactoast <@ someone>'
 }
 
-const { MessageEmbed, MessageActionRow, MessageButton, Collection } = require("discord.js");
+const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
+
 const boardInit = (game) => {
     var array2D = [];
     game.board.forEach((row, x) => {
@@ -20,7 +22,7 @@ const boardInit = (game) => {
             else if (square == 'fin')specs = { style: 'SECONDARY', label: '🍞', disabled: true };
             ActionRow.addComponents(
                 new MessageButton()
-                    .setCustomId(`tictactoast_${x}${y}_${game.turn}_fun`)
+                    .setCustomId(`tictactoast_${x}${y}_${game.solo ? game.turn + 'bot' : game.turn}_fun`)
                     .setStyle(specs.style)
                     .setEmoji(specs.label)
                     .setDisabled(specs.disabled)
@@ -54,37 +56,41 @@ const hasWon = (board) => {
 } 
 
 module.exports.run = async (client, message, args) => { 
-    var embed = new MessageEmbed().setColor("#ff0000").setTitle("** **              TicTacToe              ** **");
+    var embed = new MessageEmbed().setColor(client.randToastColor()).setTitle("** **              TicTacToe              ** **");
     const target = message.mentions.members.first();
-    if (!target)embed.setDescription("❌ You have to specify a valid person to verse!");
-    else if (target.id == message.author.id)embed.setDescription("❌ You can't play TicTacToe by yourself!").setFooter("Are you really this lonely?");
-    else if (client.games.has(message.author.id + target.id))embed.setDescription(`❌ You're already in a game with ${target}!`);
+    if (target.id == message.author.id)embed.setDescription("❌ You can't play TicTacToe by yourself!").setFooter("Are you really this lonely?");
+    else if (client.tictactoe.has(message.author.id + target.id))embed.setDescription(`❌ You're already in a game with ${target}!`);
     else {
         const turn = Math.round(Math.random()) ? message.author.id : target.id;
         const turner = await client.users.fetch(turn);
         const game = {
+            solo: false,
             turn: turn,
-            board: [
-                ["", "", ""], 
-                ["", "", ""], 
-                ["", "", ""]
-            ]
+            board: [ ["", "", ""], ["", "", ""], ["", "", ""] ]
         };
-        client.games.set(parseInt(message.author.id) + parseInt(target.id), game);
-        client.games.set(message.author.id, target.id);
-        client.games.set(target.id, message.author.id);
+        client.tictactoe.set(parseInt(message.author.id) + parseInt(target.id), game);
+        client.tictactoe.set(message.author.id, target.id);
+        client.tictactoe.set(target.id, message.author.id);
         await message.reply({
-            embeds: [embed.setAuthor(`${turner.username}'s turn! ${message.author.id > target.id ? "<:jam:877665567341948959>" : "<:peanutbutter:877666741994541066>"}`, turner.displayAvatarURL({format: 'png'}))],
+            embeds: [embed.setAuthor(`${turner.username}'s turn! ${message.author.id > target.id ? "🟥" : "🟦"}`, turner.displayAvatarURL({format: 'png'}))],
             components: boardInit(game)
         });  
     }
 }     
 
 module.exports.button = async (client, interaction) => {
-    var embed = new MessageEmbed().setColor("#ff0000").setTitle("** **              TicTacToe              ** **");
-    const target = await client.games.get(interaction.user.id);
-    var games = client.games.get(parseInt(interaction.user.id) + parseInt(target));
+    var embed = new MessageEmbed().setColor(client.randToastColor()).setTitle("** **              TicTacToe              ** **");
+    const target = await client.tictactoe.get(interaction.user.id) || 0;
+    var games = client.tictactoe.get(parseInt(interaction.user.id) + parseInt(target));
     games.board[interaction.customId.split('_')[1].charAt(0)][interaction.customId.split('_')[1].charAt(1)] = interaction.user.id > target ? "x" : "o";
+    if (games.solo) {
+        var x, y;
+        do {
+            x = Math.floor(Math.random() * 3);
+            y = Math.floor(Math.random() * 3);
+        } while (games.board[x][y])
+        games.board[x][y] = interaction.user.id > target ? "o" : "x";
+    }
     games.turn = target;
     const winner = await client.users.fetch(interaction.user.id);
     const turner = await client.users.fetch(target);
@@ -96,14 +102,14 @@ module.exports.button = async (client, interaction) => {
                 return square; 
             });
         });
-        client.games.delete(parseInt(interaction.user.id) + parseInt(target));
-        embed.setAuthor(`${winner.username} has won! ${target > interaction.user.id ? "<:jam:877665567341948959>" : "<:peanutbutter:877666741994541066>"}`, winner.displayAvatarURL({format: 'png'}));
+        client.tictactoe.delete(parseInt(interaction.user.id) + parseInt(target));
+        embed.setAuthor(`${winner.username} has won! ${target > interaction.user.id ? "🟥" : "🟦"}`, winner.displayAvatarURL({format: 'png'}));
     } else if (turnout == 'tie') {
-        client.games.delete(parseInt(interaction.user.id) + parseInt(target));
+        client.tictactoe.delete(parseInt(interaction.user.id) + parseInt(target));
         embed.setDescription('Aw it was a tie.');
     } else {
-        await client.games.set(parseInt(interaction.user.id) + parseInt(target), games);
-        embed.setAuthor(`${turner.username}'s turn! ${interaction.user.id > target ? "<:jam:877665567341948959>" : "<:peanutbutter:877666741994541066>"}`, turner.displayAvatarURL({format: 'png'}));
+        await client.tictactoe.set(parseInt(interaction.user.id) + parseInt(target), games);
+        embed.setAuthor(`${turner.username}'s turn! ${interaction.user.id > target ? "🟥" : "🟦"}`, turner.displayAvatarURL({format: 'png'}));
     };
     await interaction.update({
         embeds: [embed],

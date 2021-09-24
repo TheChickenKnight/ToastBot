@@ -65,7 +65,7 @@ client.once('ready', () => {
             }
         }
         client.cooldowns.get(commandName).set(message.author.id, Date.now());
-        message.channel.sendTyping()
+        message.channel.sendTyping();
         commandObj.run(client, message, message.content.replace(prefix, '').replace(/^(.+?( |$))/, '').split(' ').filter(item => item.length > 0));
     });
 

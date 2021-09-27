@@ -15,14 +15,14 @@ module.exports.run = async (client, message, args) => {
     const person = db.get(`users.${user.id}.info`);
     var menu = new MessageSelectMenu().setCustomId(`info_${user.id}_${message.author.id}_general`);
     var embed = new MessageEmbed().setColor(client.randToastColor()).setAuthor(user.username, user.displayAvatarURL({format: 'png'}));
-    var objArr = Object.entries(person);
+    var objArr = Object.entries(person).slice(10, objArr.length);
     if (objArr.length < 1) {
-        menu.setDisabled(true).setOptions({label: 'disabled', value: 'disabled'}).setPlaceholder('Empty!');
         embed.setDescription('nothing currently set, but im sure they\'re a nice guy!');
         await message.reply({embeds: [embed]});
     } else {
-        menu.setPlaceholder('Pick Info!');
-        objArr.forEach(([key, value]) => menu.addOptions({label: key.charAt(0).toUpperCase() + key.slice(1), value: key, description: 'test'}));
+        objArr.forEach(([key, value]) => {
+            
+        });
         await message.reply({
             embeds: [embed],
             components: [new MessageActionRow().addComponents(menu), buttonRow]

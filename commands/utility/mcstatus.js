@@ -26,7 +26,8 @@ module.exports.run = async (client, message, args) => {
                     embed.setThumbnail('attachment://img.png').setColor(client.randToastColor()).setDescription(`**${res.motd.clean[Math.floor(Math.random() * res.motd.clean.length)]}**\n\`${res.players.online}\` out of \`${res.players.max}\` players are currently playing!`)
                     if (res.players.list)embed.addField("Players:", res.players.list.join('\n'));
                 }
-            } message.reply({embeds: [embed], files: [file]});
+            } 
+            message.reply({embeds: [embed], files: [file]});
         });
     }
 }

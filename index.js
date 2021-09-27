@@ -1,12 +1,17 @@
-const { Client, Intents, Collection, MessageActionRow, Interaction, MessageSelectMenu } = require("discord.js");
+const { Client, Intents, Collection, MessageActionRow, Interaction, MessageSelectMenu, MessageEmbed } = require("discord.js");
 const fs = require('fs');
 const db = require('quick.db');
 const { token } = require('./config.json');
-require('custom-env').env();
 
-const client = new Client({intents: [ Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES]});
+const client = new Client({intents: [ 
+    Intents.FLAGS.GUILDS, 
+    Intents.FLAGS.GUILD_MESSAGES, 
+    Intents.FLAGS.GUILD_VOICE_STATES, 
+    Intents.FLAGS.DIRECT_MESSAGES, 
+    Intents.FLAGS.GUILD_WEBHOOKS
+]});
 
-console.log(`Welcome to ToasdtBot's Console!`);
+console.log(`Welcome to ToastBot's Console!`);
 
 client.commands = new Collection();
 client.aliases = new Collection();
@@ -33,10 +38,9 @@ client.folders.forEach(folder => {
 
 console.log(`Loaded all ${commandFiles.length} command(s)`);
 
-client.once('ready', async () => {
+client.once('ready', () => {
 
-    client.user.setActivity('an RPG for inspiration', { type: 'PLAYING' });
-    client.user.setStatus('dnd');
+    client.user.setPresence({ activities: [{name: 'e v e r y t h i n g', type: 'LISTENING'}], status: 'idle'});
 
     console.log(`ToastBot is finally ready!`);
 
@@ -66,7 +70,7 @@ client.once('ready', async () => {
             }
         }
         client.cooldowns.get(commandName).set(message.author.id, Date.now());
-        message.channel.sendTyping()
+        message.channel.sendTyping();
         commandObj.run(client, message, message.content.replace(prefix, '').replace(/^(.+?( |$))/, '').split(' ').filter(item => item.length > 0));
     });
 

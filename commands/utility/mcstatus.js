@@ -25,11 +25,10 @@ module.exports.run = async (client, message, args) => {
                     .setDescription("❌ This server is currently offline!")
                     .setThumbnail('https://cdn.discordapp.com/attachments/834131042603499570/880999150068563968/favicon.png');
                 else {
-                    const data = res.icon.split(',')[1]; 
-                    const buf = new Buffer.from(data, 'base64');
-                    const file = new MessageAttachment(buf, 'img.png');
+                    var image = new Image();
+                    image.src = res.icon;
                     embed
-                    .setThumbnail(file.attachment.data)
+                    .setThumbnail(image)
                     .setTitle(`${res.hostname || `${res.ip}:${res.port}`}(${res.version})`)
                     .setColor(client.randToastColor())
                     .setDescription(`**${res.motd.clean[Math.floor(Math.random() * res.motd.clean.length)]}**\n\`${res.players.online}\` out of \`${res.players.max}\` players are currently playing!`)

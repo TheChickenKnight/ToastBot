@@ -3,7 +3,13 @@ const fs = require('fs');
 const db = require('quick.db');
 const { token } = require('./config.json');
 
-const client = new Client({intents: [ Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES]});
+const client = new Client({intents: [ 
+    Intents.FLAGS.GUILDS, 
+    Intents.FLAGS.GUILD_MESSAGES, 
+    Intents.FLAGS.GUILD_VOICE_STATES, 
+    Intents.FLAGS.DIRECT_MESSAGES, 
+    Intents.FLAGS.GUILD_WEBHOOKS
+]});
 
 console.log(`Welcome to ToastBot's Console!`);
 
@@ -34,17 +40,11 @@ console.log(`Loaded all ${commandFiles.length} command(s)`);
 
 client.once('ready', () => {
 
-    client.user.setActivity(`DM me to DM the dev!`, { type: 'CUSTOM' });
-    client.user.setStatus('idle');
+    client.user.setPresence({ activities: [{name: 'e v e r y t h i n g', type: 'LISTENING'}], status: 'idle'});
 
     console.log(`ToastBot is finally ready!`);
 
     client.on('messageCreate', async message => {
-        if (message.channel.type == 'DM')return await client.users.get('293352247159422976').send(new MessageEmbed()
-            .setColor(client.randToastColor())
-            .setAuthor(message.author.id, message.author.displayAvatarURL({type: 'png'}))
-            .setDescription(message.content)
-        );
         if (!db.has(`guildSpec.${message.guildId}.prefix`))db.set(`guildSpec.${message.guildId}.prefix`, 'toast ');
         const prefix = db.get(`guildSpec.${message.guildId}.prefix`);
         if (/.*<@(!|)873255148338688060>.*/.test(message.content) && message.content.toLowerCase().includes('reset')) {

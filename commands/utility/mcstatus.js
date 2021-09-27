@@ -14,7 +14,6 @@ module.exports.run = async (client, message, args) => {
     if (!args[0])return message.reply('You have to include a server ip!');
     else {
         fetch(`https://api.mcsrvstat.us/2/${args.join(' ')}`).then(res => res.json()).then(res => {
-            console.log(res)
             var file;
             if (res.ip == "127.0.0.1")return message.reply('That doesn\'t seem to be a valid server. Perhaps you spelled it wrong?')
             else {

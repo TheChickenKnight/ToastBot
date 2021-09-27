@@ -10,7 +10,7 @@ module.exports.info = {
 
 const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 
-const boardInit = (game) => {
+const boardInit = game => {
     var array2D = [];
     game.board.forEach((row, x) => {
         var ActionRow = new MessageActionRow();
@@ -32,15 +32,13 @@ const boardInit = (game) => {
     });
     return array2D;
 }
-const hasWon = (board) => {
+const hasWon = board => {
     var tie = true;
     var hor = false;
     board.forEach(row => {
         if (row[0] == 'x' && row[1] == 'x' && row[2] == 'x')hor = 'x';
         if (row[0] == 'o' && row[1] == 'o' && row[2] == 'o')hor = 'o';
-        row.forEach(square => {
-            if (!square)tie = false;//tie
-        });
+        row.forEach(square => {if (!square)tie = false}); //tie
     });//horizontal
     if (hor == 'o' || hor == 'x')return hor;
     for (let i = 0; i < 3; i ++) {
@@ -52,7 +50,6 @@ const hasWon = (board) => {
     if (board[0][2] == 'x' && board[1][1] == 'x' && board[2][0] == 'x')return 'x';
     if (board[0][2] == 'o' && board[1][1] == 'o' && board[2][0] == 'o')return 'o';//diagonals
     if (tie)return 'tie';//tie
-    return false;//none
 } 
 
 module.exports.run = async (client, message, args) => { 

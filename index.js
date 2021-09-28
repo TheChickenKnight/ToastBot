@@ -1,7 +1,8 @@
 const { Client, Intents, Collection, MessageActionRow, Interaction, MessageSelectMenu, MessageEmbed } = require("discord.js");
 const fs = require('fs');
 const db = require('quick.db');
-const { token } = require('./config.json');
+const dotenv = require("dotenv");
+dotenv.config();
 
 const client = new Client({intents: [ 
     Intents.FLAGS.GUILDS, 
@@ -87,4 +88,4 @@ client.once('ready', () => {
     client.on('messageDelete', message => client.snipe.set(message.guildId, message)); //snipe command
 });
 
-client.login(token);
+client.login(process.env.TOKEN);

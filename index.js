@@ -57,7 +57,7 @@ client.once('ready', () => {
         var commandName = message.content.replace(prefix, '').split(' ')[0];
         if (commandFiles.includes(client.aliases.get(commandName) + '.js'))commandName = client.aliases.get(commandName);
         if (!commandFiles.includes(commandName + '.js')) {
-            if (/(^| )(t|\*)(o|\*)(a|\*)(s|\*)(t|\*)($| )/.test(message.content.toLowerCase()) && message.author.id != 873255148338688060)return message.channel.send('Did someone say toast?');
+            if (/(^| )t(| )o(| )a(| )s(| )t($| |\?|\.|\;|\:|\,|\))/.test(message.content.toLowerCase()) && message.author.id != 873255148338688060)return message.channel.send('Did someone say toast?');
             return;
         }
         if (!message.content.startsWith(prefix))return;

@@ -22,7 +22,7 @@ client.snipe = new Collection();
 client.tictactoe = new Collection();
 client.toasterbreadmilk = new Collection();
 
-client.randToastColor = () => ['#ffe6cc', '#996600', '#ffdd99', '#663300', '#331a00'][Math.floor(Math.random() * 4)];
+client.randToastColor = () => ['#ffe6cc', '#996600', '#ffdd99', '#663300', '#331a00'][Math.floor(Math.random() * 5)];
 
 client.folders = fs.readdirSync('./commands/');
 var commandFiles = [];

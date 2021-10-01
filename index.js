@@ -1,26 +1,15 @@
-const { Client, Intents, Collection, MessageActionRow, Interaction, MessageSelectMenu, MessageEmbed } = require("discord.js");
+const { Client, Intents, Collection } = require("discord.js");
 const fs = require('fs');
 const db = require('quick.db');
 const dotenv = require("dotenv");
 dotenv.config();
 
-const client = new Client({intents: [ 
-    Intents.FLAGS.GUILDS, 
-    Intents.FLAGS.GUILD_MESSAGES, 
-    Intents.FLAGS.GUILD_VOICE_STATES, 
-    Intents.FLAGS.DIRECT_MESSAGES, 
-    Intents.FLAGS.GUILD_WEBHOOKS
+const client = new Client({intents: [ Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_WEBHOOKS
 ]});
 
 console.log(`Welcome to ToastBot's Console!`);
 
-client.commands = new Collection();
-client.aliases = new Collection();
-client.cooldowns = new Collection();
-client.timeIDs = new Collection();
-client.snipe = new Collection();
-client.tictactoe = new Collection();
-client.toasterbreadmilk = new Collection();
+client.commands = new Collection(), client.aliases = new Collection(), client.cooldowns = new Collection(), client.timeIDs = new Collection(), client.snipe = new Collection(), client.tictactoe = new Collection(), client.toasterbreadmilk = new Collection();
 
 client.randToastColor = () => ['#ffe6cc', '#996600', '#ffdd99', '#663300', '#331a00'][Math.floor(Math.random() * 5)];
 

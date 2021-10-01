@@ -48,9 +48,7 @@ module.exports.menu = async (client, interaction) => {
 
 const embedCreate = (client, section, id, prefix) => {
     var description = '';
-    client.commands.forEach(command => {
-        if (command.info.section == section)description += `${prefix}[${command.info.name}](https://www.youtube.com/watch?v=dQw4w9WgXcQ)\n└ ${command.info.description}\n`;
-    });
+    client.commands.forEach(command => description += (command.info.section == section ? `${prefix}[${command.info.name}](https://www.youtube.com/watch?v=dQw4w9WgXcQ)\n└ ${command.info.description}\n`: ''));
     var menu = new MessageSelectMenu().setCustomId(`help_menu_${id}_utility`).setPlaceholder(section.charAt(0).toUpperCase() + section.slice(1));
     client.folders.forEach(folder => menu.addOptions({ label: folder.charAt(0).toUpperCase() + folder.slice(1), value: folder }));
     return [menu, new MessageEmbed().setColor(client.randToastColor()).setTitle(`How to eat ${section.toUpperCase()} toast:`).setDescription(description)];

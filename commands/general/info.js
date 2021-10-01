@@ -16,13 +16,13 @@ const createButtonRow = (page, total, id) => new MessageActionRow().addComponent
 
 module.exports.run = async (client, message, args) => {
     const user = message.mentions.members.first() || await client.users.fetch(message.author.id);
-    const person = db.get(`users.${user.id}.info`);
     var embed = new MessageEmbed().setColor(client.randToastColor()).setAuthor(user.username, user.displayAvatarURL({format: 'png'}));
-    var objArr = Object.entries(person).slice(10, objArr.length);
+    var objArr = Object.entries(db.get(`users.${user.id}.info`)).slice(10, objArr.length);
     if (objArr.length < 1)embed.setDescription('nothing currently set, but im sure they\'re a nice guy!');
     else objArr.forEach(([key, value]) => embed.addField(key.charAt(0).toUpperCase() + key.slice(1), value, true));
-    message.reply({
-        embeds: [embed],
-        components: [createButtonRow(1, Math.ceil(objArr.length / 10), message.author.id)]
-    });
+    message.reply({ embeds: [embed], components: [createButtonRow(1, Math.ceil(objArr.length / 10), message.author.id)]});
+}
+
+module.exports.button = (client, interaction) => {
+    
 }

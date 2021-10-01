@@ -13,15 +13,7 @@ const { MessageActionRow, MessageButton, MessageEmbed } = require("discord.js");
 var toasterButton = new MessageButton().setEmoji('<:toaster:877591407668396043>').setStyle('SECONDARY'),
 milkButton = new MessageButton().setEmoji('🥛').setStyle('SECONDARY'),
 breadButton = new MessageButton().setEmoji('🍞').setStyle('SECONDARY');
-const victory = (choice, answer) => {
-    if (choice == answer)return 'tied.';
-    if (
-        (choice == '<:toaster:877591407668396043>' && answer == '🍞') || 
-        (choice == '🍞' && answer == '🥛') || 
-        (choice == '🥛' && answer == '<:toaster:877591407668396043>')
-    )return 'won!';
-    return 'lost.';
-}               
+const victory = (choice, answer) => (choice == answer) ? 'tied.' : ((choice == '<:toaster:877591407668396043>' && answer == '🍞') || (choice == '🍞' && answer == '🥛') || (choice == '🥛' && answer == '<:toaster:877591407668396043>')) ? 'won!' : 'lost.';           
 
 module.exports.run = (client, message, args) => {
     var embed = new MessageEmbed().setColor(client.randToastColor()).setTitle('~~RockPa~~ TOASTERBREADMILK').setFooter('try the help command for what beats what.');

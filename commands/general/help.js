@@ -32,24 +32,18 @@ module.exports.run = async (client, message, args) => {
             .setTitle(`${prefix}${args[0].charAt(0).toUpperCase()}${args[0].slice(1).toLowerCase()} Info:`)
             .setDescription(`**A ${infObj.section.charAt(0).toUpperCase()}${infObj.section.slice(1)} Command!**\n${infObj['description']}`)
             .addField('Cooldown', prettyMilliseconds(infObj.cooldown * 1000, {verbose: true}));
-        const ignore = ['name', 'description', 'section', 'cooldown'];
-        Object.keys(infObj).filter(word => !ignore.includes(word)).forEach(item => infoEmbed.addField(item.charAt(0).toUpperCase() + item.slice(1), infObj[item].toString()));
+        Object.keys(infObj).filter(word => !['name', 'description', 'section', 'cooldown'].includes(word)).forEach(item => infoEmbed.addField(item.charAt(0).toUpperCase() + item.slice(1), infObj[item].toString()));
         message.reply({embeds: [infoEmbed]});
     }
 }
 
 module.exports.menu = async (client, interaction) => {
-    const prefix = db.get(`guildSpec.${interaction.message.guildId}.prefix`);
-    const answers = embedCreate(client, interaction.values[0], interaction.user.id, prefix);
+    const answers = embedCreate(client, interaction.values[0], interaction.user.id, db.get(`guildSpec.${interaction.message.guildId}.prefix`));
     await interaction.update({ embeds: [answers[1]], components: [new MessageActionRow().addComponents(answers[0])]});
 }
 
 const embedCreate = (client, section, id, prefix) => {
-    var description = '';
-    client.commands.forEach(command => {
-        if (command.info.section == section)description += `${prefix}[${command.info.name}](https://www.youtube.com/watch?v=dQw4w9WgXcQ)\n└ ${command.info.description}\n`;
-    });
     var menu = new MessageSelectMenu().setCustomId(`help_menu_${id}_general`).setPlaceholder(section.charAt(0).toUpperCase() + section.slice(1));
     client.folders.forEach(folder => menu.addOptions({ label: folder.charAt(0).toUpperCase() + folder.slice(1), value: folder }));
-    return [menu, new MessageEmbed().setColor(client.randToastColor()).setTitle(`How to eat ${section.toUpperCase()} toast:`).setDescription(description)];
+    return [menu, new MessageEmbed().setColor(client.randToastColor()).setTitle(`How to eat ${section.toUpperCase()} toast:`).setDescription(client.commands.filter(command => command.info.section == section).map(command => `${prefix}[${command.info.name}](https://www.youtube.com/watch?v=dQw4w9WgXcQ)\n└ ${command.info.description}\n`).join(''))];
 }

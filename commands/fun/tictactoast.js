@@ -15,17 +15,11 @@ const boardInit = game => {
     game.board.forEach((row, x) => {
         var ActionRow = new MessageActionRow();
         row.forEach((square, y) => {
-            var specs;
-            if (!square)specs = { style: 'SECONDARY', label: '🍞', disabled: false };
-            else if (square == 'x')specs = { style: 'PRIMARY', label: '<:peanutbutter:877666741994541066>', disabled: true };
-            else if (square == 'o')specs = { style: 'DANGER', label: '<:jam:877665567341948959>', disabled: true };
-            else if (square == 'fin')specs = { style: 'SECONDARY', label: '🍞', disabled: true };
+            var specs = !square ? { style: 'SECONDARY', label: '🍞', disabled: false } : (square == 'x' ? { style: 'PRIMARY', label: '<:peanutbutter:877666741994541066>', disabled: true } : (square == 'o' ? { style: 'DANGER', label: '<:jam:877665567341948959>', disabled: true } : { style: 'SECONDARY', label: '🍞', disabled: true }));
             ActionRow.addComponents(
                 new MessageButton()
                     .setCustomId(`tictactoast_${x}${y}_${game.turn}_fun`)
-                    .setStyle(specs.style)
-                    .setEmoji(specs.label)
-                    .setDisabled(specs.disabled)
+                    .setStyle(specs.style).setEmoji(specs.label).setDisabled(specs.disabled)
             );
         });
         array2D.push(ActionRow);
@@ -33,29 +27,23 @@ const boardInit = game => {
     return array2D;
 }
 const hasWon = board => {
-    var tie = true;
-    var hor = false;
+    var tie = true, hor = false;
     board.forEach(row => {
         if (row[0] == 'x' && row[1] == 'x' && row[2] == 'x')hor = 'x';
         if (row[0] == 'o' && row[1] == 'o' && row[2] == 'o')hor = 'o';
         row.forEach(square => {if (!square)tie = false}); //tie
     });//horizontal
-    if (hor == 'o' || hor == 'x')return hor;
+    if (hor)return hor;
     for (let i = 0; i < 3; i ++) {
         if (board[0][i] == 'x' && board[1][i] == 'x' && board[2][i] == 'x')return 'x';
         if (board[0][i] == 'o' && board[1][i] == 'o' && board[2][i] == 'o')return 'o';
     }//vertical
-    if (board[0][0] == 'x' && board[1][1] == 'x' && board[2][2] == 'x')return 'x';
-    if (board[0][0] == 'o' && board[1][1] == 'o' && board[2][2] == 'o')return 'o';
-    if (board[0][2] == 'x' && board[1][1] == 'x' && board[2][0] == 'x')return 'x';
-    if (board[0][2] == 'o' && board[1][1] == 'o' && board[2][0] == 'o')return 'o';//diagonals
-    if (tie)return 'tie';//tie
+    return hor ? hor : ((board[0][0] == 'x' && board[1][1] == 'x' && board[2][2] == 'x') || (board[0][2] == 'x' && board[1][1] == 'x' && board[2][0] == 'x') ? 'x' : ((board[0][0] == 'o' && board[1][1] == 'o' && board[2][2] == 'o') || (board[0][2] == 'o' && board[1][1] == 'o' && board[2][0] == 'o') ? 'o' : (tie ? 'tie' : false)));
 } 
 
 module.exports.run = async (client, message, args) => { 
     var embed = new MessageEmbed().setColor(client.randToastColor()).setTitle("** **              TicTacToe              ** **");
-    var target = message.mentions.members.first();
-    if (!target)target = { id: 'bot' };
+    var target = message.mentions.members.first() ? message.mentions.members.first() : { id: 'bot' };
     if (target.id == message.author.id)embed.setDescription("❌ You can't play TicTacToe by yourself!").setFooter("Are you really this lonely?");
     else if (client.tictactoe.has(message.author.id + target.id))embed.setDescription(`❌ You're already in a game with ${target}!`);
     else {

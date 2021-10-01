@@ -10,13 +10,8 @@ module.exports.info = {
 const { MessageEmbed } = require('discord.js');
 const fetch = require('node-fetch');
 var pokemons;
-fetch('https://pokeapi.co/api/v2/pokemon/?limit=10220')
-    .then(res => res.json())
-    .then(res => pokemons = res.results);
-const isForms = (object) => {
-    
-    object.filter(pokemon => pokemon.name)
-}
+fetch('https://pokeapi.co/api/v2/pokemon/?limit=10220').then(res => res.json()).then(res => pokemons = res.results);
+const isForms = (object) => object.filter(pokemon => pokemon.name)
 
 module.exports.run = async (client, message, args) => {
     if (!args[0])return message.reply('You have to specify a Pokemon!');

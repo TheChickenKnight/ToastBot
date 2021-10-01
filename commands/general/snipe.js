@@ -10,25 +10,14 @@ const { MessageEmbed } = require("discord.js");
 
 module.exports.run = async (client, message, args) => {
     if (client.snipe.has(message.guildId)) {
-        let webhooks = await message.channel.fetchWebhooks();
-        var webhook;
-        webhooks.forEach(item => {
-            if (item.owner.id == 873255148338688060)webhook = item;
-        });
-        if (!webhook) {
+        let webhooks = await message.channel.fetchWebhooks().filter(item => item.owner.id == 873255148338688060);
+        if (!webhooks[0]) {
             message.channel.createWebhook('ToastHook:' + message.channel.id);
-            webhooks.forEach(item => {
-                if (item.owner.id == 873255148338688060)webhook = item;
-            });
+            webhooks = await message.channel.fetchWebhooks().filter(item => item.owner.id == 873255148338688060);
         }
         const del = client.snipe.get(message.guildId);
         const person = await client.users.fetch(del.author.id);
-        await webhook.send({
-            content: del.content,
-            username:  person.username,
-            avatarURL: person.displayAvatarURL({format: 'png'}),
-        });
-    } else message.reply({ embeds: [new MessageEmbed()
-        .setDescription('❌ There was nothing to snipe!')
-        .setColor("#ff0000")]});
+        message.reply({ content: 'ᵖˢˢᵗ ʰᵉʳᵉ ʸᵒᵘ ᵍᵒ', ephemeral: true });
+        await webhooks[0].send({ content: del.content, username:  person.username, avatarURL: person.displayAvatarURL({format: 'png'})});
+    } else message.reply({ embeds: [new MessageEmbed().setDescription('❌ There was nothing to snipe!').setColor("#ff0000")]});
 }

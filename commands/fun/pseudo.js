@@ -8,12 +8,12 @@ module.exports.info = {
 }
 
 module.exports.run = async (client, message, args) => {
-    let webhooks = await message.channel.fetchWebhooks().filter(item => item.owner.id == 873255148338688060), author = "", text = ""; 
+    let webhooks = Array.from(await message.channel.fetchWebhooks()).filter(item => item[1].owner.id == 873255148338688060);
     if (!webhooks[0]) {
-        message.channel.createWebhook(message.channel + "ToastBot");
-        webhooks = await message.channel.fetchWebhooks().filter(item => item.owner.id == 873255148338688060);
+        await message.channel.createWebhook('ToastHook:' + message.channel.id);
+        webhooks = Array.from(await message.channel.fetchWebhooks()).filter(item => item[1].owner.id == 873255148338688060);
     }
     [author, text] = message.mentions.members.first() ? [await client.users.fetch(message.mentions.members.first().id), text = args.slice(1).join(" ")] : [message.author, args.join(" ")];
-    await webhooks[0].send({ content: text, username:  await client.guilds.fetch(message.guild.id).members.fetch(author.id).nickname, avatarURL: author.displayAvatarURL({format: 'png'})});
+    await webhooks[0][1].send({ content: text, username:  await client.guilds.fetch(message.guild.id).members.fetch(author.id).nickname, avatarURL: author.displayAvatarURL({format: 'png'})});
 }
 

@@ -4,7 +4,7 @@ const db = require('quick.db');
 const dotenv = require("dotenv");
 dotenv.config();
 
-const client = new Client({intents: [ Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_WEBHOOKS
+const client = new Client({ws: { properties: { $browser: "Discord iOS"}}, intents: [ Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_WEBHOOKS
 ]});
 
 console.log(`Welcome to ToastBot's Console!`);
@@ -30,7 +30,7 @@ console.log(`Loaded all ${commandFiles.length} command(s)`);
 
 client.once('ready', () => {
 
-    client.user.setPresence({ activities: [{name: 'e v e r y t h i n g', type: 'LISTENING'}], status: 'idle'});
+    client.user.setPresence({ activities: [{name: 'Games on my Phone', type: 'PLAYING'}], status: 'online'});
 
     console.log(`ToastBot is finally ready!`);
 

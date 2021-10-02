@@ -37,7 +37,7 @@ module.exports.run = (client, message, args) => {
                 .setDescription("Pick one from the menu, or decline if it's not there.\nClick if you're not sure, they give more info!")
                 .setFooter('You\'re probably not specific enough if it\'s not there!');
             if (res.response.hits.length > 10)res.response.hits.length = 10;
-            res.response.hits.forEach(song => menu.addOptions({label: song.result.title_with_featured, description: 'by ' + song.result.primary_artist.name, value: song.result.api_path, emoji: '▶️'}));
+            res.response.hits.forEach(song => menu.addOptions({label: song.result.title_with_featured.slice(0, 99), description: 'by ' + song.result.primary_artist.name, value: song.result.api_path, emoji: '▶️'}));
             menu.addOptions({label: 'None of these!', value: 'decline', emoji: '❌'});
             row.addComponents(menu);
         }

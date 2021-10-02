@@ -48,5 +48,22 @@ module.exports.run = (client, message, args) => {
 module.exports.menu = (client, interaction) => {
     var embed = new MessageEmbed().setColor(client.randToastColor())
     if (interaction.values[0] == 'decline')return interaction.update({embeds: [embed.setTitle('Multiple Results:').setDescription('aight.').setFooter('')], components: []});
-    //fetch('https://api.genius.com/' + interaction.values[0] + '')
+    fetch('https://api.genius.com' + interaction.values[0] + '?access_token=' + process.env.GENIUS_TOKEN).then(res => res.json()).then(res => {
+        console.log(res)
+        embed
+            .setTitle('Is this the right one?')
+            .setAuthor("By " + res.response.song.primary_artist.name, res.response.song.primary_artist.image_url, res.response.song.primary_artist.url)
+            .setThumbnail(res.response.song.song_art_image_url)
+            .setDescription(`**[${res.response.song.title_with_featured}](${res.response.song.url})**`);
+        interaction.update({embeds: [embed], components: [new MessageActionRow().addComponents(
+            new MessageButton()
+                    .setCustomId(`song_yes_${interaction.user.id}_music`)
+                    .setLabel('✔️')
+                    .setStyle('SUCCESS'),
+            new MessageButton()
+                .setCustomId(`song_no_${interaction.user.id}_music`)
+                .setLabel('❌')
+                .setStyle('DANGER'),
+        )]});
+    });
 }

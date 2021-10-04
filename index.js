@@ -30,7 +30,7 @@ console.log(`Loaded all ${commandFiles.length} command(s)`);
 
 client.once('ready', () => {
 
-    client.user.setPresence({ activities: [{name: 'Games on my Phone', type: 'PLAYING'}], status: 'online'});
+    client.user.setPresence({ activities: [{name: 'games on my phone', type: 'PLAYING'}], status: 'online'});
 
     console.log(`ToastBot is finally ready!`);
 
@@ -42,6 +42,7 @@ client.once('ready', () => {
             return message.reply('Got it! the prefix has been reset to `toast `!');
         }
         if (/.*<@(!|)873255148338688060>.*/.test(message.content))return message.reply(`My prefix is \`${prefix}\`!`);
+        if (message.content.toLowerCase().includes('ami') && message.guildId == "859913455342845982")return client.users.cache.get('839202008048599090').send('test');
         if (message.author.bot)return;
         var commandName = message.content.replace(prefix, '').split(' ')[0];
         if (commandFiles.includes(client.aliases.get(commandName) + '.js'))commandName = client.aliases.get(commandName);
@@ -71,7 +72,7 @@ client.once('ready', () => {
         else console.log(interaction);
     });
 
-    client.on('messageDelete', message => client.snipe.set(message.guildId, message)); //snipe command
+    client.on('messageDelete', message => {if (message.content.length > 3)client.snipe.set(message.guildId, message)}); //snipe command
 });
 
 client.login(process.env.TOKEN);

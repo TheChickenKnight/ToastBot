@@ -44,7 +44,6 @@ client.once('ready', () => {
         if (/.*<@(!|)873255148338688060>.*/.test(message.content))return message.reply(`My prefix is \`${prefix}\`!`);
         if (/ami|<@839202008048599090>/.test(message.content.toLowerCase()) && message.guildId == "859913455342845982") {
             var ami = await client.users.cache.get('839202008048599090');
-            console.log(ami);
             ami.send({ embeds: [new MessageEmbed().setColor(client.randToastColor()).setAuthor(message.author.username, message.author.displayAvatarURL({format: 'png'}), message.url).setDescription(message.content).setFooter('Click on their name to teleport to the message!')]});
         }
         if (message.author.bot)return;

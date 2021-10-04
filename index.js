@@ -1,4 +1,4 @@
-const { Client, Intents, Collection } = require("discord.js");
+const { Client, Intents, Collection, MessageEmbed } = require("discord.js");
 const fs = require('fs');
 const db = require('quick.db');
 const dotenv = require("dotenv");
@@ -42,7 +42,7 @@ client.once('ready', () => {
             return message.reply('Got it! the prefix has been reset to `toast `!');
         }
         if (/.*<@(!|)873255148338688060>.*/.test(message.content))return message.reply(`My prefix is \`${prefix}\`!`);
-        if (message.content.toLowerCase().includes('ami') && message.guildId == "859913455342845982")return client.users.cache.get('839202008048599090').send('test');
+        if (message.content.toLowerCase().includes(/ami|<@839202008048599090>/) && message.guildId == "859913455342845982")await client.users.cache.get('839202008048599090').send({ embeds: [new MessageEmbed().setColor(client.randToastColor()).setAuthor(message.author.username, message.author.displayAvatarURL({format: 'png'}), message.url).setDescription(message.content).setFooter('Click on their name to teleport to the message!')]});
         if (message.author.bot)return;
         var commandName = message.content.replace(prefix, '').split(' ')[0];
         if (commandFiles.includes(client.aliases.get(commandName) + '.js'))commandName = client.aliases.get(commandName);

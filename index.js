@@ -37,11 +37,11 @@ client.once('ready', () => {
     client.on('messageCreate', async message => {
         if (!db.has(`guildSpec.${message.guildId}.prefix`))db.set(`guildSpec.${message.guildId}.prefix`, 'toast ');
         const prefix = db.get(`guildSpec.${message.guildId}.prefix`);
-        if (/.*<@(!|)873255148338688060>.*/.test(message.content) && message.content.toLowerCase().includes('reset')) {
+        if (new RegExp("/.*<@(!|)" + process.env.BOT_ID + ">.*/").test(message.content) && message.content.toLowerCase().includes('reset')) {
             db.set(`guildSpec.${message.guildId}.prefix`, 'toast ');
             return message.reply('Got it! the prefix has been reset to `toast `!');
         }
-        if (/.*<@(!|)873255148338688060>.*/.test(message.content))return message.reply(`My prefix is \`${prefix}\`!`);
+        if (new RegExp("/.*<@(!|)" + process.env.BOT_ID + ">.*/").test(message.content))return message.reply(`My prefix is \`${prefix}\`!`);
         if (/ami|<@839202008048599090>/.test(message.content.toLowerCase()) && message.guildId == "859913455342845982") {
             var ami = await client.users.cache.get('839202008048599090');
             ami.send({ embeds: [new MessageEmbed().setColor(client.randToastColor()).setAuthor(message.author.username, message.author.displayAvatarURL({format: 'png'}), message.url).setDescription(message.content).setFooter('Click on their name to teleport to the message!')]});

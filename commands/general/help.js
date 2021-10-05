@@ -4,7 +4,7 @@ module.exports.info = {
     section: 'general',
     description: 'Helps you with ur helping needs :D',
     usage: '<`prefix`>help <`none`/`commandName`/`commandAlias`>'
-}
+};
 
 //init
 const db = require('quick.db');

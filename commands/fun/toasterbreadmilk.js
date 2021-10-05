@@ -7,7 +7,7 @@ module.exports.info = {
     how_to_play: '<:toaster:877591407668396043> toasts 🍞, 🍞 absorbs 🥛, and 🥛 short-circuits <:toaster:877591407668396043>.',
     solo_or_multiplayer: 'both! just don\'t ping anyone for solo!',
     usage: 'toasterbreadmilk/rockpaperscissors/rps <@ someone>'
-} 
+};
 
 const { MessageActionRow, MessageButton, MessageEmbed } = require("discord.js");
 var toasterButton = new MessageButton().setEmoji('<:toaster:877591407668396043>').setStyle('SECONDARY'),

@@ -5,7 +5,7 @@ module.exports.info = {
     section: 'fun',
     cooldown: 2,
     usage: 'psudo/sudo/psuedo/pseudo <mention or nothing> <message>'
-}
+};
 
 module.exports.run = async (client, message, args) => {
     let webhooks = Array.from(await message.channel.fetchWebhooks()).filter(item => item[1].owner.id == 873255148338688060);

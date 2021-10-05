@@ -10,10 +10,10 @@ const { MessageEmbed } = require("discord.js");
 
 module.exports.run = async (client, message, args) => {
     if (client.snipe.has(message.guildId)) {
-        let webhooks = Array.from(await message.channel.fetchWebhooks()).filter(item => item[1].owner.id == 873255148338688060);
+        let webhooks = Array.from(await message.channel.fetchWebhooks()).filter(item => item[1].owner.id == process.env.BOT_ID);
         if (!webhooks[0]) {
             await message.channel.createWebhook('ToastHook:' + message.channel.id);
-            webhooks = Array.from(await message.channel.fetchWebhooks()).filter(item => item[1].owner.id == 873255148338688060);
+            webhooks = Array.from(await message.channel.fetchWebhooks()).filter(item => item[1].owner.id == process.env.BOT_ID);
         }
         const del = client.snipe.get(message.guildId);
         const person = await client.users.fetch(del.author.id);

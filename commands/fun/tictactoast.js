@@ -6,7 +6,7 @@ module.exports.info = {
     description: 'TicTacToe but nothing is different at all',
     ai: 'maybe at some point...or just random',
     usage: 'ttt/tictactoe/tictactoast <@ someone>'
-}
+};
 
 const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 

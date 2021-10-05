@@ -5,7 +5,7 @@ module.exports.info = {
     section: 'general',
     description: 'info on people! Set your own!',
     usage: 'info/inf <@ someone|none>'
-}
+};
 
 const { MessageActionRow, MessageButton, MessageSelectMenu, MessageEmbed } = require('discord.js');
 const db = require('quick.db');

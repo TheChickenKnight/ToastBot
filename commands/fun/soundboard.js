@@ -4,9 +4,8 @@ module.exports.info = {
     section: 'fun',
     description: 'make sound yes.',
     usage: 'soundboard'
-}
+};
 
-const googleTTS = require('google-tts-api');
 const { 
 	createAudioPlayer,
 	createAudioResource,

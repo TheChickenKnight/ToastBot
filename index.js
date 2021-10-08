@@ -1,7 +1,5 @@
 const { Client, Intents, Collection, MessageEmbed } = require("discord.js");
-const fs = require('fs');
-const db = require('quick.db');
-const dotenv = require("dotenv");
+const fs = require('fs'), db = require('quick.db'), dotenv = require("dotenv");
 dotenv.config();
 
 const client = new Client({ws: { properties: { $browser: "Discord iOS"}}, intents: [ Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_WEBHOOKS
@@ -60,6 +58,7 @@ client.once('ready', () => {
                 if (time / 1000 < commandObj.info.cooldown)return message.reply(`Woah, slow down! You can use \`${prefix}${commandName}\` in **${(commandObj.info.cooldown - (time / 1000)).toString().replace(/(?<=\.[0-9])[0-9]+/, '')}** second(s)!`);
             }
         }
+        if (commandObj.info.section == 'admin' && message.author.id != process.env.OWNER_ID)return;
         client.cooldowns.get(commandName).set(message.author.id, Date.now());
         message.channel.sendTyping();
         commandObj.run(client, message, message.content.replace(prefix, '').replace(/^(.+?( |$))/, '').split(' ').filter(item => item.length > 0));

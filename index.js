@@ -1,28 +1,64 @@
-const { Client, Intents, Collection, MessageEmbed } = require("discord.js");
+const { Client, Intents, Collection, MessageEmbed, MessageAttachment, MessageSelectMenu, MessageActionRow } = require("discord.js");
 const fs = require('fs'), db = require('quick.db'), dotenv = require("dotenv");
 dotenv.config();
 
-const client = new Client({ws: { properties: { $browser: "Discord iOS"}}, intents: [ Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_WEBHOOKS
-]});
+const client = new Client({ws: { properties: { $browser: "Discord iOS"}}, intents: [ Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_WEBHOOKS ]});
 
 console.log(`Welcome to ToastBot's Console!`);
 
 client.commands = new Collection(), client.aliases = new Collection(), client.cooldowns = new Collection(), client.timeIDs = new Collection(), client.snipe = new Collection(), client.tictactoe = new Collection(), client.toasterbreadmilk = new Collection();
 
 client.randToastColor = () => ['#ffe6cc', '#996600', '#ffdd99', '#663300', '#331a00'][Math.floor(Math.random() * 5)];
+client.fight = (id) => {
+    const boss = require('./commands/rpg/boss.json').bosses[id];
+    const file = new MessageAttachment().setFile(`./Images/bosses/${id}.png`);
+    return [new MessageEmbed().setDescription(boss.description).setTitle(`FIGHT!\tBoss Number ${id+1}`).setImage(`attachment://${id}.png`).setColor(boss.color).addField(boss.name, `**Attack per second:** ${Math.round(Math.pow(id + 2, 6) / 10)}\n**Defense:** ${Math.round(Math.pow(id + 2, 5.978) / 10)}\n**HP:** ${Math.pow(id + 2, 6)}`, true), file];
+}
+var sections = [
+    {
+        boss: -1,
+        option: {
+            label: 'Training',
+            description: 'Get Stronger! kinda slow tho',
+            value: 'train'
+        }
+    },
+    {
+        boss: -1,
+        option: {
+            label: 'Fight!',
+            value: 'fight',
+            description: 'get em I guess'
+        }
+    },
+    {
+        boss: 2,
+        option: {
+            label: 'Pet',
+            value: 'pet',
+            description: 'Take care of your pet!'
+        }
+    }
+]
+client.rpgmenu = (id, currSection, author) => {
+    var menu = new MessageSelectMenu().setCustomId(`rpg_menu_${author}_rpg`);
+    sections.forEach(section => {
+        section.option.default = currSection == section.option.value;
+        if (section.boss < id)menu.addOptions(section.option);
+    });
+    return new MessageActionRow().addComponents(menu);
+}
 
 client.folders = fs.readdirSync('./commands/');
 var commandFiles = [];
 
-client.folders.forEach(folder => {
-    fs.readdirSync(`./commands/${folder}/`).filter(file => file.endsWith('.js')).forEach(file => {
-        commandFiles.push(file);
-        const command = require(`./commands/${folder}/${file}`);
-        client.commands.set(command.info.name, command);
-        if (command.info.aliases)command.info.aliases.forEach(alias => client.aliases.set(alias, command.info.name));
-        console.log(`${file} Loaded!`);
-    });
-});
+client.folders.forEach(folder => fs.readdirSync(`./commands/${folder}/`).filter(file => file.endsWith('.js')).forEach(file => {
+    commandFiles.push(file);
+    const command = require(`./commands/${folder}/${file}`);
+    client.commands.set(command.info.name, command);
+    if (command.info.aliases)command.info.aliases.forEach(alias => client.aliases.set(alias, command.info.name));
+    console.log(`${file} Loaded!`);
+}));
 
 console.log(`Loaded all ${commandFiles.length} command(s)`);
 

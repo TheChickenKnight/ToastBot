@@ -44,6 +44,6 @@ module.exports.menu = async (client, interaction) => {
 
 const embedCreate = (client, section, id, prefix) => {
     var menu = new MessageSelectMenu().setCustomId(`help_menu_${id}_general`).setPlaceholder(section.charAt(0).toUpperCase() + section.slice(1));
-    client.folders.forEach(folder => menu.addOptions({ label: folder.charAt(0).toUpperCase() + folder.slice(1), value: folder }));
+    client.folders.forEach(folder => menu.addOptions({ label: folder.charAt(0).toUpperCase() + folder.slice(1), value: folder, default: folder == section ? true : false }));
     return [menu, new MessageEmbed().setColor(client.randToastColor()).setTitle(`How to eat ${section.toUpperCase()} toast:`).setDescription(client.commands.filter(command => command.info.section == section).map(command => `${prefix}[${command.info.name}](https://www.youtube.com/watch?v=dQw4w9WgXcQ)\n└ ${command.info.description}\n`).join(''))];
 }

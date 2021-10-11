@@ -12,8 +12,8 @@ const db = require('quick.db');
 
 const createButtonRow = (page, total, id, author) => {
     var mar = new MessageActionRow().addComponents(
-        new MessageButton().setLabel("<").setCustomId(`info_left_${id}_general`).setStyle(page != 1 ? "PRIMARY" : "SECONDARY").setDisabled(page == 1 ? true : false),
-        new MessageButton().setLabel(">").setCustomId(`info_right_${id}_general`).setStyle(page != total ? "PRIMARY" : "SECONDARY").setDisabled(page == total ? true : false)
+        new MessageButton().setLabel("<").setCustomId(`info_left_${id}_general`).setStyle(page != 1 ? "PRIMARY" : "SECONDARY").setDisabled(page == 1),
+        new MessageButton().setLabel(">").setCustomId(`info_right_${id}_general`).setStyle(page != total ? "PRIMARY" : "SECONDARY").setDisabled(page == total)
     );
     if (author == id)return [mar, new MessageActionRow().addComponents(new MessageButton().setLabel('Edit').setStyle('SECONDARY').setCustomId(`info_edit_${id}_general`))];
     return [mar];

@@ -50,7 +50,7 @@ module.exports.run = async (client, message, args) => {
         const turn = Math.round(Math.random()) ? message.author.id : target.id;
         const turner = (turn == 'bot' ? await client.users.fetch(client.user.id) : await client.users.fetch(turn));
         const game = {
-            solo: target.id == 'bot' ? true : false,
+            solo: target.id == 'bot',
             turn: turn,
             board: [ ["", "", ""], ["", "", ""], ["", "", ""] ]
         };

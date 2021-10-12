@@ -28,5 +28,22 @@ module.exports.run = (client, message, args) => {
 }
 
 module.exports.button = (client, interaction) => {
-    
+    var user = db.get(`users.${interaction.user.id}.rpg`);
+    var boss = client.fight({ id: user.boss });
+    interaction.update({
+        embeds: [boss[0]],
+        files: [boss[1]],
+        components: [
+            client.rpgmenu(user.boss, 'fight', message.author.id),
+            new MessageActionRow().addComponents(
+                new MessageButton()
+                    .setStyle('DANGER')
+                    .setCustomId(`fight_stop_${message.author.id}_rpg`)
+                    .setLabel('Stop')
+            )     
+        ]
+    })
+    for (let i = 0; boss[2].hp < 0 || user.stats.health < 0; i++)setTimeout(() => {
+        
+    }, 1000 * i);
 }

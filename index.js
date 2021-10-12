@@ -9,10 +9,9 @@ console.log(`Welcome to ToastBot's Console!`);
 client.commands = new Collection(), client.aliases = new Collection(), client.cooldowns = new Collection(), client.timeIDs = new Collection(), client.snipe = new Collection(), client.tictactoe = new Collection(), client.toasterbreadmilk = new Collection();
 
 client.randToastColor = () => ['#ffe6cc', '#996600', '#ffdd99', '#663300', '#331a00'][Math.floor(Math.random() * 5)];
-client.fight = (id) => {
-    const boss = require('./commands/rpg/boss.json').bosses[id];
-    const file = new MessageAttachment().setFile(`./Images/bosses/${id}.png`);
-    return [new MessageEmbed().setDescription(boss.description).setTitle(`FIGHT!\tBoss Number ${id+1}`).setImage(`attachment://${id}.png`).setColor(boss.color).addField(boss.name, `**Attack per second:** ${Math.round(Math.pow(id + 2, 6) / 10)}\n**Defense:** ${Math.round(Math.pow(id + 2, 5.978) / 10)}\n**HP:** ${Math.pow(id + 2, 6)}`, true), file];
+client.fight = (obj) => {
+    const boss = require('./commands/rpg/boss.json').bosses[obj.id];
+    return [new MessageEmbed().setDescription(boss.description).setTitle(`FIGHT!\tBoss Number ${obj.id+1}`).setImage(`attachment://${obj.id}.png`).setColor(boss.color).addField(boss.name, `**Attack per second:** ${Math.round(Math.pow(obj.id + 2, 6) / 10)}\n**Defense:** ${Math.round(Math.pow(obj.id + 2, 5.978) / 10)}\n**HP:** ${obj.hp || Math.pow(obj.id + 2, 6)}`, true), new MessageAttachment().setFile(`./Images/bosses/${obj.id}.png`), { hp: Math.pow(obj.id + 2, 6), def: Math.round(Math.pow(obj.id + 2, 5.978) / 10), att: Math.round(Math.pow(obj.id + 2, 6) / 10)}];
 }
 var sections = [
     {

@@ -16,6 +16,7 @@ module.exports.run = async (client, message, args) => {
     var author, text;
     if (message.mentions.members.first())author = await client.users.fetch(message.mentions.members.first().id), text = args.slice(1).join(" ")
     else author = message.author, text = args.join(" ");
-    await webhooks[0][1].send({ content: text, username:  await client.guilds.fetch(message.guild.id).members.fetch(author.id).nickname, avatarURL: author.displayAvatarURL({format: 'png'})});
+    console.log()
+    await webhooks[0][1].send({ content: text, username:  await message.guild.members.cache.get(author.id).nickname, avatarURL: author.displayAvatarURL({format: 'png'})});
 }
 

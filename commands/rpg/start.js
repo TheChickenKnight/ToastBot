@@ -36,10 +36,10 @@ module.exports.button = (client, interaction) => {
                 exp: 0,
                 boss: 0
             });
-            const boss = client.fight({id: 0});
+            const boss = client.fight({id: 0, interaction: interaction});
             interaction.update({
                 content: '\u200b',
-                embeds: [boss[0].addField(interaction.user.username, '**Attack per second:** 1\n**Defense:** 1\n**HP:** 10', true)],
+                embeds: [boss[0]],
                 files: [boss[1]],
                 components: [
                     client.rpgmenu(0, 'fight', interaction.user.id),

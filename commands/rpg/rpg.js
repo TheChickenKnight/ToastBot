@@ -11,9 +11,9 @@ const db = require('quick.db');
 
 module.exports.run = (client, message, args) => {
     const user = db.get(`users.${message.author.id}.rpg`);
-    const boss = client.fight({id: user.boss});
+    const boss = client.fight({id: user.boss, message: message});
     message.reply({
-        embeds: [boss[0].addField(message.author.username, `**Attack per second:** ${user.stats.attack}\n**Defense:** ${user.stats.defense}\n**HP:** ${user.stats.health}\n${client.barCreate(40)}`, true)],
+        embeds: [boss[0]],
         files: [boss[1]],
         components: [
             client.rpgmenu(user.boss, 'fight', message.author.id),

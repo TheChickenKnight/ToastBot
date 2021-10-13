@@ -11,9 +11,9 @@ const db = require('quick.db');
 
 module.exports.run = (client, message, args) => {
     const user = db.get(`users.${message.author.id}.rpg`);
-    const boss = client.fight(user.boss);
+    const boss = client.fight({ id: user.boss, message: message });
     message.reply({
-        embeds: [boss[0].addField(message.author.username, `**Attack per second:** ${user.stats.attack}\n**Defense:** ${user.stats.defense}\n**HP:** ${user.stats.health}\n${client.barCreate(40)}`, true)],
+        embeds: [boss[0]],
         files: [boss[1]],
         components: [
             client.rpgmenu(user.boss, 'fight', message.author.id),
@@ -29,18 +29,10 @@ module.exports.run = (client, message, args) => {
 
 module.exports.button = async (client, interaction) => {
     var user = db.get(`users.${interaction.user.id}.rpg`);
-    var boss = client.fight({ id: user.boss });
+    var boss = client.fight({ id: user.boss, interaction: interaction });
     let bossHP = boss[2].hp, playerHP = user.stats.health;
     await interaction.update({
-        components: [
-            client.rpgmenu(user.boss, 'fight', interaction.user.id),
-            new MessageActionRow().addComponents(
-                new MessageButton()
-                    .setStyle('DANGER')
-                    .setCustomId(`fight_stop_${interaction.user.id}_rpg`)
-                    .setLabel('Stop')
-            )     
-        ]
+        components: []
     });
     let damages = [];
     while(bossHP > 0 && playerHP > 0) {
@@ -50,12 +42,28 @@ module.exports.button = async (client, interaction) => {
         if (playerHP > user.stats.health)playerHP = user.stats.health;
         damages.push([bossHP < 0 ? 0 : bossHP, playerHP < 0 ? 0 : playerHP]);
     }
-    damages.forEach((damage, i) => setTimeout(() => interaction.editReply({embeds: [client.fight({id: user.boss, bossHP: damage[0], playerHP: damage[1]})[0].addField(interaction.user.username, `**Attack per second:** ${user.stats.attack}\n**Defense:** ${user.stats.defense}\n**HP:** ${damage[1]}\n${client.barCreate(Math.round(damage[1]/user.stats.health*40))}`, true)]}),i*1000));
+    damages.forEach((damage, i) => setTimeout(() => interaction.editReply({embeds: [client.fight({id: user.boss, bossHP: damage[0], playerHP: damage[1], interaction: interaction})[0]]}),i*1000));
     if (bossHP == 0) { 
         setTimeout(() => {
             db.add(`users.${interaction.user.id}.rpg.boss`, 1);
             db.add(`users.${interaction.user.id}.rpg.exp`, Math.ceil(Math.pow(user.boss + 2, 6)/100));
-            interaction.editReply({ embeds: [client.fight({id: user.boss + 1})[0]]});
+            interaction.editReply({ content: "`\`\`\`css BOSS ${user.boss} WAS DEFEATED! YOU GAINED:\n\n.EXP:${Math.ceil(Math.pow(user.boss + 2, 6)/100)}!\`\`\``", embeds: [client.fight({id: user.boss + 1, interaction: interaction})[0]], components: [
+                client.rpgmenu(user.boss, 'fight', interaction.user.id),
+                new MessageActionRow().addComponents(
+                    new MessageButton()
+                        .setStyle('PRIMARY')
+                        .setCustomId(`fight_fight_${interaction.user.id}_rpg`)
+                        .setLabel('FIGHT')
+                )
+            ]});
         }, damages.length * 1000);
-    } else setTimeout(() => interaction.editReply({embeds: [client.fight({id: user.boss})[0].addField(interaction.user.username, `**Attack per second:** ${user.stats.attack}\n**Defense:** ${user.stats.defense}\n**HP:** ${user.stats.health}\n${client.barCreate(40)}`, true)]}), damages.length * 1000);
+    } else setTimeout(() => interaction.editReply({content: `\`\`\`diff\n- you were defeated by Boss ${user.boss}\`\`\``, embeds: [client.fight({id: user.boss, interaction: interaction})[0]], components: [
+        client.rpgmenu(user.boss, 'fight', interaction.user.id),
+        new MessageActionRow().addComponents(
+            new MessageButton()
+                .setStyle('PRIMARY')
+                .setCustomId(`fight_fight_${interaction.user.id}_rpg`)
+                .setLabel('FIGHT')
+        )
+    ]}), damages.length * 1000);
 }

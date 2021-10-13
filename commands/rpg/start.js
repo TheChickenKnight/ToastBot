@@ -19,7 +19,6 @@ module.exports.button = (client, interaction) => {
                     attack: 1,
                     defense: 1,
                     health: 10,
-                    speed: 1,
                     regen: 1,
                     reach: 1
                 },
@@ -37,7 +36,7 @@ module.exports.button = (client, interaction) => {
                 exp: 0,
                 boss: 0
             });
-            const boss = client.fight(0);
+            const boss = client.fight({id: 0});
             interaction.update({
                 content: '\u200b',
                 embeds: [boss[0].addField(interaction.user.username, '**Attack per second:** 1\n**Defense:** 1\n**HP:** 10', true)],

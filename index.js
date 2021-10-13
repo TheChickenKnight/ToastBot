@@ -11,7 +11,7 @@ client.commands = new Collection(), client.aliases = new Collection(), client.co
 client.randToastColor = () => ['#ffe6cc', '#996600', '#ffdd99', '#663300', '#331a00'][Math.floor(Math.random() * 5)];
 client.fight = (obj) => {
     const boss = require('./commands/rpg/boss.json').bosses[obj.id];
-    return [new MessageEmbed().setDescription(boss.description).setTitle(`FIGHT!\tBoss Number ${obj.id+1}`).setImage(`attachment://${obj.id}.png`).setColor(boss.color).addField(boss.name, `**Attack per second:** ${Math.round(Math.pow(obj.id + 2, 6) / 10)}\n**Defense:** ${Math.round(Math.pow(obj.id + 2, 5.978) / 10)}\n**HP:** ${obj.hp || Math.pow(obj.id + 2, 6)}`, true), new MessageAttachment().setFile(`./Images/bosses/${obj.id}.png`), { hp: Math.pow(obj.id + 2, 6), def: Math.round(Math.pow(obj.id + 2, 5.978) / 10), att: Math.round(Math.pow(obj.id + 2, 6) / 10)}];
+    return [new MessageEmbed().setDescription(boss.description).setTitle(`FIGHT!\tBoss Number ${obj.id+1}`).setImage(`attachment://${obj.id}.png`).setColor(boss.color).addField(boss.name, `**Attack per second:** ${Math.round(Math.pow(obj.id + 2, 6) / 10)}\n**Defense:** ${Math.round(Math.pow(obj.id + 2, 5.978) / 10)}\n**HP:** ${obj.bossHP || Math.pow(obj.id + 2, 6)}`, true), new MessageAttachment().setFile(`./Images/bosses/${obj.id}.png`), { hp: obj.playerHP || Math.pow(obj.id + 2, 6), def: Math.round(Math.pow(obj.id + 2, 5.978) / 10), att: Math.round(Math.pow(obj.id + 2, 6) / 10)}];
 }
 var sections = [
     {
@@ -94,6 +94,7 @@ client.once('ready', () => {
             }
         }
         if (commandObj.info.section == 'admin' && message.author.id != process.env.OWNER_ID)return;
+        if (commandObj.info.section == 'rpg' && commandObj.info.name != 'start' && !db.has(`users.${message.author.id}.rpg`))return message.reply('You haven\'t started your adventure yet! do <`prefix`>start to begin!');
         client.cooldowns.get(commandName).set(message.author.id, Date.now());
         message.channel.sendTyping();
         commandObj.run(client, message, message.content.replace(prefix, '').replace(/^(.+?( |$))/, '').split(' ').filter(item => item.length > 0));

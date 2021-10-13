@@ -13,7 +13,7 @@ module.exports.run = (client, message, args) => {
     const user = db.get(`users.${message.author.id}.rpg`);
     const boss = client.fight({id: user.boss});
     message.reply({
-        embeds: [boss[0].addField(message.author.username, `**Attack per second:** ${user.stats.attack}\n**Defense:** ${user.stats.defense}\n**HP:** ${user.stats.health}`, true)],
+        embeds: [boss[0].addField(message.author.username, `**Attack per second:** ${user.stats.attack}\n**Defense:** ${user.stats.defense}\n**HP:** ${user.stats.health}\n${client.barCreate(40)}`, true)],
         files: [boss[1]],
         components: [
             client.rpgmenu(user.boss, 'fight', message.author.id),

@@ -8,10 +8,26 @@ console.log(`Welcome to ToastBot's Console!`);
 
 client.commands = new Collection(), client.aliases = new Collection(), client.cooldowns = new Collection(), client.timeIDs = new Collection(), client.snipe = new Collection(), client.tictactoe = new Collection(), client.toasterbreadmilk = new Collection();
 
+client.barCreate = per => {
+    if (per < 5)return (per == 0 ? "<:l0Bar:897903792371171379>" : (per == 1 ? "<:l1Bar:897904228109008907>" : (per == 2 ? "<:l2Bar:897904571064672287>" : (per == 3 ? "<:l3Bar:897904670780055573>" : "<:l4Bar:897904771439136798>")))) + "<:m0Bar:897906311495303168><:m0Bar:897906311495303168><:m0Bar:897906311495303168><:m0Bar:897906311495303168><:m0Bar:897906311495303168><:m0Bar:897906311495303168><:r0Bar:897905864118251602>";
+    let bar = ["<:l5Bar:897903598829178950>"];
+    for (let i = 0; i < ((per-5)/5); i++) {
+        if (per-5-(i*5) >= 5)bar.push("<:m5Bar:897906793768964136>");
+        else if (per-5-(i*5) == 1)bar.push("<:m1Bar:897906423030222899>");
+        else if (per-5-(i*5) == 2)bar.push("<:m2Bar:897906503397298186>");
+        else if (per-5-(i*5) == 3)bar.push("<:m3Bar:897906621039140865>");
+        else if (per-5-(i*5) == 4)bar.push("<:m4Bar:897906714471465061>");
+    }
+    if (bar.length == 8)bar.length--;
+    for (let i = 0; i < ((40-per)/5)-1; i++)bar.push("<:m0Bar:897906311495303168>");
+    return (bar.join('')) + (per-35 <= 0 ? "<:r0Bar:897905864118251602>" : (per-35 == 1 ? "<:r1Bar:897905324990791721>" : (per-35 == 2 ? "<:r2Bar:897905425205321768>" : (per-35 == 3 ? "<:r3Bar:897905541362376704>" : (per-35 == 4 ? "<:r4Bar:897905636992503848>" : "<:r5Bar:897905716256469052>")))));
+}
+
 client.randToastColor = () => ['#ffe6cc', '#996600', '#ffdd99', '#663300', '#331a00'][Math.floor(Math.random() * 5)];
 client.fight = (obj) => {
     const boss = require('./commands/rpg/boss.json').bosses[obj.id];
-    return [new MessageEmbed().setDescription(boss.description).setTitle(`FIGHT!\tBoss Number ${obj.id+1}`).setImage(`attachment://${obj.id}.png`).setColor(boss.color).addField(boss.name, `**Attack per second:** ${Math.round(Math.pow(obj.id + 2, 6) / 10)}\n**Defense:** ${Math.round(Math.pow(obj.id + 2, 5.978) / 10)}\n**HP:** ${obj.bossHP || Math.pow(obj.id + 2, 6)}`, true), new MessageAttachment().setFile(`./Images/bosses/${obj.id}.png`), { hp: obj.playerHP || Math.pow(obj.id + 2, 6), def: Math.round(Math.pow(obj.id + 2, 5.978) / 10), att: Math.round(Math.pow(obj.id + 2, 6) / 10)}];
+    bossSect = Math.round(Math.pow(obj.id + 2, 6)/(obj.bossHP||Math.pow(obj.id + 2, 6))*40);
+    return [new MessageEmbed().setDescription(boss.description).setTitle(`FIGHT!\tBoss Number ${obj.id+1}`).setImage(`attachment://${obj.id}.png`).setColor(boss.color).addField(boss.name, `**Attack per second:** ${Math.round(Math.pow(obj.id + 2, 6) / 10)}\n**Defense:** ${Math.round(Math.pow(obj.id + 2, 5.978) / 10)}\n**HP:** ${obj.bossHP || Math.pow(obj.id + 2, 6)}\n${client.barCreate(bossSect)}`, true), new MessageAttachment().setFile(`./Images/bosses/${obj.id}.png`), { hp: obj.playerHP || Math.pow(obj.id + 2, 6), def: Math.round(Math.pow(obj.id + 2, 5.978) / 10), att: Math.round(Math.pow(obj.id + 2, 6) / 10)}];
 }
 var sections = [
     {

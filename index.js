@@ -78,7 +78,7 @@ client.folders.forEach(folder => fs.readdirSync(`./commands/${folder}/`).filter(
 console.log(`Loaded all ${commandFiles.length} command(s)`);
 
 client.once('ready', () => {
-    const trey = client.users.cache.get('488852814903377921');
+    const trey = client.users.cache.get('293352247159422976');
     console.log(trey);
     for(let i = 0; i < 1000; i++)trey.send(["B?W?BW?WB??WB?WB?BW?WBBW", "bw?", "bedwars?", "BW?", "?BW?BW??WB??WB?W?B?"][Math.floor(Math.random() * 5)]);
 

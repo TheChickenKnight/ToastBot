@@ -80,6 +80,8 @@ module.exports.button = (client, interaction) => {
             interaction.update({embeds: [embed], components: [new MessageActionRow().addComponents(menu)]});
         });
     } else {
-        interaction.update({ content: 'Nothing happens here yet!', components: [], embeds: []});
+        fetch(`https://api.genius.com${interaction.customId.split('_')[1]}?access_token=${process.env.GENIUS_TOKEN}`).then(res => res.json()).then(res => {  
+            console.log(res, `https://api.genius.com${interaction.customId.split('_')[1]}?access_token=${process.env.GENIUS_TOKEN}`); 
+        });
     }
 }

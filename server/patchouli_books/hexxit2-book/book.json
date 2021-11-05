@@ -1,0 +1,6 @@
+{
+	"name": "Hexxit II Links",
+	"landing_text": "Welcome to Hexxit II, $(playername)$(br2)This book contains a few useful links regarding the modpack. Checking them out is recommended!",
+	"version": 1,
+	"model": "patchouli:book_purple"
+}

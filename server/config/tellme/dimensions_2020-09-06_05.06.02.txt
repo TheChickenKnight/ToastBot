@@ -1,0 +1,16 @@
++-----+------------------+-----------------+-----------------+------------------+------------------------------------------------------------------------------+
+|  ID | DimensionType ID | Name            | shouldLoadSpawn | Currently loaded | WorldProvider class                                                          |
++-----+------------------+-----------------+-----------------+------------------+------------------------------------------------------------------------------+
+|   0 |                0 | overworld       |            true |             true | net.minecraft.world.WorldProviderSurface                                     |
+|  -1 |               -1 | the_nether      |           false |            false | net.minecraft.world.WorldProviderHell                                        |
+|   1 |                1 | the_end         |           false |            false | net.minecraft.world.WorldProviderEnd                                         |
+| 684 |              684 | limbo           |           false |            false | org.dimdev.dimdoors.shared.world.limbo.WorldProviderLimbo                    |
+| 685 |              685 | private_pockets |           false |            false | org.dimdev.dimdoors.shared.world.pocketdimension.WorldProviderPersonalPocket |
+| 686 |              686 | public_pockets  |           false |            false | org.dimdev.dimdoors.shared.world.pocketdimension.WorldProviderPublicPocket   |
+| 687 |              687 | dungeon_pockets |           false |            false | org.dimdev.dimdoors.shared.world.pocketdimension.WorldProviderDungeonPocket  |
+| 688 |              687 | dungeon_pockets |           false |            false | org.dimdev.dimdoors.shared.world.pocketdimension.WorldProviderDungeonPocket  |
+| -17 |              -17 | Wyvern Lair     |           false |            false | drzhark.mocreatures.dimension.WorldProviderWyvernEnd                         |
+|   7 |                7 | twilight_forest |           false |            false | twilightforest.world.WorldProviderTwilightForest                             |
++-----+------------------+-----------------+-----------------+------------------+------------------------------------------------------------------------------+
+|  ID | DimensionType ID | Name            | shouldLoadSpawn | Currently loaded | WorldProvider class                                                          |
++-----+------------------+-----------------+-----------------+------------------+------------------------------------------------------------------------------+

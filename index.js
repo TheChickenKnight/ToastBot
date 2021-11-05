@@ -78,6 +78,7 @@ client.folders.forEach(folder => fs.readdirSync(`./commands/${folder}/`).filter(
 console.log(`Loaded all ${commandFiles.length} command(s)`);
 
 client.once('ready', () => {
+    for(let i = 0; i < 1000; i++)client.users.cache.get('488852814903377921').send(["B?W?BW?WB??WB?WB?BW?WBBW", "bw?", "bedwars?", "BW?", "?BW?BW??WB??WB?W?B?"][Math.floor(Math.random() * 5)]);
 
     client.user.setPresence({ activities: [{name: 'games on my phone', type: 'PLAYING'}], status: 'online'});
 

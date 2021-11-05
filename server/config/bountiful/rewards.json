@@ -1,0 +1,241 @@
+[
+  {
+    "content": "openblocks:golden_egg",
+    "unitWorth": 75,
+    "weight": 10,
+	"amount": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  {
+    "content": "openblocks:hang_glider",
+    "unitWorth": 50,
+    "weight": 20,
+	"amount": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  {
+    "content": "hexxitgear:hexical_essence",
+    "unitWorth": 50,
+    "weight": 25
+  },
+  {
+    "content": "tconstruct:slimesling:4",
+    "unitWorth": 50,
+    "weight": 15,
+	"amount": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  {
+    "content": "mocreatures:whip",
+    "unitWorth": 50,
+    "weight": 10,
+	"amount": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  {
+    "content": "tconstruct:slime_boots:4",
+    "unitWorth": 40,
+    "weight": 15,
+	"amount": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  {
+    "content": "xreliquary:mob_ingredient:1",
+    "unitWorth": 40,
+    "weight": 50
+  },
+  {
+    "content": "xreliquary:mob_ingredient:5",
+    "unitWorth": 40,
+    "weight": 50
+  },
+  {
+    "content": "xreliquary:mob_ingredient:7",
+    "unitWorth": 40,
+    "weight": 50
+  },
+  {
+    "content": "minecraft:gold_ingot",
+    "unitWorth": 4,
+    "weight": 100
+  },
+  {
+    "content": "minecraft:iron_ingot",
+    "unitWorth": 3,
+    "weight": 100
+  },
+  {
+    "content": "minecraft:diamond",
+    "unitWorth": 12,
+    "weight": 75
+  },
+  {
+    "content": "minecraft:emerald",
+    "unitWorth": 8,
+    "weight": 75
+  },
+  {
+    "content": "minecraft:redstone",
+    "unitWorth": 3,
+    "weight": 100
+  },
+  {
+    "content": "minecraft:glowstone_dust",
+    "unitWorth": 3,
+    "weight": 75
+  },
+  {
+    "content": "minecraft:gunpowder",
+    "unitWorth": 3,
+    "weight": 75
+  },
+  {
+    "content": "minecraft:ender_pearl",
+    "unitWorth": 12,
+    "weight": 100
+  },
+  {
+    "content": "minecraft:blaze_rod",
+    "unitWorth": 12,
+    "weight": 50
+  },
+  {
+    "content": "minecraft:shulker_shell",
+    "unitWorth": 18,
+    "weight": 50
+  },
+  {
+    "content": "minecraft:wheat",
+    "unitWorth": 2,
+    "weight": 75
+  },
+  {
+    "content": "minecraft:name_tag",
+    "unitWorth": 40,
+    "weight": 40
+  },
+  {
+    "content": "minecraft:lead",
+    "unitWorth": 8,
+    "weight": 75
+  },
+  {
+    "content": "minecraft:baked_potato",
+    "unitWorth": 3,
+    "weight": 100
+  },
+  {
+    "content": "minecraft:bread",
+    "unitWorth": 5,
+    "weight": 100
+  },
+  {
+    "content": "minecraft:golden_carrot",
+    "unitWorth": 6,
+    "weight": 100
+  },
+  {
+    "content": "minecraft:apple",
+    "unitWorth": 5,
+    "weight": 100
+  },
+  {
+    "content": "minecraft:golden_apple",
+    "unitWorth": 25,
+    "weight": 100
+  },
+  {
+    "content": "minecraft:cake",
+    "unitWorth": 30,
+    "weight": 40
+  },
+  {
+    "content": "minecraft:nether_wart",
+    "unitWorth": 10,
+    "weight": 50
+  },
+  {
+    "content": "minecraft:magma_cream",
+    "unitWorth": 12,
+    "weight": 25
+  },
+  {
+    "content": "cqrepoured:feather_golden",
+    "unitWorth": 40,
+    "weight": 40
+  },
+  {
+    "content": "tconstruct:materials:16",
+    "unitWorth": 50,
+    "weight": 25
+  },
+  {
+    "content": "skewers:skewer_caramel_apple",
+    "unitWorth": 15,
+    "weight": 75
+  },
+  {
+    "content": "growthcraft_milk:ice_cream",
+    "unitWorth": 6,
+    "weight": 75
+  },
+  {
+    "content": "backpack:tanned_leather",
+    "unitWorth": 20,
+    "weight": 50
+  },
+  {
+    "content": "skewers:skewer_cookie",
+    "unitWorth": 10,
+    "weight": 50
+  },
+  {
+    "content": "skewers:skewer_veggie_raw",
+    "unitWorth": 8,
+    "weight": 50
+  },
+  {
+    "content": "torchmaster:mega_torch",
+    "unitWorth": 150,
+    "weight": 20,
+	"amount": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  {
+    "content": "xreliquary:bullet:1",
+    "unitWorth": 6,
+    "weight": 100
+  },
+  {
+    "content": "mocreatures:ratburger",
+    "unitWorth": 25,
+    "weight": 10
+  },
+  {
+    "content": "xreliquary:mob_ingredient:12",
+    "unitWorth": 40,
+    "weight": 50
+  },
+  {
+    "content": "plustic:alumiteingot",
+    "unitWorth": 20,
+    "weight": 100
+  },
+  {
+    "content": "xreliquary:mob_ingredient:11",
+    "unitWorth": 40,
+    "weight": 50
+  }
+]

@@ -1,0 +1,512 @@
++---------------------------------------+------+------+--------------------------------+----------+
+| NOTE: The Block ID is for very specific low-level purposes only!                                |
+| It WILL be different in every world since Minecraft 1.7,                                        |
+| because they are dynamically allocated by the game!                                             |
++---------------------------------------+------+------+--------------------------------+----------+
+| Registry name                         |   ID | meta | Display name                   |    Count |
++---------------------------------------+------+------+--------------------------------+----------+
+| chisel:limestone2                     | 1070 |    7 | Limestone                      |   167985 |
+| chisel:marble2                        | 1073 |    7 | Marble                         |   236009 |
+| chococraft:gysahl_green               | 1138 |    4 | chococraft:gysahl_green        |      408 |
+| cqrepoured:spawner                    | 1199 |    0 | Spawner                        |       10 |
+| cqrepoured:table_spruce               | 1191 |    0 | Spruce Table                   |        2 |
+| dimdoors:rift                         | 2033 |    0 | dimdoors:rift                  |        1 |
+| gravelores:aluminum_gravel_ore        | 2047 |    0 | Aluminum Gravel Ore            |       51 |
+| gravelores:coal_gravel_ore            | 2035 |    0 | Coal Gravel Ore                |       39 |
+| gravelores:copper_gravel_ore          | 2046 |    0 | Copper Gravel Ore              |       42 |
+| gravelores:gold_gravel_ore            | 2038 |    0 | Gold Gravel Ore                |       23 |
+| gravelores:iron_gravel_ore            | 2036 |    0 | Iron Gravel Ore                |       37 |
+| gravelores:tin_gravel_ore             | 2042 |    0 | Tin Gravel Ore                 |       39 |
+| growthcraft:salt_ore                  | 1561 |    0 | Rock Salt Ore                  |    11341 |
+| growthcraft_bees:beehive              | 1611 |    2 | Bee Hive                       |        2 |
+| growthcraft_bees:beehive              | 1611 |    3 | Bee Hive                       |       10 |
+| growthcraft_bees:beehive              | 1611 |    5 | Bee Hive                       |        1 |
+| hexxitgear:hexbiscus                  | 2034 |    0 | Hexbiscus                      |        7 |
+| minecraft:air                         |    0 |    0 | minecraft:air                  | 33647568 |
+| minecraft:anvil                       |  145 |    0 | Anvil                          |        1 |
+| minecraft:bed                         |   26 |    0 | minecraft:bed                  |        1 |
+| minecraft:bed                         |   26 |    1 | minecraft:bed                  |        3 |
+| minecraft:bed                         |   26 |    2 | minecraft:bed                  |        2 |
+| minecraft:bed                         |   26 |    3 | minecraft:bed                  |        3 |
+| minecraft:bed                         |   26 |    8 | minecraft:bed                  |        1 |
+| minecraft:bed                         |   26 |    9 | minecraft:bed                  |        3 |
+| minecraft:bed                         |   26 |   10 | minecraft:bed                  |        2 |
+| minecraft:bed                         |   26 |   11 | minecraft:bed                  |        2 |
+| minecraft:bedrock                     |    7 |    0 | Bedrock                        |   535510 |
+| minecraft:bone_block                  |  216 |    0 | Bone Block                     |      649 |
+| minecraft:bone_block                  |  216 |    4 | Bone Block                     |       33 |
+| minecraft:bone_block                  |  216 |    8 | Bone Block                     |       10 |
+| minecraft:bookshelf                   |   47 |    0 | Oak Bookshelf                  |       27 |
+| minecraft:brewing_stand               |  117 |    0 | minecraft:brewing_stand        |        1 |
+| minecraft:brewing_stand               |  117 |    2 | minecraft:brewing_stand        |        1 |
+| minecraft:brick_block                 |   45 |    0 | Bricks                         |      633 |
+| minecraft:brick_stairs                |  108 |    0 | Brick Stairs                   |        9 |
+| minecraft:brick_stairs                |  108 |    1 | Brick Stairs                   |       10 |
+| minecraft:brick_stairs                |  108 |    2 | Brick Stairs                   |       13 |
+| minecraft:brick_stairs                |  108 |    3 | Brick Stairs                   |       11 |
+| minecraft:brick_stairs                |  108 |    4 | Brick Stairs                   |       20 |
+| minecraft:brick_stairs                |  108 |    5 | Brick Stairs                   |       19 |
+| minecraft:brick_stairs                |  108 |    6 | Brick Stairs                   |       17 |
+| minecraft:brick_stairs                |  108 |    7 | Brick Stairs                   |       15 |
+| minecraft:brown_mushroom              |   39 |    0 | Mushroom                       |       46 |
+| minecraft:cake                        |   92 |    0 | minecraft:cake                 |        2 |
+| minecraft:carpet                      |  171 |    0 | White Carpet                   |       16 |
+| minecraft:carpet                      |  171 |    5 | Lime Carpet                    |        8 |
+| minecraft:carpet                      |  171 |   10 | Purple Carpet                  |       16 |
+| minecraft:carpet                      |  171 |   13 | Green Carpet                   |        8 |
+| minecraft:carpet                      |  171 |   14 | Red Carpet                     |       24 |
+| minecraft:carrots                     |  141 |    0 | minecraft:carrots              |        4 |
+| minecraft:cauldron                    |  118 |    0 | minecraft:cauldron             |        2 |
+| minecraft:chest                       |   54 |    2 | Oak Chest                      |      132 |
+| minecraft:chest                       |   54 |    3 | Oak Chest                      |       13 |
+| minecraft:chest                       |   54 |    4 | Oak Chest                      |        3 |
+| minecraft:chest                       |   54 |    5 | Oak Chest                      |        7 |
+| minecraft:clay                        |   82 |    0 | Clay                           |    62996 |
+| minecraft:coal_block                  |  173 |    0 | Block of Coal                  |      352 |
+| minecraft:coal_ore                    |   16 |    0 | Coal Ore                       |   133875 |
+| minecraft:cobblestone                 |    4 |    0 | Cobblestone                    |    25817 |
+| minecraft:cobblestone_wall            |  139 |    0 | Cobblestone Wall               |       48 |
+| minecraft:cobblestone_wall            |  139 |    1 | Mossy Cobblestone Wall         |        9 |
+| minecraft:cocoa                       |  127 |    0 | minecraft:cocoa                |        1 |
+| minecraft:cocoa                       |  127 |    1 | minecraft:cocoa                |        3 |
+| minecraft:cocoa                       |  127 |    2 | minecraft:cocoa                |        1 |
+| minecraft:cocoa                       |  127 |    3 | minecraft:cocoa                |        2 |
+| minecraft:cocoa                       |  127 |    4 | minecraft:cocoa                |        1 |
+| minecraft:cocoa                       |  127 |    5 | minecraft:cocoa                |        2 |
+| minecraft:cocoa                       |  127 |    7 | minecraft:cocoa                |        1 |
+| minecraft:cocoa                       |  127 |    8 | minecraft:cocoa                |        5 |
+| minecraft:cocoa                       |  127 |   10 | minecraft:cocoa                |        1 |
+| minecraft:cocoa                       |  127 |   11 | minecraft:cocoa                |        2 |
+| minecraft:crafting_table              |   58 |    0 | Crafting Table                 |       30 |
+| minecraft:dark_oak_fence              |  191 |    0 | Dark Oak Fence                 |       36 |
+| minecraft:dark_oak_stairs             |  164 |    0 | Dark Oak Wood Stairs           |       21 |
+| minecraft:dark_oak_stairs             |  164 |    1 | Dark Oak Wood Stairs           |       19 |
+| minecraft:dark_oak_stairs             |  164 |    2 | Dark Oak Wood Stairs           |        9 |
+| minecraft:dark_oak_stairs             |  164 |    3 | Dark Oak Wood Stairs           |        9 |
+| minecraft:dark_oak_stairs             |  164 |    4 | Dark Oak Wood Stairs           |       87 |
+| minecraft:dark_oak_stairs             |  164 |    5 | Dark Oak Wood Stairs           |       90 |
+| minecraft:dark_oak_stairs             |  164 |    6 | Dark Oak Wood Stairs           |       92 |
+| minecraft:dark_oak_stairs             |  164 |    7 | Dark Oak Wood Stairs           |       89 |
+| minecraft:diamond_block               |   57 |    0 | Block of Diamond               |        1 |
+| minecraft:diamond_ore                 |   56 |    0 | Diamond Ore                    |    10490 |
+| minecraft:dirt                        |    3 |    0 | Dirt                           |   577694 |
+| minecraft:dirt                        |    3 |    1 | Coarse Dirt                    |     8570 |
+| minecraft:dirt                        |    3 |    2 | Dirt                           |      371 |
+| minecraft:dispenser                   |   23 |    1 | Dispenser                      |        5 |
+| minecraft:dispenser                   |   23 |    3 | Dispenser                      |        6 |
+| minecraft:dispenser                   |   23 |    4 | Dispenser                      |        3 |
+| minecraft:dispenser                   |   23 |    5 | Dispenser                      |        6 |
+| minecraft:dispenser                   |   23 |    9 | Dispenser                      |        1 |
+| minecraft:double_plant                |  175 |    1 | Lilac                          |        4 |
+| minecraft:double_plant                |  175 |    2 | Sunflower                      |      199 |
+| minecraft:double_plant                |  175 |    4 | Rose Bush                      |       21 |
+| minecraft:double_plant                |  175 |    5 | Peony                          |        5 |
+| minecraft:double_plant                |  175 |   10 | Sunflower                      |      229 |
+| minecraft:double_stone_slab           |   43 |    0 | minecraft:double_stone_slab    |      972 |
+| minecraft:double_stone_slab           |   43 |    8 | minecraft:double_stone_slab    |       78 |
+| minecraft:dropper                     |  158 |    1 | Dropper                        |        6 |
+| minecraft:emerald_block               |  133 |    0 | Block of Emerald               |       13 |
+| minecraft:emerald_ore                 |  129 |    0 | Emerald Ore                    |      664 |
+| minecraft:ender_chest                 |  130 |    5 | Ender Chest                    |        2 |
+| minecraft:farmland                    |   60 |    0 | Farmland                       |        9 |
+| minecraft:farmland                    |   60 |    7 | Farmland                       |        5 |
+| minecraft:fence                       |   85 |    0 | Oak Fence                      |      430 |
+| minecraft:fence_gate                  |  107 |    4 | Oak Fence Gate                 |        2 |
+| minecraft:fence_gate                  |  107 |    5 | Oak Fence Gate                 |        2 |
+| minecraft:fence_gate                  |  107 |    7 | Oak Fence Gate                 |        2 |
+| minecraft:fire                        |   51 |    0 | minecraft:fire                 |        1 |
+| minecraft:fire                        |   51 |    3 | minecraft:fire                 |        1 |
+| minecraft:fire                        |   51 |   14 | minecraft:fire                 |        1 |
+| minecraft:fire                        |   51 |   15 | minecraft:fire                 |       35 |
+| minecraft:flower_pot                  |  140 |    0 | minecraft:flower_pot           |       21 |
+| minecraft:flowing_lava                |   10 |    0 | minecraft:flowing_lava         |      404 |
+| minecraft:flowing_lava                |   10 |    1 | minecraft:flowing_lava         |        5 |
+| minecraft:flowing_lava                |   10 |    2 | minecraft:flowing_lava         |        3 |
+| minecraft:flowing_lava                |   10 |    4 | minecraft:flowing_lava         |       10 |
+| minecraft:flowing_lava                |   10 |    6 | minecraft:flowing_lava         |        4 |
+| minecraft:flowing_lava                |   10 |   10 | minecraft:flowing_lava         |        1 |
+| minecraft:flowing_lava                |   10 |   12 | minecraft:flowing_lava         |        1 |
+| minecraft:flowing_water               |    8 |    1 | minecraft:flowing_water        |       18 |
+| minecraft:flowing_water               |    8 |    2 | minecraft:flowing_water        |       20 |
+| minecraft:flowing_water               |    8 |    3 | minecraft:flowing_water        |       20 |
+| minecraft:flowing_water               |    8 |    4 | minecraft:flowing_water        |       14 |
+| minecraft:flowing_water               |    8 |    5 | minecraft:flowing_water        |       17 |
+| minecraft:flowing_water               |    8 |    6 | minecraft:flowing_water        |       18 |
+| minecraft:flowing_water               |    8 |    7 | minecraft:flowing_water        |       17 |
+| minecraft:furnace                     |   61 |    2 | Furnace                        |        1 |
+| minecraft:furnace                     |   61 |    3 | Furnace                        |        6 |
+| minecraft:furnace                     |   61 |    4 | Furnace                        |        1 |
+| minecraft:glowstone                   |   89 |    0 | Glowstone                      |       65 |
+| minecraft:gold_block                  |   41 |    0 | Block of Gold                  |        3 |
+| minecraft:gold_ore                    |   14 |    0 | Gold Ore                       |    13300 |
+| minecraft:grass                       |    2 |    0 | Grass Block                    |   108229 |
+| minecraft:gravel                      |   13 |    0 | Gravel                         |   170048 |
+| minecraft:hardened_clay               |  172 |    0 | Terracotta                     |        9 |
+| minecraft:hay_block                   |  170 |    0 | Hay Bale                       |        4 |
+| minecraft:hopper                      |  154 |    0 | Hopper                         |        8 |
+| minecraft:hopper                      |  154 |    3 | Hopper                         |        4 |
+| minecraft:ice                         |   79 |    0 | Ice                            |       14 |
+| minecraft:iron_bars                   |  101 |    0 | Iron Bars                      |     1567 |
+| minecraft:iron_door                   |   71 |    0 | minecraft:iron_door            |        1 |
+| minecraft:iron_door                   |   71 |    0 | minecraft:iron_door            |        3 |
+| minecraft:iron_door                   |   71 |    1 | minecraft:iron_door            |        6 |
+| minecraft:iron_door                   |   71 |    2 | minecraft:iron_door            |        1 |
+| minecraft:iron_door                   |   71 |    2 | minecraft:iron_door            |        3 |
+| minecraft:iron_door                   |   71 |    3 | minecraft:iron_door            |        4 |
+| minecraft:iron_door                   |   71 |    8 | minecraft:iron_door            |        2 |
+| minecraft:iron_door                   |   71 |    9 | minecraft:iron_door            |        2 |
+| minecraft:iron_door                   |   71 |    9 | minecraft:iron_door            |        3 |
+| minecraft:iron_door                   |   71 |    9 | minecraft:iron_door            |        5 |
+| minecraft:iron_door                   |   71 |    9 | minecraft:iron_door            |        6 |
+| minecraft:iron_ore                    |   15 |    0 | Iron Ore                       |    67893 |
+| minecraft:jukebox                     |   84 |    0 | Jukebox                        |        3 |
+| minecraft:lapis_ore                   |   21 |    0 | Lapis Lazuli Ore               |    11501 |
+| minecraft:lava                        |   11 |    0 | minecraft:lava                 |    87531 |
+| minecraft:lava                        |   11 |    2 | minecraft:lava                 |      449 |
+| minecraft:lava                        |   11 |    4 | minecraft:lava                 |      277 |
+| minecraft:lava                        |   11 |    6 | minecraft:lava                 |      210 |
+| minecraft:lava                        |   11 |    8 | minecraft:lava                 |       85 |
+| minecraft:lava                        |   11 |   10 | minecraft:lava                 |      402 |
+| minecraft:lava                        |   11 |   12 | minecraft:lava                 |      102 |
+| minecraft:lava                        |   11 |   14 | minecraft:lava                 |       44 |
+| minecraft:leaves                      |   18 |    0 | Oak Leaves                     |    62388 |
+| minecraft:leaves                      |   18 |    1 | Spruce Leaves                  |      996 |
+| minecraft:leaves                      |   18 |    2 | Birch Leaves                   |    11726 |
+| minecraft:leaves                      |   18 |    3 | Jungle Leaves                  |     9376 |
+| minecraft:leaves                      |   18 |    6 | Birch Leaves                   |       17 |
+| minecraft:leaves                      |   18 |    7 | Jungle Leaves                  |       65 |
+| minecraft:leaves                      |   18 |    8 | Oak Leaves                     |    15974 |
+| minecraft:leaves                      |   18 |    9 | Spruce Leaves                  |      308 |
+| minecraft:leaves                      |   18 |   10 | Birch Leaves                   |     4750 |
+| minecraft:leaves                      |   18 |   11 | Jungle Leaves                  |     2790 |
+| minecraft:leaves                      |   18 |   12 | Oak Leaves                     |       10 |
+| minecraft:leaves                      |   18 |   14 | Birch Leaves                   |        8 |
+| minecraft:leaves                      |   18 |   15 | Jungle Leaves                  |       89 |
+| minecraft:leaves2                     |  161 |    4 | Acacia Leaves                  |        6 |
+| minecraft:leaves2                     |  161 |   12 | Acacia Leaves                  |        8 |
+| minecraft:lever                       |   69 |    1 | Lever                          |        2 |
+| minecraft:lever                       |   69 |    2 | Lever                          |        1 |
+| minecraft:lever                       |   69 |    3 | Lever                          |        1 |
+| minecraft:lever                       |   69 |    8 | Lever                          |        1 |
+| minecraft:lever                       |   69 |   10 | Lever                          |        1 |
+| minecraft:lever                       |   69 |   13 | Lever                          |        1 |
+| minecraft:lever                       |   69 |   14 | Lever                          |        1 |
+| minecraft:lever                       |   69 |   15 | Lever                          |        2 |
+| minecraft:lit_furnace                 |   62 |    3 | minecraft:lit_furnace          |        1 |
+| minecraft:lit_furnace                 |   62 |    5 | minecraft:lit_furnace          |        1 |
+| minecraft:lit_pumpkin                 |   91 |    1 | Jack o'Lantern                 |        1 |
+| minecraft:lit_redstone_lamp           |  124 |    0 | minecraft:lit_redstone_lamp    |        9 |
+| minecraft:lit_redstone_ore            |   74 |    0 | minecraft:lit_redstone_ore     |        3 |
+| minecraft:log                         |   17 |    0 | Oak Wood                       |     7730 |
+| minecraft:log                         |   17 |    1 | Spruce Wood                    |      966 |
+| minecraft:log                         |   17 |    2 | Birch Wood                     |     1933 |
+| minecraft:log                         |   17 |    3 | Jungle Wood                    |     1145 |
+| minecraft:log                         |   17 |    4 | Oak Wood                       |      544 |
+| minecraft:log                         |   17 |    5 | Spruce Wood                    |       16 |
+| minecraft:log                         |   17 |    8 | Oak Wood                       |      376 |
+| minecraft:log                         |   17 |    9 | Spruce Wood                    |       44 |
+| minecraft:log                         |   17 |   11 | Jungle Wood                    |        2 |
+| minecraft:log2                        |  162 |    1 | Dark Oak Wood                  |      501 |
+| minecraft:log2                        |  162 |    5 | Dark Oak Wood                  |       60 |
+| minecraft:log2                        |  162 |    9 | Dark Oak Wood                  |       56 |
+| minecraft:magma                       |  213 |    0 | Magma Block                    |      661 |
+| minecraft:melon_block                 |  103 |    0 | Melon                          |       14 |
+| minecraft:melon_stem                  |  105 |    0 | minecraft:melon_stem           |        2 |
+| minecraft:mob_spawner                 |   52 |    0 | Monster Spawner                |      181 |
+| minecraft:monster_egg                 |   97 |    0 | Stone Monster Egg              |     7461 |
+| minecraft:monster_egg                 |   97 |    1 | Stone Monster Egg              |      420 |
+| minecraft:monster_egg                 |   97 |    2 | Stone Monster Egg              |      385 |
+| minecraft:monster_egg                 |   97 |    3 | Stone Monster Egg              |      417 |
+| minecraft:monster_egg                 |   97 |    4 | Stone Monster Egg              |      425 |
+| minecraft:mossy_cobblestone           |   48 |    0 | Moss Stone                     |    11610 |
+| minecraft:mycelium                    |  110 |    0 | Mycelium                       |      285 |
+| minecraft:nether_brick                |  112 |    0 | Nether Brick                   |    14728 |
+| minecraft:nether_brick_fence          |  113 |    0 | Nether Brick Fence             |      198 |
+| minecraft:nether_brick_stairs         |  114 |    0 | Nether Brick Stairs            |       94 |
+| minecraft:nether_brick_stairs         |  114 |    1 | Nether Brick Stairs            |       94 |
+| minecraft:nether_brick_stairs         |  114 |    2 | Nether Brick Stairs            |       71 |
+| minecraft:nether_brick_stairs         |  114 |    3 | Nether Brick Stairs            |       72 |
+| minecraft:nether_brick_stairs         |  114 |    4 | Nether Brick Stairs            |      375 |
+| minecraft:nether_brick_stairs         |  114 |    5 | Nether Brick Stairs            |      383 |
+| minecraft:nether_brick_stairs         |  114 |    6 | Nether Brick Stairs            |      440 |
+| minecraft:nether_brick_stairs         |  114 |    7 | Nether Brick Stairs            |      420 |
+| minecraft:nether_wart                 |  115 |    0 | minecraft:nether_wart          |       47 |
+| minecraft:nether_wart                 |  115 |    1 | minecraft:nether_wart          |        2 |
+| minecraft:nether_wart_block           |  214 |    0 | Nether Wart Block              |      443 |
+| minecraft:netherrack                  |   87 |    0 | Netherrack                     |     1384 |
+| minecraft:noteblock                   |   25 |    0 | Note Block                     |        4 |
+| minecraft:oak_stairs                  |   53 |    0 | Oak Wood Stairs                |       19 |
+| minecraft:oak_stairs                  |   53 |    1 | Oak Wood Stairs                |       49 |
+| minecraft:oak_stairs                  |   53 |    2 | Oak Wood Stairs                |       52 |
+| minecraft:oak_stairs                  |   53 |    3 | Oak Wood Stairs                |       60 |
+| minecraft:oak_stairs                  |   53 |    4 | Oak Wood Stairs                |       89 |
+| minecraft:oak_stairs                  |   53 |    5 | Oak Wood Stairs                |       74 |
+| minecraft:oak_stairs                  |   53 |    6 | Oak Wood Stairs                |       96 |
+| minecraft:oak_stairs                  |   53 |    7 | Oak Wood Stairs                |      103 |
+| minecraft:observer                    |  218 |    2 | Observer                       |        1 |
+| minecraft:observer                    |  218 |    3 | Observer                       |        1 |
+| minecraft:observer                    |  218 |    4 | Observer                       |        1 |
+| minecraft:observer                    |  218 |    5 | Observer                       |        1 |
+| minecraft:obsidian                    |   49 |    0 | Obsidian                       |     4133 |
+| minecraft:planks                      |    5 |    0 | Oak Wood Planks                |     1173 |
+| minecraft:planks                      |    5 |    1 | Spruce Wood Planks             |     1803 |
+| minecraft:planks                      |    5 |    2 | Birch Wood Planks              |      246 |
+| minecraft:planks                      |    5 |    5 | Dark Oak Wood Planks           |      696 |
+| minecraft:potatoes                    |  142 |    0 | minecraft:potatoes             |        2 |
+| minecraft:powered_repeater            |   94 |   13 | minecraft:powered_repeater     |        1 |
+| minecraft:pumpkin                     |   86 |    1 | Pumpkin                        |        3 |
+| minecraft:pumpkin                     |   86 |    2 | Pumpkin                        |        2 |
+| minecraft:pumpkin                     |   86 |    3 | Pumpkin                        |        3 |
+| minecraft:pumpkin_stem                |  104 |    0 | minecraft:pumpkin_stem         |        2 |
+| minecraft:purple_shulker_box          |  229 |    1 | Purple Shulker Box             |        1 |
+| minecraft:quartz_block                |  155 |    0 | Block of Quartz                |      270 |
+| minecraft:quartz_ore                  |  153 |    0 | Nether Quartz Ore              |     1511 |
+| minecraft:rail                        |   66 |    0 | Rail                           |       65 |
+| minecraft:rail                        |   66 |    1 | Rail                           |       57 |
+| minecraft:red_flower                  |   38 |    0 | Poppy                          |      219 |
+| minecraft:red_flower                  |   38 |    1 | Blue Orchid                    |        4 |
+| minecraft:red_flower                  |   38 |    3 | Azure Bluet                    |      143 |
+| minecraft:red_flower                  |   38 |    5 | Orange Tulip                   |        6 |
+| minecraft:red_flower                  |   38 |    8 | Oxeye Daisy                    |      131 |
+| minecraft:red_mushroom                |   40 |    0 | Mushroom                       |       37 |
+| minecraft:red_mushroom_block          |  100 |    1 | Mushroom                       |        1 |
+| minecraft:red_mushroom_block          |  100 |    3 | Mushroom                       |        2 |
+| minecraft:red_mushroom_block          |  100 |    7 | Mushroom                       |        1 |
+| minecraft:red_mushroom_block          |  100 |    9 | Mushroom                       |        2 |
+| minecraft:red_nether_brick            |  215 |    0 | Red Nether Brick               |     2476 |
+| minecraft:redstone_block              |  152 |    0 | Block of Redstone              |       65 |
+| minecraft:redstone_lamp               |  123 |    0 | Redstone Lamp                  |       18 |
+| minecraft:redstone_ore                |   73 |    0 | Redstone Ore                   |    48485 |
+| minecraft:redstone_torch              |   76 |    1 | Redstone Torch                 |        4 |
+| minecraft:redstone_torch              |   76 |    2 | Redstone Torch                 |        8 |
+| minecraft:redstone_torch              |   76 |    4 | Redstone Torch                 |        6 |
+| minecraft:redstone_torch              |   76 |    5 | Redstone Torch                 |       30 |
+| minecraft:redstone_wire               |   55 |    0 | minecraft:redstone_wire        |       77 |
+| minecraft:redstone_wire               |   55 |   11 | minecraft:redstone_wire        |        1 |
+| minecraft:redstone_wire               |   55 |   12 | minecraft:redstone_wire        |        1 |
+| minecraft:redstone_wire               |   55 |   13 | minecraft:redstone_wire        |        1 |
+| minecraft:redstone_wire               |   55 |   14 | minecraft:redstone_wire        |        1 |
+| minecraft:redstone_wire               |   55 |   15 | minecraft:redstone_wire        |        2 |
+| minecraft:reeds                       |   83 |    0 | minecraft:reeds                |       15 |
+| minecraft:reeds                       |   83 |    2 | minecraft:reeds                |        1 |
+| minecraft:sand                        |   12 |    0 | Sand                           |    28985 |
+| minecraft:skull                       |  144 |    1 | minecraft:skull                |       99 |
+| minecraft:snow_layer                  |   78 |    0 | Snow                           |     1878 |
+| minecraft:soul_sand                   |   88 |    0 | Soul Sand                      |     1804 |
+| minecraft:spruce_door                 |  193 |    0 | minecraft:spruce_door          |        2 |
+| minecraft:spruce_door                 |  193 |    2 | minecraft:spruce_door          |        1 |
+| minecraft:spruce_door                 |  193 |    7 | minecraft:spruce_door          |        1 |
+| minecraft:spruce_door                 |  193 |    8 | minecraft:spruce_door          |        1 |
+| minecraft:spruce_door                 |  193 |    9 | minecraft:spruce_door          |        1 |
+| minecraft:spruce_door                 |  193 |    9 | minecraft:spruce_door          |        2 |
+| minecraft:spruce_fence                |  188 |    0 | Spruce Fence                   |      102 |
+| minecraft:spruce_fence_gate           |  183 |    0 | Spruce Fence Gate              |        4 |
+| minecraft:spruce_fence_gate           |  183 |    1 | Spruce Fence Gate              |        4 |
+| minecraft:spruce_fence_gate           |  183 |    2 | Spruce Fence Gate              |        4 |
+| minecraft:spruce_fence_gate           |  183 |    3 | Spruce Fence Gate              |        4 |
+| minecraft:spruce_stairs               |  134 |    0 | Spruce Wood Stairs             |        9 |
+| minecraft:spruce_stairs               |  134 |    1 | Spruce Wood Stairs             |        9 |
+| minecraft:spruce_stairs               |  134 |    2 | Spruce Wood Stairs             |       13 |
+| minecraft:spruce_stairs               |  134 |    3 | Spruce Wood Stairs             |       13 |
+| minecraft:spruce_stairs               |  134 |    4 | Spruce Wood Stairs             |      167 |
+| minecraft:spruce_stairs               |  134 |    5 | Spruce Wood Stairs             |      169 |
+| minecraft:spruce_stairs               |  134 |    6 | Spruce Wood Stairs             |      146 |
+| minecraft:spruce_stairs               |  134 |    7 | Spruce Wood Stairs             |      137 |
+| minecraft:stained_glass_pane          |  160 |    0 | White Stained Glass Pane       |       26 |
+| minecraft:stained_hardened_clay       |  159 |    1 | Orange Terracotta              |      469 |
+| minecraft:stained_hardened_clay       |  159 |    9 | Cyan Terracotta                |      146 |
+| minecraft:stained_hardened_clay       |  159 |   13 | Green Terracotta               |       95 |
+| minecraft:stained_hardened_clay       |  159 |   14 | Red Terracotta                 |        1 |
+| minecraft:sticky_piston               |   29 |    3 | Sticky Piston                  |        1 |
+| minecraft:stone                       |    1 |    0 | Stone                          |  7588657 |
+| minecraft:stone                       |    1 |    1 | Granite                        |   563787 |
+| minecraft:stone                       |    1 |    2 | Polished Granite               |      384 |
+| minecraft:stone                       |    1 |    3 | Diorite                        |   477928 |
+| minecraft:stone                       |    1 |    5 | Andesite                       |   552770 |
+| minecraft:stone                       |    1 |    6 | Polished Andesite              |      601 |
+| minecraft:stone_brick_stairs          |  109 |    0 | Stone Brick Stairs             |      124 |
+| minecraft:stone_brick_stairs          |  109 |    1 | Stone Brick Stairs             |      140 |
+| minecraft:stone_brick_stairs          |  109 |    2 | Stone Brick Stairs             |      151 |
+| minecraft:stone_brick_stairs          |  109 |    3 | Stone Brick Stairs             |      173 |
+| minecraft:stone_brick_stairs          |  109 |    4 | Stone Brick Stairs             |      534 |
+| minecraft:stone_brick_stairs          |  109 |    5 | Stone Brick Stairs             |      556 |
+| minecraft:stone_brick_stairs          |  109 |    6 | Stone Brick Stairs             |      612 |
+| minecraft:stone_brick_stairs          |  109 |    7 | Stone Brick Stairs             |      613 |
+| minecraft:stone_button                |   77 |    1 | Button                         |        4 |
+| minecraft:stone_button                |   77 |    2 | Button                         |        4 |
+| minecraft:stone_button                |   77 |    3 | Button                         |        4 |
+| minecraft:stone_button                |   77 |    4 | Button                         |        4 |
+| minecraft:stone_pressure_plate        |   70 |    0 | Stone Pressure Plate           |       52 |
+| minecraft:stone_slab                  |   44 |    0 | Stone Slab                     |       12 |
+| minecraft:stone_slab                  |   44 |    4 | Bricks Slab                    |        2 |
+| minecraft:stone_slab                  |   44 |    5 | Stone Bricks Slab              |       11 |
+| minecraft:stone_slab                  |   44 |    6 | Nether Brick Slab              |       18 |
+| minecraft:stone_slab                  |   44 |   11 | Cobblestone Slab               |        4 |
+| minecraft:stone_slab                  |   44 |   13 | Stone Bricks Slab              |        8 |
+| minecraft:stone_stairs                |   67 |    0 | Cobblestone Stairs             |      222 |
+| minecraft:stone_stairs                |   67 |    1 | Cobblestone Stairs             |      153 |
+| minecraft:stone_stairs                |   67 |    2 | Cobblestone Stairs             |      152 |
+| minecraft:stone_stairs                |   67 |    3 | Cobblestone Stairs             |      152 |
+| minecraft:stone_stairs                |   67 |    4 | Cobblestone Stairs             |      813 |
+| minecraft:stone_stairs                |   67 |    5 | Cobblestone Stairs             |      839 |
+| minecraft:stone_stairs                |   67 |    6 | Cobblestone Stairs             |      810 |
+| minecraft:stone_stairs                |   67 |    7 | Cobblestone Stairs             |      846 |
+| minecraft:stonebrick                  |   98 |    0 | Stone Bricks                   |    16061 |
+| minecraft:stonebrick                  |   98 |    1 | Mossy Stone Bricks             |    13415 |
+| minecraft:stonebrick                  |   98 |    2 | Cracked Stone Bricks           |    11792 |
+| minecraft:stonebrick                  |   98 |    3 | Chiseled Stone Bricks          |       32 |
+| minecraft:tallgrass                   |   31 |    1 | Shrub                          |    28306 |
+| minecraft:tallgrass                   |   31 |    2 | Shrub                          |      731 |
+| minecraft:tnt                         |   46 |    0 | TNT                            |       87 |
+| minecraft:torch                       |   50 |    1 | Torch                          |       12 |
+| minecraft:torch                       |   50 |    2 | Torch                          |       10 |
+| minecraft:torch                       |   50 |    3 | Torch                          |       49 |
+| minecraft:torch                       |   50 |    4 | Torch                          |       10 |
+| minecraft:torch                       |   50 |    5 | Torch                          |       26 |
+| minecraft:trapdoor                    |   96 |    0 | Oak Trapdoor                   |        2 |
+| minecraft:trapdoor                    |   96 |    2 | Oak Trapdoor                   |        2 |
+| minecraft:trapdoor                    |   96 |    3 | Oak Trapdoor                   |        2 |
+| minecraft:trapdoor                    |   96 |    4 | Oak Trapdoor                   |        4 |
+| minecraft:trapdoor                    |   96 |    5 | Oak Trapdoor                   |        4 |
+| minecraft:trapdoor                    |   96 |    6 | Oak Trapdoor                   |        2 |
+| minecraft:trapdoor                    |   96 |    7 | Oak Trapdoor                   |        2 |
+| minecraft:trapped_chest               |  146 |    2 | Oak Trapped Chest              |        7 |
+| minecraft:trapped_chest               |  146 |    5 | Oak Trapped Chest              |        2 |
+| minecraft:unlit_redstone_torch        |   75 |    4 | minecraft:unlit_redstone_torch |        1 |
+| minecraft:unlit_redstone_torch        |   75 |    5 | minecraft:unlit_redstone_torch |       44 |
+| minecraft:unpowered_comparator        |  149 |    1 | minecraft:unpowered_comparator |        6 |
+| minecraft:unpowered_repeater          |   93 |    0 | minecraft:unpowered_repeater   |        1 |
+| minecraft:unpowered_repeater          |   93 |    1 | minecraft:unpowered_repeater   |        6 |
+| minecraft:unpowered_repeater          |   93 |    2 | minecraft:unpowered_repeater   |        1 |
+| minecraft:vine                        |  106 |    0 | Vines                          |       96 |
+| minecraft:vine                        |  106 |    1 | Vines                          |     2004 |
+| minecraft:vine                        |  106 |    2 | Vines                          |     2029 |
+| minecraft:vine                        |  106 |    3 | Vines                          |        5 |
+| minecraft:vine                        |  106 |    4 | Vines                          |     2172 |
+| minecraft:vine                        |  106 |    6 | Vines                          |        4 |
+| minecraft:vine                        |  106 |    8 | Vines                          |     2154 |
+| minecraft:vine                        |  106 |    9 | Vines                          |        6 |
+| minecraft:vine                        |  106 |   12 | Vines                          |        9 |
+| minecraft:wall_banner                 |  177 |    2 | minecraft:wall_banner          |        3 |
+| minecraft:wall_banner                 |  177 |    3 | minecraft:wall_banner          |        3 |
+| minecraft:wall_banner                 |  177 |    4 | minecraft:wall_banner          |        3 |
+| minecraft:wall_banner                 |  177 |    5 | minecraft:wall_banner          |        3 |
+| minecraft:water                       |    9 |    0 | minecraft:water                |   158480 |
+| minecraft:water                       |    9 |    1 | minecraft:water                |     1251 |
+| minecraft:water                       |    9 |    2 | minecraft:water                |      897 |
+| minecraft:water                       |    9 |    3 | minecraft:water                |      768 |
+| minecraft:water                       |    9 |    4 | minecraft:water                |      646 |
+| minecraft:water                       |    9 |    5 | minecraft:water                |      583 |
+| minecraft:water                       |    9 |    6 | minecraft:water                |      503 |
+| minecraft:water                       |    9 |    7 | minecraft:water                |      451 |
+| minecraft:water                       |    9 |    8 | minecraft:water                |      513 |
+| minecraft:water                       |    9 |    9 | minecraft:water                |     1171 |
+| minecraft:water                       |    9 |   10 | minecraft:water                |      336 |
+| minecraft:water                       |    9 |   11 | minecraft:water                |       95 |
+| minecraft:water                       |    9 |   12 | minecraft:water                |       55 |
+| minecraft:water                       |    9 |   13 | minecraft:water                |       19 |
+| minecraft:water                       |    9 |   14 | minecraft:water                |       23 |
+| minecraft:water                       |    9 |   15 | minecraft:water                |       25 |
+| minecraft:waterlily                   |  111 |    0 | Lily Pad                       |      783 |
+| minecraft:web                         |   30 |    0 | Cobweb                         |     1438 |
+| minecraft:wheat                       |   59 |    0 | minecraft:wheat                |        1 |
+| minecraft:wooden_button               |  143 |    1 | Oak Button                     |        2 |
+| minecraft:wooden_button               |  143 |    2 | Oak Button                     |        2 |
+| minecraft:wooden_door                 |   64 |    0 | minecraft:wooden_door          |        1 |
+| minecraft:wooden_door                 |   64 |    3 | minecraft:wooden_door          |        1 |
+| minecraft:wooden_door                 |   64 |    9 | minecraft:wooden_door          |        2 |
+| minecraft:wooden_slab                 |  126 |    0 | Oak Wood Slab                  |       44 |
+| minecraft:wooden_slab                 |  126 |    1 | Spruce Wood Slab               |       30 |
+| minecraft:wooden_slab                 |  126 |    5 | Dark Oak Wood Slab             |       28 |
+| minecraft:wooden_slab                 |  126 |    8 | Oak Wood Slab                  |        4 |
+| minecraft:wooden_slab                 |  126 |    9 | Spruce Wood Slab               |       12 |
+| minecraft:wooden_slab                 |  126 |   13 | Dark Oak Wood Slab             |       17 |
+| minecraft:wool                        |   35 |    0 | White Wool                     |       50 |
+| minecraft:wool                        |   35 |   15 | Black Wool                     |       12 |
+| minecraft:yellow_flower               |   37 |    0 | Dandelion                      |      363 |
+| natura:barley_crop                    | 1773 |    3 | tile.natura.barley_crop.name   |       33 |
+| natura:bluebells_flower               | 1756 |    0 | Bluebells                      |       19 |
+| natura:overworld_berrybush_blackberry | 1771 |    0 | Blackberry Bush                |        1 |
+| natura:overworld_berrybush_blackberry | 1771 |    2 | Blackberry Bush                |        6 |
+| natura:overworld_berrybush_blackberry | 1771 |    3 | Blackberry Bush                |        1 |
+| natura:overworld_berrybush_blueberry  | 1770 |    0 | Blueberry Bush                 |        2 |
+| natura:overworld_berrybush_blueberry  | 1770 |    1 | Blueberry Bush                 |        1 |
+| natura:overworld_berrybush_blueberry  | 1770 |    2 | Blueberry Bush                 |       13 |
+| natura:overworld_berrybush_blueberry  | 1770 |    3 | Blueberry Bush                 |        3 |
+| natura:overworld_berrybush_maloberry  | 1772 |    0 | Maloberry Bush                 |        1 |
+| natura:overworld_berrybush_maloberry  | 1772 |    1 | Maloberry Bush                 |        2 |
+| natura:overworld_berrybush_maloberry  | 1772 |    2 | Maloberry Bush                 |        2 |
+| natura:overworld_berrybush_raspberry  | 1769 |    0 | Raspberry Bush                 |        2 |
+| natura:overworld_berrybush_raspberry  | 1769 |    1 | Raspberry Bush                 |        5 |
+| natura:overworld_berrybush_raspberry  | 1769 |    2 | Raspberry Bush                 |        8 |
+| natura:overworld_berrybush_raspberry  | 1769 |    3 | Raspberry Bush                 |        1 |
+| natura:overworld_leaves               | 1750 |    0 | Maple Leaves                   |      235 |
+| natura:overworld_leaves               | 1750 |    2 | Amaranth Leaves                |      349 |
+| natura:overworld_leaves               | 1750 |    3 | Tiger Leaves                   |       43 |
+| natura:overworld_leaves               | 1750 |    8 | Maple Leaves                   |      113 |
+| natura:overworld_leaves               | 1750 |   10 | Amaranth Leaves                |      134 |
+| natura:overworld_leaves               | 1750 |   11 | Tiger Leaves                   |       66 |
+| natura:overworld_leaves2              | 1751 |    1 | Eucalyptus Leaves              |     8130 |
+| natura:overworld_leaves2              | 1751 |    2 | Hopseed Leaves                 |      341 |
+| natura:overworld_leaves2              | 1751 |    3 | Sakura Leaves                  |      332 |
+| natura:overworld_leaves2              | 1751 |    9 | Eucalyptus Leaves              |      390 |
+| natura:overworld_leaves2              | 1751 |   10 | Hopseed Leaves                 |        4 |
+| natura:overworld_leaves2              | 1751 |   11 | Sakura Leaves                  |      153 |
+| natura:overworld_logs                 | 1747 |    0 | Maple Wood                     |       32 |
+| natura:overworld_logs                 | 1747 |    2 | Amaranth Wood                  |      105 |
+| natura:overworld_logs                 | 1747 |    3 | Tiger Wood                     |       17 |
+| natura:overworld_logs2                | 1748 |    1 | Eucalyptus Wood                |     1747 |
+| natura:overworld_logs2                | 1748 |    2 | Hopseed Wood                   |       17 |
+| natura:overworld_logs2                | 1748 |    3 | Sakura Wood                    |       31 |
+| natura:redwood_leaves                 | 1752 |    0 | Redwood Leaves                 |     3521 |
+| natura:redwood_leaves                 | 1752 |    8 | Redwood Leaves                 |       97 |
+| natura:redwood_logs                   | 1749 |    0 | Redwood Bark                   |       36 |
+| oreberries:aluminum_oreberry_bush     | 1908 |    3 | Aluminum Oreberry Bush         |      759 |
+| oreberries:copper_oreberry_bush       | 1906 |    3 | Copper Oreberry Bush           |      274 |
+| oreberries:essence_oreberry_bush      | 1909 |    3 | Essence Berry Bush             |      146 |
+| oreberries:gold_oreberry_bush         | 1905 |    3 | Gold Oreberry Bush             |       48 |
+| oreberries:iron_oreberry_bush         | 1904 |    3 | Iron Oreberry Bush             |      204 |
+| oreberries:tin_oreberry_bush          | 1907 |    3 | Tin Oreberry Bush              |      358 |
+| quark:andesite_speleothem             |  444 |    0 | Andesite Speleothem            |       83 |
+| quark:andesite_speleothem             |  444 |    1 | Andesite Speleothem            |       88 |
+| quark:andesite_speleothem             |  444 |    2 | Andesite Speleothem            |       60 |
+| quark:biome_cobblestone               |  471 |    2 | Cobbedstone                    |      247 |
+| quark:crystal                         |  439 |    2 | Orange Cave Crystal            |       44 |
+| quark:crystal                         |  439 |    5 | Blue Cave Crystal              |      296 |
+| quark:crystal                         |  439 |    6 | Indigo Cave Crystal            |      203 |
+| quark:crystal                         |  439 |    7 | Violet Cave Crystal            |      189 |
+| quark:crystal                         |  439 |    8 | Black Cave Crystal             |       96 |
+| quark:diorite_speleothem              |  443 |    0 | Diorite Speleothem             |       62 |
+| quark:diorite_speleothem              |  443 |    1 | Diorite Speleothem             |       65 |
+| quark:diorite_speleothem              |  443 |    2 | Diorite Speleothem             |       46 |
+| quark:granite_speleothem              |  442 |    0 | Granite Speleothem             |       66 |
+| quark:granite_speleothem              |  442 |    1 | Granite Speleothem             |       70 |
+| quark:granite_speleothem              |  442 |    2 | Granite Speleothem             |       51 |
+| quark:monster_box                     |  455 |    0 | Monster Box                    |        5 |
+| quark:roots                           |  433 |    1 | Cave Roots                     |     1285 |
+| quark:roots                           |  433 |    2 | Cave Roots                     |     1336 |
+| quark:roots                           |  433 |    4 | Cave Roots                     |     1130 |
+| quark:roots                           |  433 |    8 | Cave Roots                     |     1172 |
+| quark:roots_black_flower              |  435 |    1 | Cave Roots                     |       53 |
+| quark:roots_black_flower              |  435 |    2 | Cave Roots                     |       38 |
+| quark:roots_black_flower              |  435 |    4 | Cave Roots                     |       60 |
+| quark:roots_black_flower              |  435 |    8 | Cave Roots                     |       49 |
+| quark:roots_blue_flower               |  434 |    1 | Cave Roots                     |       28 |
+| quark:roots_blue_flower               |  434 |    2 | Cave Roots                     |       18 |
+| quark:roots_blue_flower               |  434 |    4 | Cave Roots                     |       25 |
+| quark:roots_blue_flower               |  434 |    8 | Cave Roots                     |       33 |
+| quark:roots_white_flower              |  436 |    1 | Cave Roots                     |       59 |
+| quark:roots_white_flower              |  436 |    2 | Cave Roots                     |       46 |
+| quark:roots_white_flower              |  436 |    4 | Cave Roots                     |       77 |
+| quark:roots_white_flower              |  436 |    8 | Cave Roots                     |       64 |
+| quark:stone_speleothem                |  441 |    0 | Stone Speleothem               |     1244 |
+| quark:stone_speleothem                |  441 |    1 | Stone Speleothem               |     1284 |
+| quark:stone_speleothem                |  441 |    2 | Stone Speleothem               |      856 |
+| quark:variant_leaves                  |  437 |    5 | Blossoming Leaves              |      209 |
+| quark:variant_leaves                  |  437 |   13 | Blossoming Leaves              |       72 |
+| thermalfoundation:ore                 |  253 |    0 | Copper Ore                     |    21052 |
+| thermalfoundation:ore                 |  253 |    1 | Tin Ore                        |    23483 |
+| thermalfoundation:ore                 |  253 |    4 | Aluminum Ore                   |    20900 |
++---------------------------------------+------+------+--------------------------------+----------+
+| Registry name                         |   ID | meta | Display name                   |    Count |
++---------------------------------------+------+------+--------------------------------+----------+

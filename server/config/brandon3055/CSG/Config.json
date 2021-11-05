@@ -1,0 +1,6 @@
+{
+  "inventory": {
+    "0:0": "akashictome:tome,1,0,{\"akashictome:data\":{tconstruct:{id:\"tconstruct:book\",Count:1b,tag:{\"akashictome:definedMod\":\"tconstruct\"},Damage:0s},conarm:{id:\"conarm:book\",Count:1b,tag:{\"akashictome:definedMod\":\"conarm\"},Damage:0s},thermalfoundation:{id:\"thermalfoundation:tome_lexicon\",Count:1b,tag:{\"akashictome:definedMod\":\"thermalfoundation\"},Damage:0s},twilightforest:{id:\"patchouli:guide_book\",Count:1b,tag:{\"akashictome:definedMod\":\"twilightforest\",\"patchouli:book\":\"twilightforest:guide\"},Damage:0s},chococraftplus:{id:\"chococraftplus:chocopedia\",Count:1b,tag:{\"akashictome:definedMod\":\"chococraftplus\"},Damage:0s},openblocks:{id:\"openblocks:info_book\",Count:1b,tag:{\"akashictome:definedMod\":\"openblocks\"},Damage:0s}}}",
+	"0:1": "patchouli:guide_book,1,0,{\"patchouli:book\":\"patchouli:hexxit2-book\"}"
+  }
+}

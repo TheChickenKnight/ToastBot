@@ -1,0 +1,18 @@
+{
+    "name": "Getting Support",
+    "icon": "minecraft:fishing_rod",
+    "category": "useful_links",
+	"sortnum": 2,
+    "pages": [
+        {
+            "type": "text",
+            "text": "If you need general support, have questions, want to report a weird issue, crash, error, or anything else, please make sure to post it in the issue tracker."
+        },
+		{
+            "type": "link",
+            "text": "In order to get to the issue tracker page, please click the link bellow.$(br2)Please make sure you are registered to GitHub in order to post new issues.$(br2) $(br2)           ⇩ ⇩ ⇩",
+			"url": "https://bit.ly/Hexxit-II-Issue-Tracker",
+			"link_text": "Issue Tracker"
+        }
+    ]
+}

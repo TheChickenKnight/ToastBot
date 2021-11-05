@@ -1,0 +1,407 @@
+[
+  {
+    "content": "xreliquary:mob_ingredient",
+    "amount": {
+      "min": 1,
+      "max": 2
+    },
+    "unitWorth": 50,
+    "weight": 40
+  },
+  {
+    "content": "xreliquary:mob_ingredient:2",
+    "amount": {
+      "min": 1,
+      "max": 2
+    },
+    "unitWorth": 50,
+    "weight": 40
+  },
+  {
+    "content": "xreliquary:mob_ingredient:3",
+    "amount": {
+      "min": 1,
+      "max": 2
+    },
+    "unitWorth": 50,
+    "weight": 40
+  },
+  {
+    "content": "xreliquary:mob_ingredient:4",
+    "amount": {
+      "min": 1,
+      "max": 2
+    },
+    "unitWorth": 50,
+    "weight": 40
+  },
+  {
+    "content": "xreliquary:mob_ingredient:6",
+    "amount": {
+      "min": 1,
+      "max": 2
+    },
+    "unitWorth": 50,
+    "weight": 40
+  },
+  {
+    "content": "chococraftplus:veg_gysahl",
+    "amount": {
+      "min": 6,
+      "max": 16
+    },
+    "unitWorth": 5,
+    "weight": 100
+  },
+  {
+    "content": "minecraft:arrow",
+    "amount": {
+      "min": 4,
+      "max": 12
+    },
+    "unitWorth": 7,
+    "weight": 100
+  },
+  {
+    "content": "minecraft:cobblestone",
+    "amount": {
+      "min": 32,
+      "max": 64
+    },
+    "unitWorth": 1,
+    "weight": 100
+  },
+  {
+    "content": "minecraft:dirt",
+    "amount": {
+      "min": 32,
+      "max": 64
+    },
+    "unitWorth": 1,
+    "weight": 100
+  },
+  {
+    "content": "minecraft:bedrock",
+    "amount": {
+      "min": 1,
+      "max": 1
+    },
+    "unitWorth": 99999,
+    "weight": 1
+  },
+  {
+    "content": "minecraft:wool",
+    "amount": {
+      "min": 2,
+      "max": 8
+    },
+    "unitWorth": 10,
+    "weight": 100
+  },
+  {
+    "content": "minecraft:glass",
+    "amount": {
+      "min": 7,
+      "max": 24
+    },
+    "unitWorth": 3,
+    "weight": 100
+  },
+  {
+    "content": "minecraft:clay_ball",
+    "amount": {
+      "min": 8,
+      "max": 24
+    },
+    "unitWorth": 3,
+    "weight": 100
+  },
+  {
+    "content": "minecraft:flint",
+    "amount": {
+      "min": 3,
+      "max": 8
+    },
+    "unitWorth": 7,
+    "weight": 100
+  },
+  {
+    "content": "minecraft:egg",
+    "amount": {
+      "min": 3,
+      "max": 7
+    },
+    "unitWorth": 9,
+    "weight": 100
+  },
+  {
+    "content": "minecraft:bone",
+    "amount": {
+      "min": 8,
+      "max": 24
+    },
+    "unitWorth": 3,
+    "weight": 100
+  },
+  {
+    "content": "minecraft:leather",
+    "amount": {
+      "min": 3,
+      "max": 12
+    },
+    "unitWorth": 6,
+    "weight": 100
+  },
+  {
+    "content": "minecraft:string",
+    "amount": {
+      "min": 6,
+      "max": 24
+    },
+    "unitWorth": 4,
+    "weight": 100
+  },
+  {
+    "content": "minecraft:feather",
+    "amount": {
+      "min": 2,
+      "max": 8
+    },
+    "unitWorth": 9,
+    "weight": 100
+  },
+  {
+    "content": "minecraft:slime_ball",
+    "amount": {
+      "min": 3,
+      "max": 10
+    },
+    "unitWorth": 9,
+    "weight": 100
+  },
+  {
+    "content": "minecraft:paper",
+    "amount": {
+      "min": 6,
+      "max": 24
+    },
+    "unitWorth": 4,
+    "weight": 100
+  },
+  {
+    "content": "minecraft:tnt",
+    "amount": {
+      "min": 1,
+      "max": 4
+    },
+    "unitWorth": 25,
+    "weight": 50
+  },
+  {
+    "content": "minecraft:melon",
+    "amount": {
+      "min": 3,
+      "max": 16
+    },
+    "unitWorth": 7,
+    "weight": 100
+  },
+  {
+    "content": "minecraft:rotten_flesh",
+    "amount": {
+      "min": 8,
+      "max": 24
+    },
+    "unitWorth": 3,
+    "weight": 100
+  },
+  {
+    "content": "minecraft:spider_eye",
+    "amount": {
+      "min": 5,
+      "max": 18
+    },
+    "unitWorth": 5,
+    "weight": 100
+  },
+  {
+    "content": "minecraft:sugar",
+    "amount": {
+      "min": 6,
+      "max": 21
+    },
+    "unitWorth": 4,
+    "weight": 100
+  },
+  {
+    "content": "entity:battletowers:golem",
+    "amount": {
+      "min": 1,
+      "max": 1
+    },
+    "unitWorth": 125,
+    "weight": 25
+  },
+  {
+    "content": "entity:minecraft:creeper",
+    "amount": {
+      "min": 2,
+      "max": 8
+    },
+    "unitWorth": 16,
+    "weight": 100
+  },
+  {
+    "content": "entity:minecraft:cave_spider",
+    "amount": {
+      "min": 2,
+      "max": 8
+    },
+    "unitWorth": 25,
+    "weight": 50
+  },
+  {
+    "content": "entity:minecraft:bat",
+    "amount": {
+      "min": 1,
+      "max": 2
+    },
+    "unitWorth": 40,
+    "weight": 25
+  },
+  {
+    "content": "entity:minecraft:enderman",
+    "amount": {
+      "min": 1,
+      "max": 2
+    },
+    "unitWorth": 30,
+    "weight": 50
+  },
+  {
+    "content": "entity:minecraft:skeleton",
+    "amount": {
+      "min": 2,
+      "max": 8
+    },
+    "unitWorth": 14,
+    "weight": 100
+  },
+  {
+    "content": "entity:minecraft:slime",
+    "amount": {
+      "min": 1,
+      "max": 3
+    },
+    "unitWorth": 25,
+    "weight": 50
+  },
+  {
+    "content": "entity:minecraft:spider",
+    "amount": {
+      "min": 2,
+      "max": 8
+    },
+    "unitWorth": 14,
+    "weight": 100
+  },
+  {
+    "content": "entity:minecraft:witch",
+    "amount": {
+      "min": 1,
+      "max": 1
+    },
+    "unitWorth": 75,
+    "weight": 40
+  },
+  {
+    "content": "entity:minecraft:wither",
+    "amount": {
+      "min": 1,
+      "max": 1
+    },
+    "unitWorth": 250,
+    "weight": 20
+  },
+  {
+    "content": "entity:minecraft:zombie_villager",
+    "amount": {
+      "min": 1,
+      "max": 1
+    },
+    "unitWorth": 100,
+    "weight": 80
+  },
+  {
+    "content": "entity:minecraft:zombie",
+    "amount": {
+      "min": 2,
+      "max": 8
+    },
+    "unitWorth": 14,
+    "weight": 100
+  },
+  {
+    "content": "minecraft:brick",
+    "amount": {
+      "min": 8,
+      "max": 24
+    },
+    "unitWorth": 6,
+    "weight": 100
+  },
+  {
+    "content": "thermalfoundation:material:128",
+    "amount": {
+      "min": 4,
+      "max": 16
+    },
+    "unitWorth": 8,
+    "weight": 100
+  },
+  {
+    "content": "thermalfoundation:material:129",
+    "amount": {
+      "min": 4,
+      "max": 16
+    },
+    "unitWorth": 8,
+    "weight": 100
+  },
+  {
+    "content": "thermalfoundation:material:132",
+    "amount": {
+      "min": 4,
+      "max": 16
+    },
+    "unitWorth": 8,
+    "weight": 100
+  },
+  {
+    "content": "growthcraft:salt",
+    "amount": {
+      "min": 3,
+      "max": 12
+    },
+    "unitWorth": 10,
+    "weight": 100
+  },
+  {
+    "content": "minecraft:bed",
+    "amount": {
+      "min": 1,
+      "max": 3
+    },
+    "unitWorth": 25,
+    "weight": 100
+  },
+  {
+    "content": "minecraft:pumpkin",
+    "amount": {
+      "min": 1,
+      "max": 5
+    },
+    "unitWorth": 12,
+    "weight": 100
+  }
+]

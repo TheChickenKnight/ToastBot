@@ -12,6 +12,8 @@ module.exports.run = (client, message, args) => {
     var user = db.get(`users.${message.author.id}.rpg`);
     message.reply({
        embeds: [new MessageEmbed()
-        .setColor(client.randToastColor())]
+        .setColor(client.randToastColor())
+        .setTitle("Training!")
+        .setDescription()]
     });
 }

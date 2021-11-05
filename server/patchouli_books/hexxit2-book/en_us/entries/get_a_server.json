@@ -1,0 +1,18 @@
+{
+    "name": "Get a Server",
+    "icon": "minecraft:nether_star",
+    "category": "useful_links",
+	"sortnum": 3,
+    "pages": [
+        {
+            "type": "text",
+            "text": "If you want to get a server to play with friends, and don't want the hassle, Hexxit II recommends Akliz.$(br2)Using Akliz you can instantly install a server with very little effort. No need to upload anything or mess with files to get your game started.$(br)Very recommended!"
+        },
+		{
+            "type": "link",
+            "text": "In order to get to an Akliz Hexxit II server, please click the link bellow.$(br2)Make sure to use coupon$(br)code $(l)HEXXIT$() to save$(br)20% off of the first month!$(br2) $(br2)           ⇩ ⇩ ⇩",
+			"url": "https://bit.ly/Hexxit-II-Book-Akliz",
+			"link_text": "Get a Server"
+        }
+    ]
+}

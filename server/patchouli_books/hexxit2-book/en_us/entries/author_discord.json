@@ -1,0 +1,18 @@
+{
+    "name": "Author Discord",
+    "icon": "minecraft:ender_eye",
+    "category": "useful_links",
+	"sortnum": 1,
+    "pages": [
+        {
+            "type": "text",
+            "text": "Hexxit II's author (Jon's) Discord server is available for general questions or discussions about the modpack.$(br2)Please make sure to not go there for bug reporting; go to$(br)the $(l:getting_support)issue tracker$() instead."
+        },
+		{
+            "type": "link",
+            "text": "Click the link bellow for the Discord server invite.$(br2)Please make sure you are registered to Discord in order to join the server.$(br2) $(br2)           ⇩ ⇩ ⇩",
+			"url": "https://bit.ly/Hexxit-II-Author-Discord-Invite",
+			"link_text": "Author Discord"
+        }
+    ]
+}

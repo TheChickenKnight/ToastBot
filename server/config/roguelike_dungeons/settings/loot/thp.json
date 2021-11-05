@@ -1,0 +1,8 @@
+{
+	"name" : "builtin:loot",
+	"lootTables" : [
+		{"level" : [0, 1, 2], "table" : "minecraft:thp_loot_common"},
+		{"level" : [2, 3], "table" : "minecraft:thp_loot_uncommon"},
+		{"level" : 4, "table" : "minecraft:thp_loot_rare"}
+	]
+}

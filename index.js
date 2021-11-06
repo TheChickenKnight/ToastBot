@@ -78,9 +78,6 @@ client.folders.forEach(folder => fs.readdirSync(`./commands/${folder}/`).filter(
 console.log(`Loaded all ${commandFiles.length} command(s)`);
 
 client.once('ready', () => {
-    const trey = client.users.cache.get('573596406254927892');
-    console.log(trey);
-    for(let i = 0; i < 1000; i++)trey.send(["a", "e", "aaaaaaaaa", "ausydamsfsf", "asdkjanns"][Math.floor(Math.random() * 5)]);
 
     client.user.setPresence({ activities: [{name: 'games on my phone', type: 'PLAYING'}], status: 'online'});
 
@@ -95,7 +92,7 @@ client.once('ready', () => {
         }
         if (new RegExp("/.*<@(!|)" + process.env.BOT_ID + ">.*/").test(message.content))return message.reply(`My prefix is \`${prefix}\`!`);
         if (/ami|<@839202008048599090>/.test(message.content.toLowerCase()) && message.guildId == "859913455342845982") {
-            var ami = await client.users.cache.get('839202008048599090');
+            var ami = client.users.cache.get('839202008048599090');
             ami.send({ embeds: [new MessageEmbed().setColor(client.randToastColor()).setAuthor(message.author.username, message.author.displayAvatarURL({format: 'png'}), message.url).setDescription(message.content).setFooter('Click on their name to teleport to the message!')]});
         }
         if (message.author.bot)return;

@@ -6,7 +6,7 @@ const client = new Client({ws: { properties: { $browser: "Discord iOS"}}, intent
 
 console.log(`Welcome to ToastBot's Console!`);
 
-client.commands = new Collection(), client.aliases = new Collection(), client.cooldowns = new Collection(), client.timeIDs = new Collection(), client.snipe = new Collection(), client.tictactoe = new Collection(), client.toasterbreadmilk = new Collection();
+client.commands = new Collection(), client.aliases = new Collection(), client.cooldowns = new Collection(), client.timeIDs = new Collection(), client.snipe = new Collection(), client.tictactoe = new Collection(), client.toasterbreadmilk = new Collection(), client.queues = new Collection(), client.paused = new Collection();
 
 client.barCreate = per => {
     if (per < 5)return (per == 0 ? "<:l0Bar:897903792371171379>" : (per == 1 ? "<:l1Bar:897904228109008907>" : (per == 2 ? "<:l2Bar:897904571064672287>" : (per == 3 ? "<:l3Bar:897904670780055573>" : "<:l4Bar:897904771439136798>")))) + "<:m0Bar:897906311495303168><:m0Bar:897906311495303168><:m0Bar:897906311495303168><:m0Bar:897906311495303168><:m0Bar:897906311495303168><:m0Bar:897906311495303168><:r0Bar:897905864118251602>";

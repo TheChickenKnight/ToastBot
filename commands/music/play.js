@@ -45,6 +45,7 @@ module.exports.menu = async (client, interaction) => {
                     client.queues.get(interaction.member.guild.id).splice(0, 1);
                     if (client.queues.get(interaction.member.guild.id).length === 0) {
                         connection.destroy();
+                        client.queues.delete(interaction.member.guild.id)
                         interaction.followUp({embeds: [new MessageEmbed().setColor('RED').setDescription('Queue is empty, leaving...')]})
                     } else {
                         const stream = await play.stream(client.queues.get(interaction.member.guild.id)[0]);

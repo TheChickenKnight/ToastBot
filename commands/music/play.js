@@ -55,7 +55,7 @@ module.exports.menu = async (client, interaction) => {
                 });
             }
             await interaction.update({
-                embeds: [new MessageEmbed().setColor('GREEN').setTitle(embedTitle).setDescription('**[' + info.title + '](' + info.video_url + ')**').setThumbnail(info.thumbnails[0].url).setAuthor('By ' + info.author.name + (info.author.verified ? ' \✔️' : ''), info.author.thumbnails[0].url, info.ownerProfileUrl).addFields({name: 'Likes', value: info.likes.toLocaleString('en-US'), inline: true}, {name: 'Dislikes', value: info.dislikes.toLocaleString('en-US'), inline: true}, {name: 'Views', value: parseInt(info.viewCount).toLocaleString('en-US'), inline: false})],
+                embeds: [new MessageEmbed().setColor('GREEN').setTitle(embedTitle).setDescription('**[' + info.title + '](' + info.video_url + ')**').setThumbnail(info.thumbnails[0].url).setAuthor('By ' + info.author.name + (info.author.verified ? ' \✔️' : ''), info.author.thumbnails[0].url, info.ownerProfileUrl).addFields({name: 'Likes', value: info.likes.toLocaleString('en-US'), inline: true}, {name: 'Dislikes', value: info.dislikes.toLocaleString('en-US'), inline: true}, {name: 'Views', value: parseInt(info.viewCount).toLocaleString('en-US'), inline: false}, {name: 'Track Length', value: sToF(info.lengthSeconds)})],
                 components: []
             });
         }

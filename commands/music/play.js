@@ -27,7 +27,7 @@ module.exports.menu = async (client, interaction) => {
         if (info.age_restricted)interaction.update({embeds: [new MessageEmbed().setColor('RED').setDescription('Sorry, but this video is NSFW')], components: []});
         else {
             let embedTitle = 'Added to Queue';
-            if (client.queues.get(interaction.member.guild.id).length === 0)client.queues.set(interaction.member.guild.id, client.queues.get(interaction.member.guild.id).concat([info.video_url]));
+            if (client.queues.has(interaction.member.guild.id))client.queues.set(interaction.member.guild.id, client.queues.get(interaction.member.guild.id).concat([info.video_url]));
             else {
                 embedTitle = 'Started Playing';
                 client.queues.set(interaction.member.guild.id, [info.video_url]);

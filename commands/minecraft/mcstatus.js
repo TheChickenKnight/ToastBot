@@ -2,7 +2,7 @@ module.exports.info = {
     name: 'mcstatus',
     cooldown: 3,
     aliases: ['mcst'],
-    section: 'utility',
+    section: 'minecraft',
     description: 'check the status of your favorite server!',
     usage: 'mcst/mcstatus <server ip>'
 };

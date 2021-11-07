@@ -9,6 +9,7 @@ module.exports.info = {
 };
 
 module.exports.run = (client, message, args) => {
-    if (client.player)client.player.stop();
+    if (!message.member.voice.channel.id)message.reply({embeds: [new MessageEmbed().setColor('RED').setDescription('You have to be in a VC to use this command!')]});
+    else if (client.player)client.player.stop();
     else message.reply({embeds:[new MessageEmbed().setColor('RED').setDescription('No songs are currently playing!')]});
 }

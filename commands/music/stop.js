@@ -6,8 +6,11 @@ module.exports.info = {
     usage: '<`prefix`>stop'
 };
 
+const { MessageEmbed } = require("discord.js");
+
 module.exports.run = (client, message, args) => {
-    if (client.player) {
+    if (!message.member.voice.channel.id)message.reply({embeds: [new MessageEmbed().setColor('RED').setDescription('You have to be in a VC to use this command!')]});
+    else if (client.player) {
         client.queues.set(message.guild.id, ['stop']);
         client.player.stop();    
     } else message.reply({embeds:[new MessageEmbed().setColor('RED').setDescription('No songs are currently playing!')]});

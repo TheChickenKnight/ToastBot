@@ -2,7 +2,7 @@ module.exports.info = {
     name: 'toasterbreadmilk',
     aliases: ['rps', 'rockpaperscissors'],
     cooldown: 20,
-    section: 'fun',
+    section: 'games',
     description: 'literally just rock paper scissors lmao',
     how_to_play: '<:toaster:877591407668396043> toasts 🍞, 🍞 absorbs 🥛, and 🥛 short-circuits <:toaster:877591407668396043>.',
     solo_or_multiplayer: 'both! just don\'t ping anyone for solo!',

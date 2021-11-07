@@ -2,11 +2,11 @@ module.exports.info = {
     name: 'fight',
     cooldown: 20,
     section: 'rpg',
-    description: 'FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT ',
+    description: 'FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT FIGHT\n**RPG currently does not save your progress! Please keep this in mind if you try it out!**', 
     usage: '<`prefix`>fight'
 };
 
-const { MessageActionRow, MessageButton, UserFlags } = require('discord.js');
+const { MessageActionRow, MessageButton } = require('discord.js');
 const db = require('quick.db');
 
 module.exports.run = (client, message, args) => {

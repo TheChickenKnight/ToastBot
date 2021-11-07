@@ -75,22 +75,19 @@ client.folders.forEach(folder => fs.readdirSync(`./commands/${folder}/`).filter(
     console.log(`${file} Loaded!`);
 }));
 
-console.log(`Loaded all ${commandFiles.length} command(s)`);
+console.log(`Loaded all ${commandFiles.length} commands`);
 
 client.once('ready', () => {
-
     client.user.setPresence({ activities: [{name: 'games on my phone', type: 'PLAYING'}], status: 'online'});
-
     console.log(`ToastBot is finally ready!`);
-
     client.on('messageCreate', async message => {
         if (!db.has(`guildSpec.${message.guildId}.prefix`))db.set(`guildSpec.${message.guildId}.prefix`, 'toast ');
         const prefix = db.get(`guildSpec.${message.guildId}.prefix`);
-        if (new RegExp("/.*<@(!|)" + process.env.BOT_ID + ">.*/").test(message.content) && message.content.toLowerCase().includes('reset')) {
+        if (message.content.includes(process.env.BOT_ID) && message.content.toLowerCase().includes('reset')) {
             db.set(`guildSpec.${message.guildId}.prefix`, 'toast ');
             return message.reply('Got it! the prefix has been reset to `toast `!');
         }
-        if (new RegExp("/.*<@(!|)" + process.env.BOT_ID + ">.*/").test(message.content))return message.reply(`My prefix is \`${prefix}\`!`);
+        if (message.content.includes(process.env.BOT_ID))return message.reply(`My prefix is \`${prefix}\`!`);
         if (/ami|<@839202008048599090>/.test(message.content.toLowerCase()) && message.guildId == "859913455342845982") {
             var ami = client.users.cache.get('839202008048599090');
             ami.send({ embeds: [new MessageEmbed().setColor(client.randToastColor()).setAuthor(message.author.username, message.author.displayAvatarURL({format: 'png'}), message.url).setDescription(message.content).setFooter('Click on their name to teleport to the message!')]});

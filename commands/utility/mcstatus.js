@@ -5,7 +5,7 @@ module.exports.info = {
     section: 'utility',
     description: 'check the status of your favorite server!',
     usage: 'mcst/mcstatus <server ip>'
-}
+};
 
 const { MessageEmbed, MessageAttachment } = require('discord.js');
 const fetch = require('node-fetch');

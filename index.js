@@ -78,7 +78,7 @@ client.folders.forEach(folder => fs.readdirSync(`./commands/${folder}/`).filter(
 console.log(`Loaded all ${commandFiles.length} commands`);
 
 client.once('ready', () => {
-    client.user.setPresence({ activities: [{name: 'games on my phone', type: 'PLAYING'}], status: 'online'});
+    client.user.setPresence({ activities: [{name: 'to my new music commands!', type: 'LISTENING'}], status: 'online'});
     console.log(`ToastBot is finally ready!`);
     client.on('messageCreate', async message => {
         if (!db.has(`guildSpec.${message.guildId}.prefix`))db.set(`guildSpec.${message.guildId}.prefix`, 'toast ');

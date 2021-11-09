@@ -23,16 +23,14 @@ module.exports.menu = async (client, interaction) => {
     if (interaction.values[0] === "none")interaction.update({embeds: [new MessageEmbed().setColor('RED').setTitle(':frowning2: Aw...')], components: []});
     else if(!interaction.member.voice.channel)interaction.update({embeds: [new MessageEmbed().setColor('RED').setDescription('You have to be in a voice channel to play a video!')]})
     else {
-        const info = (await getBasicInfo(interaction.values[0], { lang: 'en'})).videoDetails;
-        if (info.age_restricted)interaction.update({embeds: [new MessageEmbed().setColor('RED').setDescription('Sorry, but this video is NSFW')], components: []});
-        else {
-            let embedTitle = 'Added to Queue';
-            if (client.queues.has(interaction.member.guild.id))client.queues.set(interaction.member.guild.id, client.queues.get(interaction.member.guild.id).concat([info.video_url]));
+        const queue = client.queues.get(interaction.member.guild.id) || { queue: [], titles: []};
+        const info = await client.createEmbed(interaction.values[0], interaction.user.id, queue);
+        if (info[0]) {
+            if (queue.queue.length !== 0)client.queues.set(interaction.member.guild.id, { loop: queue.loop, pos: queue.pos, queue: queue.queue.concat([info[2]]), titles: [queue.titles.concat([info[3]])]});
             else {
-                embedTitle = 'Started Playing';
-                client.queues.set(interaction.member.guild.id, [info.video_url]);
+                client.queues.set(interaction.member.guild.id, { loop: queue.loop, pos: 0, queue: [info[2]], titles: [info[3]]});
                 client.player = createAudioPlayer();
-                const stream = await play.stream(info.video_url);
+                const stream = await play.stream(info[2]);
                 client.player.play(createAudioResource(stream.stream, { inputType: stream.type}));
                 const connection = joinVoiceChannel({
                     channelId: interaction.member.voice.channel.id,
@@ -42,23 +40,27 @@ module.exports.menu = async (client, interaction) => {
                 connection.subscribe(client.player);
                 client.player.on('error', error => console.error(error));
                 client.player.on(AudioPlayerStatus.Idle, async () => {
-                    client.queues.get(interaction.member.guild.id).splice(0, 1);
-                    if (client.queues.get(interaction.member.guild.id).length === 0) {
+                    let queue = client.queues.get(interaction.member.guild.id);
+                    let embed = new MessageEmbed();
+                    if (queue.queue.length-1 === queue.pos && !queue.loop) {
                         connection.destroy();
-                        client.queues.delete(interaction.member.guild.id)
-                        interaction.followUp({embeds: [new MessageEmbed().setColor('RED').setDescription('Queue is empty, leaving...')]})
+                        client.queues.set(interaction.member.guild.id, { loop: queue.loop, pos: 0, queue: [], titles: []});
+                        embed.setColor('RED').setDescription('Queue is empty, leaving...');
                     } else {
-                        const stream = await play.stream(client.queues.get(interaction.member.guild.id)[0]);
+                        queue = { loop: queue.loop, pos: queue.loop ? (queue.queue.length === queue.pos+1 ? 0 : queue.pos+1) : queue.pos+1, queue: queue.queue, titles: queue.titles};
+                        client.queues.set(interaction.member.guild.id, queue);
+                        embed = (await client.createEmbed(queue.queue[queue.pos], interaction.user.id, queue))[1];
+                        const stream = await play.stream(queue.queue[queue.pos]);
                         client.player.play(createAudioResource(stream.stream, { inputType: stream.type }));
-                        interaction.followUp({embeds: [new MessageEmbed().setColor(client.randToastColor()).setDescription('Started playing next song.')]})
                     }
+                    interaction.followUp({embeds: [embed]});
                 });
-            }
-            await interaction.update({
-                embeds: [new MessageEmbed().setColor('GREEN').setTitle(embedTitle).setDescription('**[' + info.title + '](' + info.video_url + ')**').setThumbnail(info.thumbnails[0].url).setAuthor('By ' + info.author.name + (info.author.verified ? ' \✔️' : ''), info.author.thumbnails[0].url, info.ownerProfileUrl).addFields({name: 'Likes', value: info.likes.toLocaleString('en-US'), inline: true}, {name: 'Dislikes', value: info.dislikes.toLocaleString('en-US'), inline: true}, {name: 'Views', value: parseInt(info.viewCount).toLocaleString('en-US'), inline: false}, {name: 'Track Length', value: sToF(info.lengthSeconds)})],
-                components: []
-            });
+            } 
         }
+        await interaction.update({
+            embeds: [info[1]],
+            components: []
+        });
     }
 }
 

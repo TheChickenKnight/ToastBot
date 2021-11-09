@@ -64,6 +64,19 @@ client.rpgmenu = (id, currSection, author) => {
     return new MessageActionRow().addComponents(menu);
 }
 
+client.createEmbed = async (url, author, queue) => {
+    const info = (await getBasicInfo(url, { lang: 'en'})).videoDetails;
+    if (info.age_restricted)return [false, new MessageEmbed().setColor('RED').setDescription('Sorry, but this video is NSFW')];
+    return [
+        true, 
+        new MessageEmbed().setColor('GREEN').setDescription('**[' + info.title + '](' + info.video_url + ')**').setThumbnail(info.thumbnails[0].url).setAuthor('By ' + info.author.name + (info.author.verified ? ' \✔️' : ''), info.author.thumbnails[0].url, info.ownerProfileUrl).addFields({name: 'Likes', value: info.likes.toLocaleString('en-US'), inline: true}, {name: 'Dislikes', value: info.dislikes.toLocaleString('en-US'), inline: true}, {name: 'Views', value: parseInt(info.viewCount).toLocaleString('en-US'), inline: false}, {name: 'Track Length', value: sToF(info.lengthSeconds)}), 
+        info.video_url,
+        info.title,
+        new MessageActionRow().addComponents(new MessageSelectMenu().setCustomId(`queue_menu_${author}_music`).addOptions(queue.titles.map((item, i) => new Object({ name: item, value, value: queue.queue[i]}))))
+    ];
+}
+
+
 client.folders = fs.readdirSync('./commands/');
 var commandFiles = [];
 

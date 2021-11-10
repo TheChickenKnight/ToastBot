@@ -85,13 +85,13 @@ module.exports.button = async (client, interaction) => {
     if (turnout == 'x' || turnout == 'o') {
         games.board = games.board.map(row => row.map(square => square ? square : 'fin'));
         client.tictactoe.delete(parseInt(interaction.user.id) + parseInt(target));
-        embed.setColor(message.author.id > target.id ? "RED" : "BLUE").setAuthor(`${winner.username} has won! ${target > interaction.user.id ? "🟥" : "🟦"}`, winner.displayAvatarURL({format: 'png'}));
+        embed.setColor(target > interaction.user.id ? "RED" : "BLUE").setAuthor(`${winner.username} has won! ${target > interaction.user.id ? "🟥" : "🟦"}`, winner.displayAvatarURL({format: 'png'}));
     } else if (turnout == 'tie') {
         client.tictactoe.delete(parseInt(interaction.user.id) + parseInt(target));
         embed.setDescription('Aw it was a tie.');
     } else {
         await client.tictactoe.set(parseInt(interaction.user.id) + parseInt(target), games);
-        embed.setColor(message.author.id > target.id ? "RED" : "BLUE").setAuthor(`${turner.username}'s turn! ${interaction.user.id > target ? "🟥" : "🟦"}`, turner.displayAvatarURL({format: 'png'}));
+        embed.setColor(target > interaction.user.id ? "RED" : "BLUE").setAuthor(`${turner.username}'s turn! ${interaction.user.id > target ? "🟥" : "🟦"}`, turner.displayAvatarURL({format: 'png'}));
     };
     try {
         await interaction.update({

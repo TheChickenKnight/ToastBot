@@ -34,9 +34,9 @@ module.exports.run = (client, message, args) => {
         components: [
             new MessageActionRow()
                 .addComponents(
-                    toasterButton.setCustomId(`toasterbreadmilk_<:toaster:877591407668396043>_${ids}_fun`).setDisabled(false),
-                    milkButton.setCustomId(`toasterbreadmilk_🥛_${ids}_fun`).setDisabled(false),
-                    breadButton.setCustomId(`toasterbreadmilk_🍞_${ids}_fun`).setDisabled(false)
+                    toasterButton.setCustomId(`toasterbreadmilk_<:toaster:877591407668396043>_${ids}_games`).setDisabled(false),
+                    milkButton.setCustomId(`toasterbreadmilk_🥛_${ids}_games`).setDisabled(false),
+                    breadButton.setCustomId(`toasterbreadmilk_🍞_${ids}_games`).setDisabled(false)
                 )
         ]
     });

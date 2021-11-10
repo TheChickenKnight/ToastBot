@@ -18,7 +18,7 @@ const boardInit = game => {
             var specs = !square ? { style: 'SECONDARY', label: '🍞', disabled: false } : (square == 'x' ? { style: 'PRIMARY', label: '<:peanutbutter:877666741994541066>', disabled: true } : (square == 'o' ? { style: 'DANGER', label: '<:jam:877665567341948959>', disabled: true } : { style: 'SECONDARY', label: '🍞', disabled: true }));
             ActionRow.addComponents(
                 new MessageButton()
-                    .setCustomId(`tictactoast_${x}${y}_${game.turn}_fun`)
+                    .setCustomId(`tictactoast_${x}${y}_${game.turn}_games`)
                     .setStyle(specs.style).setEmoji(specs.label).setDisabled(specs.disabled)
             );
         });
@@ -77,7 +77,7 @@ module.exports.button = async (client, interaction) => {
                 y = Math.floor(Math.random() * 3);
             } while (games.board[x][y])
             games.board[x][y] = interaction.user.id > target ? "o" : "x";
-            interaction.customId = `tictactoast_${x}${y}_${games.turn}_fun`;
+            interaction.customId = `tictactoast_${x}${y}_${games.turn}_games`;
             this.button(client, interaction);
         }, 2000);
     }

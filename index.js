@@ -108,7 +108,7 @@ client.once('ready', () => {
         if (message.author.bot)return;
         var commandName = message.content.replace(prefix, '').split(' ')[0];
         if (commandFiles.includes(client.aliases.get(commandName) + '.js'))commandName = client.aliases.get(commandName);
-        if (!commandFiles.includes(commandName + '.js'))return /(^| )t(| )o(| )a(| )s(| )t($| |\?|\.|\;|\:|\,|\))/.test(message.content.toLowerCase()) && message.author.id != 873255148338688060 ? message.channel.send('Did someone say toast?') : '';
+        if (!commandFiles.includes(commandName + '.js'))return /(^| )t(| )o(| )a(| )s(| )t(.|$|))/i.test(message.content) && message.author.id != process.env.BOT_ID ? message.channel.send('Did someone say toast?') : '';
         if (!message.content.startsWith(prefix))return;
         const commandObj = client.commands.get(commandName);
         if (commandObj.info.cooldown >= 1) {

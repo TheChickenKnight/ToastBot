@@ -16,11 +16,7 @@ const boardInit = game => {
         var ActionRow = new MessageActionRow();
         row.forEach((square, y) => {
             var specs = !square ? { style: 'SECONDARY', label: '🍞', disabled: false } : (square == 'x' ? { style: 'PRIMARY', label: '<:peanutbutter:877666741994541066>', disabled: true } : (square == 'o' ? { style: 'DANGER', label: '<:jam:877665567341948959>', disabled: true } : { style: 'SECONDARY', label: '🍞', disabled: true }));
-            ActionRow.addComponents(
-                new MessageButton()
-                    .setCustomId(`tictactoast_${x}${y}_${game.turn}_games`)
-                    .setStyle(specs.style).setEmoji(specs.label).setDisabled(specs.disabled)
-            );
+            ActionRow.addComponents(new MessageButton().setCustomId(`tictactoast_${x}${y}_${game.turn}_games`).setStyle(specs.style).setEmoji(specs.label).setDisabled(specs.disabled));
         });
         array2D.push(ActionRow);
     });
@@ -58,7 +54,7 @@ module.exports.run = async (client, message, args) => {
         client.tictactoe.set(message.author.id, target.id);
         client.tictactoe.set(target.id, message.author.id);
         await message.reply({
-            embeds: [embed.setAuthor(`${turner.username}'s turn! ${message.author.id > target.id ? "🟥" : "🟦"}`, turner.displayAvatarURL({format: 'png'}))],
+            embeds: [embed.setColor(message.author.id > target.id ? "RED" : "BLUE").setAuthor(`${turner.username}'s turn! ${message.author.id > target.id ? "🟥" : "🟦"}`, turner.displayAvatarURL({format: 'png'}))],
             components: boardInit(game)
         });  
     }
@@ -87,12 +83,7 @@ module.exports.button = async (client, interaction) => {
     const turner = await client.users.fetch(target);
     const turnout = hasWon(games.board);
     if (turnout == 'x' || turnout == 'o') {
-        games.board = games.board.map(row => {
-            return row.map(square => {
-                if (!square)return 'fin';
-                return square; 
-            });
-        });
+        games.board = games.board.map(row => row.map(square => square ? square : 'fin'));
         client.tictactoe.delete(parseInt(interaction.user.id) + parseInt(target));
         embed.setAuthor(`${winner.username} has won! ${target > interaction.user.id ? "🟥" : "🟦"}`, winner.displayAvatarURL({format: 'png'}));
     } else if (turnout == 'tie') {

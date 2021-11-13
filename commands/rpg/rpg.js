@@ -7,10 +7,9 @@ module.exports.info = {
 };
 
 const { MessageActionRow, MessageButton } = require('discord.js');
-const db = require('quick.db');
 
-module.exports.run = (client, message, args) => {
-    const user = db.get(`users.${message.author.id}.rpg`);
+module.exports.run = async (client, message, args) => {
+    const user = await client.redis.get(`users.${message.author.id}.rpg`);
     const boss = client.fight({id: user.boss, message: message});
     message.reply({
         embeds: [boss[0]],

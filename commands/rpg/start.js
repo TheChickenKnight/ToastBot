@@ -7,7 +7,6 @@ module.exports.info = {
 };
 
 const { MessageActionRow, MessageButton, MessageSelectMenu } = require("discord.js");
-const db = require('quick.db');
 
 module.exports.run = (client, message, args) => message.reply({ content: "Are you sure you want to do this? It might be too cool...", components: [new MessageActionRow().addComponents(new MessageButton().setLabel('✔️').setStyle('SUCCESS').setCustomId(`start_yes_${message.author.id}_rpg`), new MessageButton().setLabel('❌').setStyle('DANGER').setCustomId(`start_no_${message.author.id}_rpg`))]});
 

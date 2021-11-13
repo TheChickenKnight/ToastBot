@@ -1,7 +1,7 @@
 module.exports.info = {
     name: 'snipe',
     cooldown: 2,
-    section: 'general',
+    section: 'utility',
     description: 'Catches deleted messages!',
     usage: '<`prefix`>snipe'
 }

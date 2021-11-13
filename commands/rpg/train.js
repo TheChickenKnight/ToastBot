@@ -8,8 +8,8 @@ module.exports.info = {
 
 const { MessageEmbed } = require("discord.js");
 
-module.exports.run = (client, message, args) => {
-    var user = db.get(`users.${message.author.id}.rpg`);
+module.exports.run = async (client, message, args) => {
+    var user = await client.redis.get(`users.${message.author.id}.rpg`);
     message.reply({
        embeds: [new MessageEmbed()
         .setColor(client.randToastColor())

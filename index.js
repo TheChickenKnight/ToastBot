@@ -1,32 +1,32 @@
-const { Client, Intents, Collection, MessageEmbed, MessageAttachment, MessageSelectMenu, MessageActionRow } = require("discord.js");
-const fs = require('fs'), db = require('quick.db'), dotenv = require("dotenv");
+const { Client, Intents, Collection, MessageEmbed, MessageAttachment, MessageSelectMenu, MessageActionRow } = require('discord.js');
+const fs = require('fs'), dotenv = require('dotenv'), Redis = require('ioredis');
 dotenv.config();
 
-const client = new Client({ws: { properties: { $browser: "Discord iOS"}}, intents: [ Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_WEBHOOKS ]});
+const client = new Client({ws: { properties: { $browser: 'Discord iOS'}}, intents: [ Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_WEBHOOKS ]});
 
-console.log(`Welcome to ToastBot's Console!`);
+console.log('Welcome to ToastBot\'s Console!');
+client.redis = new Redis(10932, 'redis-10932.c267.us-east-1-4.ec2.cloud.redislabs.com', {password: 'PsOk59q1LIraszrKzWg8u02OvH12NLx6'});
+client.redis.add = async (path, amount) => await client.redis.set(path, await client.redis.get(path)+amount);
+client.redis.delete = async (path) => await client.redis.set(path, undefined);
+client.redis.has = async (path) => await client.redis.get(path) !== null;
+client.redis.init = async (path, def) => await client.redis.has(path) ? '' : await client.redis.set(path, def);
 
 client.commands = new Collection(), client.aliases = new Collection(), client.cooldowns = new Collection(), client.timeIDs = new Collection(), client.snipe = new Collection(), client.tictactoe = new Collection(), client.toasterbreadmilk = new Collection(), client.queues = new Collection(), client.paused = new Collection();
 
 client.barCreate = per => {
-    if (per < 5)return (per == 0 ? "<:l0Bar:897903792371171379>" : (per == 1 ? "<:l1Bar:897904228109008907>" : (per == 2 ? "<:l2Bar:897904571064672287>" : (per == 3 ? "<:l3Bar:897904670780055573>" : "<:l4Bar:897904771439136798>")))) + "<:m0Bar:897906311495303168><:m0Bar:897906311495303168><:m0Bar:897906311495303168><:m0Bar:897906311495303168><:m0Bar:897906311495303168><:m0Bar:897906311495303168><:r0Bar:897905864118251602>";
-    let bar = ["<:l5Bar:897903598829178950>"];
-    for (let i = 0; i < ((per-5)/5); i++) {
-        if (per-5-(i*5) >= 5)bar.push("<:m5Bar:897906793768964136>");
-        else if (per-5-(i*5) == 1)bar.push("<:m1Bar:897906423030222899>");
-        else if (per-5-(i*5) == 2)bar.push("<:m2Bar:897906503397298186>");
-        else if (per-5-(i*5) == 3)bar.push("<:m3Bar:897906621039140865>");
-        else if (per-5-(i*5) == 4)bar.push("<:m4Bar:897906714471465061>");
-    }
+    if (per < 5)return (per == 0 ? '<:l0Bar:897903792371171379>' : (per == 1 ? '<:l1Bar:897904228109008907>' : (per == 2 ? '<:l2Bar:897904571064672287>' : (per == 3 ? '<:l3Bar:897904670780055573>' : '<:l4Bar:897904771439136798>')))) + '<:m0Bar:897906311495303168><:m0Bar:897906311495303168><:m0Bar:897906311495303168><:m0Bar:897906311495303168><:m0Bar:897906311495303168><:m0Bar:897906311495303168><:r0Bar:897905864118251602>';
+    let bar = ['<:l5Bar:897903598829178950>'];
+    for (let i = 0; i < ((per-5)/5); i++)bar.push(per-5-(i*5) >= 5 ? '<:m5Bar:897906793768964136>' : (per-5-(i*5) === 1 ? '<:m1Bar:897906423030222899>' : (per-5-(i*5) === 2 ? '<:m2Bar:897906503397298186>' : (per-5-(i*5) === 3 ? '<:m3Bar:897906621039140865>' : '<:m4Bar:897906714471465061>'))));
     if (bar.length == 8)bar.length--;
-    for (let i = 0; i < ((40-per)/5)-1; i++)bar.push("<:m0Bar:897906311495303168>");
-    return (bar.join('')) + (per-35 <= 0 ? "<:r0Bar:897905864118251602>" : (per-35 == 1 ? "<:r1Bar:897905324990791721>" : (per-35 == 2 ? "<:r2Bar:897905425205321768>" : (per-35 == 3 ? "<:r3Bar:897905541362376704>" : (per-35 == 4 ? "<:r4Bar:897905636992503848>" : "<:r5Bar:897905716256469052>")))));
+    for (let i = 0; i < ((40-per)/5)-1; i++)bar.push('<:m0Bar:897906311495303168>');
+    return (bar.join('')) + (per-35 <= 0 ? '<:r0Bar:897905864118251602>' : (per-35 == 1 ? '<:r1Bar:897905324990791721>' : (per-35 == 2 ? '<:r2Bar:897905425205321768>' : (per-35 == 3 ? '<:r3Bar:897905541362376704>' : (per-35 == 4 ? '<:r4Bar:897905636992503848>' : '<:r5Bar:897905716256469052>')))));
 }
 
 client.randToastColor = () => ['#ffe6cc', '#996600', '#ffdd99', '#663300', '#331a00'][Math.floor(Math.random() * 5)];
+
 client.fight = (obj) => {
     const boss = require('./commands/rpg/boss.json').bosses[obj.id];
-    const user = db.get(`users.${Object.keys(obj).includes('message') ? obj.message.author.id : obj.interaction.user.id}.rpg`);
+    const user = client.redis.get(`users.${Object.keys(obj).includes('message') ? obj.message.author.id : obj.interaction.user.id}.rpg`);
     return [new MessageEmbed().setDescription(boss.description).setTitle(`FIGHT!\tBoss Number ${obj.id+1}`).setImage(`attachment://${obj.id}.png`).setColor(boss.color).addField(boss.name, `**Attack per second:** ${Math.round(Math.pow(obj.id + 2, 6) / 10)}\n**Defense:** ${Math.round(Math.pow(obj.id + 2, 5.978) / 10)}\n**HP:** ${obj.bossHP || Math.pow(obj.id + 2, 6)}\n${client.barCreate(Math.round(Math.pow(obj.id + 2, 6)/(obj.bossHP||Math.pow(obj.id + 2, 6))*40))}`, true).addField(Object.keys(obj).includes('message') ? obj.message.author.username : obj.interaction.user.username, `**Attack per second:** ${user.stats.attack}\n**Defense:** ${user.stats.defense}\n**HP:** ${obj.playerHP || user.stats.health}\n${client.barCreate(Math.round(obj.playerHP/user.stats.health*40) || 40)}`, true), new MessageAttachment().setFile(`./Images/bosses/${obj.id}.png`), { hp: obj.playerHP || Math.pow(obj.id + 2, 6), def: Math.round(Math.pow(obj.id + 2, 5.978) / 10), att: Math.round(Math.pow(obj.id + 2, 6) / 10)}];
 }
 var sections = [
@@ -76,7 +76,6 @@ client.createEmbed = async (url, author, queue) => {
     ];
 }
 
-
 client.folders = fs.readdirSync('./commands/');
 var commandFiles = [];
 
@@ -90,18 +89,18 @@ client.folders.forEach(folder => fs.readdirSync(`./commands/${folder}/`).filter(
 
 console.log(`Loaded all ${commandFiles.length} commands`);
 
-client.once('ready', () => {
+client.once('ready', async () => {
     client.user.setPresence({ activities: [{name: 'to my new music commands!', type: 'LISTENING'}], status: 'online'});
-    console.log(`ToastBot is finally ready!`);
+    console.log('ToastBot is finally ready!');
     client.on('messageCreate', async message => {
-        if (!db.has(`guildSpec.${message.guildId}.prefix`))db.set(`guildSpec.${message.guildId}.prefix`, 'toast ');
-        const prefix = db.get(`guildSpec.${message.guildId}.prefix`);
+        await client.redis.init(`guildSpec.${message.guildId}.prefix`, 'toast ');
+        const prefix = await client.redis.get(`guildSpec.${message.guildId}.prefix`);
         if (message.content.includes(process.env.BOT_ID) && message.content.toLowerCase().includes('reset')) {
-            db.set(`guildSpec.${message.guildId}.prefix`, 'toast ');
+            client.redis.set(`guildSpec.${message.guildId}.prefix`, 'toast ');
             return message.reply('Got it! the prefix has been reset to `toast `!');
         }
         if (message.content.includes(process.env.BOT_ID))return message.reply(`My prefix is \`${prefix}\`!`);
-        if (/ami|<@839202008048599090>/.test(message.content.toLowerCase()) && message.guildId == "859913455342845982") {
+        if (/ami|<@839202008048599090>/.test(message.content.toLowerCase()) && message.guildId == '859913455342845982') {
             var ami = client.users.cache.get('839202008048599090');
             ami.send({ embeds: [new MessageEmbed().setColor(client.randToastColor()).setAuthor(message.author.username, message.author.displayAvatarURL({format: 'png'}), message.url).setDescription(message.content).setFooter('Click on their name to teleport to the message!')]});
         }
@@ -110,6 +109,7 @@ client.once('ready', () => {
         if (commandFiles.includes(client.aliases.get(commandName) + '.js'))commandName = client.aliases.get(commandName);
         if (!message.content.startsWith(prefix))return;
         const commandObj = client.commands.get(commandName);
+        if (!commandObj)return;
         if (commandObj.info.cooldown >= 1) {
             if (!client.cooldowns.has(commandName))client.cooldowns.set(commandName, new Collection());
             var cooldowns = client.cooldowns.get(commandName);
@@ -119,7 +119,7 @@ client.once('ready', () => {
             }
         }
         if (commandObj.info.section == 'admin' && message.author.id != process.env.OWNER_ID)return;
-        if (commandObj.info.section == 'rpg' && commandObj.info.name != 'start' && !db.has(`users.${message.author.id}.rpg`))return message.reply('You haven\'t started your adventure yet! do <`prefix`>start to begin!');
+        if (commandObj.info.section == 'rpg' && commandObj.info.name != 'start' && !client.redis.has(`users.${message.author.id}.rpg`))return message.reply('You haven\'t started your adventure yet! do <`prefix`>start to begin!');
         client.cooldowns.get(commandName).set(message.author.id, Date.now());
         message.channel.sendTyping();
         commandObj.run(client, message, message.content.replace(prefix, '').replace(/^(.+?( |$))/, '').split(' ').filter(item => item.length > 0));

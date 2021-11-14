@@ -7,9 +7,28 @@ const client = new Client({ws: { properties: { $browser: 'Discord iOS'}}, intent
 console.log('Welcome to ToastBot\'s Console!');
 client.redis = new Redis(10932, 'redis-10932.c267.us-east-1-4.ec2.cloud.redislabs.com', {password: 'PsOk59q1LIraszrKzWg8u02OvH12NLx6'});
 client.redis.add = async (path, amount) => await client.redis.set(path, await client.redis.get(path)+amount);
-client.redis.delete = async (path) => await client.redis.set(path, undefined);
-client.redis.has = async (path) => await client.redis.get(path) !== null;
-client.redis.init = async (path, def) => await client.redis.has(path) ? '' : await client.redis.set(path, def);
+client.redis.delete = async path => await client.redis.set(path, undefined);
+client.redis.has = async path => {
+    const object = await client.redis.get(path);
+    return object !== null && object !== undefined;
+};
+client.redis.oSet = client.redis.set;
+client.redis.oGet = client.redis.get;
+client.redis.set = async (path, value) => {
+    path = path.split('.');
+    await client.redis.oSet(path.shift(), JSON.stringify(path.reduceRight((acc, key) => ({ [key]: acc }), value)));
+};
+client.redis.get = async path => {
+    path = path.split('.');
+    let obj = JSON.parse(await client.redis.oGet(path.shift()));
+    if (!obj)return undefined;
+    path.forEach(item => obj = Object.keys(obj).includes(item) ? obj[item] : obj);
+    return obj;
+};
+client.redis.init = async (path, def) => {
+    const doesit = await client.redis.has(path);
+    if (!doesit)await client.redis.set(path, def);
+}
 
 client.commands = new Collection(), client.aliases = new Collection(), client.cooldowns = new Collection(), client.timeIDs = new Collection(), client.snipe = new Collection(), client.tictactoe = new Collection(), client.toasterbreadmilk = new Collection(), client.queues = new Collection(), client.paused = new Collection();
 
@@ -24,10 +43,14 @@ client.barCreate = per => {
 
 client.randToastColor = () => ['#ffe6cc', '#996600', '#ffdd99', '#663300', '#331a00'][Math.floor(Math.random() * 5)];
 
-client.fight = (obj) => {
+client.fight = async (obj) => {
     const boss = require('./commands/rpg/boss.json').bosses[obj.id];
-    const user = client.redis.get(`users.${Object.keys(obj).includes('message') ? obj.message.author.id : obj.interaction.user.id}.rpg`);
-    return [new MessageEmbed().setDescription(boss.description).setTitle(`FIGHT!\tBoss Number ${obj.id+1}`).setImage(`attachment://${obj.id}.png`).setColor(boss.color).addField(boss.name, `**Attack per second:** ${Math.round(Math.pow(obj.id + 2, 6) / 10)}\n**Defense:** ${Math.round(Math.pow(obj.id + 2, 5.978) / 10)}\n**HP:** ${obj.bossHP || Math.pow(obj.id + 2, 6)}\n${client.barCreate(Math.round(Math.pow(obj.id + 2, 6)/(obj.bossHP||Math.pow(obj.id + 2, 6))*40))}`, true).addField(Object.keys(obj).includes('message') ? obj.message.author.username : obj.interaction.user.username, `**Attack per second:** ${user.stats.attack}\n**Defense:** ${user.stats.defense}\n**HP:** ${obj.playerHP || user.stats.health}\n${client.barCreate(Math.round(obj.playerHP/user.stats.health*40) || 40)}`, true), new MessageAttachment().setFile(`./Images/bosses/${obj.id}.png`), { hp: obj.playerHP || Math.pow(obj.id + 2, 6), def: Math.round(Math.pow(obj.id + 2, 5.978) / 10), att: Math.round(Math.pow(obj.id + 2, 6) / 10)}];
+    const user = await client.redis.get(`users.${Object.keys(obj).includes('message') ? obj.message.author.id : obj.interaction.user.id}.rpg`);
+    return [
+        new MessageEmbed().setDescription(boss.description).setTitle(`FIGHT!\tBoss Number ${obj.id+1}`).setImage(`attachment://${obj.id}.png`).setColor(boss.color).addField(boss.name, `**Attack per second:** ${Math.round(Math.pow(obj.id + 2, 6) / 10)}\n**Defense:** ${Math.round(Math.pow(obj.id + 2, 5.978) / 10)}\n**HP:** ${obj.bossHP || Math.pow(obj.id + 2, 6)}\n${client.barCreate(Math.round(Math.pow(obj.id + 2, 6)/(obj.bossHP||Math.pow(obj.id + 2, 6))*40))}`, true).addField(Object.keys(obj).includes('message') ? obj.message.author.username : obj.interaction.user.username, `**Attack per second:** ${user.stats.attack}\n**Defense:** ${user.stats.defense}\n**HP:** ${obj.playerHP || user.stats.health}\n${client.barCreate(Math.round(obj.playerHP/user.stats.health*40) || 40)}`, true), 
+        new MessageAttachment().setFile(`./Images/bosses/${obj.id}.png`), 
+        { hp: obj.playerHP || Math.pow(obj.id + 2, 6), def: Math.round(Math.pow(obj.id + 2, 5.978) / 10), att: Math.round(Math.pow(obj.id + 2, 6) / 10)}
+    ];
 }
 var sections = [
     {

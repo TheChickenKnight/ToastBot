@@ -10,7 +10,7 @@ const { MessageEmbed } = require('discord.js');
 
 module.exports.run = async (client, message, args) => {
     const prefix = await client.redis.get(`guildSpec.${message.guildId}.prefix`);
-    var embed = new MessageEmbed().setColor('#ff0000').setTitle('Prefix');
+    var embed = new MessageEmbed().setColor('#ff0000');
     const newPrefix = args.join(' ').replace(/"/g, '');
     if (!args[0])embed.setDescription(`The current prefix is \`${prefix}\`!`).setFooter('You can also ping me for this information!').setColor(client.randToastColor());
     else if (newPrefix.length > 6)embed.setDescription('A prefix cannot be longer than 6 letters!');

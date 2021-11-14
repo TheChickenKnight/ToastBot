@@ -10,10 +10,10 @@ const { MessageActionRow, MessageButton, MessageSelectMenu } = require("discord.
 
 module.exports.run = (client, message, args) => message.reply({ content: "Are you sure you want to do this? It might be too cool...", components: [new MessageActionRow().addComponents(new MessageButton().setLabel('✔️').setStyle('SUCCESS').setCustomId(`start_yes_${message.author.id}_rpg`), new MessageButton().setLabel('❌').setStyle('DANGER').setCustomId(`start_no_${message.author.id}_rpg`))]});
 
-module.exports.button = (client, interaction) => {
+module.exports.button = async (client, interaction) => {
     if (interaction.customId.split('_')[1] == 'yes') {
-        if (!db.has(`users.${interaction.user.id}.rpg`)) {
-            db.set(`users.${interaction.user.id}.rpg`, {
+        if (!(await client.redis.has(`users.${interaction.user.id}.rpg`))) {
+            await client.redis.set(`users.${interaction.user.id}.rpg`, {
                 stats: {
                     attack: 1,
                     defense: 1,
@@ -35,7 +35,7 @@ module.exports.button = (client, interaction) => {
                 exp: 0,
                 boss: 0
             });
-            const boss = client.fight({id: 0, interaction: interaction});
+            const boss = await client.fight({id: 0, interaction: interaction});
             interaction.update({
                 content: '\u200b',
                 embeds: [boss[0]],

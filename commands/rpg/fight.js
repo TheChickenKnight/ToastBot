@@ -10,8 +10,8 @@ const { MessageActionRow, MessageButton } = require('discord.js');
 
 module.exports.run = async (client, message, args) => {
     const user = await client.redis.get(`users.${message.author.id}.rpg`);
-    const boss = client.fight({ id: user.boss, message: message });
-    message.reply({
+    const boss = await client.fight({ id: user.boss, message: message });
+    await message.reply({
         embeds: [boss[0]],
         files: [boss[1]],
         components: [
@@ -28,7 +28,7 @@ module.exports.run = async (client, message, args) => {
 
 module.exports.button = async (client, interaction) => {
     var user = await client.redis.get(`users.${interaction.user.id}.rpg`);
-    var boss = client.fight({ id: user.boss, interaction: interaction });
+    var boss = await client.fight({ id: user.boss, interaction: interaction });
     let bossHP = boss[2].hp, playerHP = user.stats.health;
     await interaction.update({ components: [] });
     let damages = [];
@@ -39,11 +39,11 @@ module.exports.button = async (client, interaction) => {
         if (playerHP > user.stats.health)playerHP = user.stats.health;
         damages.push([bossHP < 0 ? 0 : bossHP, playerHP < 0 ? 0 : playerHP]);
     }
-    damages.forEach((damage, i) => setTimeout(() => interaction.editReply({embeds: [client.fight({id: user.boss, bossHP: damage[0], playerHP: damage[1], interaction: interaction})[0]]}),i*1000));
-    if (bossHP == 0)setTimeout(() => {
-            client.redis.add(`users.${interaction.user.id}.rpg.boss`, 1);
-            client.redis.add(`users.${interaction.user.id}.rpg.exp`, Math.ceil(Math.pow(user.boss + 2, 6)/100));
-            interaction.editReply({ content: "`\`\`\`css BOSS ${user.boss} WAS DEFEATED! YOU GAINED:\n\n.EXP:${Math.ceil(Math.pow(user.boss + 2, 6)/100)}!\`\`\``", embeds: [client.fight({id: user.boss + 1, interaction: interaction})[0]], components: [
+    damages.forEach((damage, i) => setTimeout(async () => interaction.editReply({embeds: [(await client.fight({id: user.boss, bossHP: damage[0], playerHP: damage[1], interaction: interaction}))[0]]}),i*1000));
+    if (bossHP == 0)setTimeout(async () => {
+            await client.redis.add(`users.${interaction.user.id}.rpg.boss`, 1);
+            await client.redis.add(`users.${interaction.user.id}.rpg.exp`, Math.ceil(Math.pow(user.boss + 2, 6)/100));
+            interaction.editReply({ content: "`\`\`\`css BOSS ${user.boss} WAS DEFEATED! YOU GAINED:\n\n.EXP:${Math.ceil(Math.pow(user.boss + 2, 6)/100)}!\`\`\``", embeds: [(await client.fight({id: user.boss + 1, interaction: interaction}))[0]], components: [
                 client.rpgmenu(user.boss, 'fight', interaction.user.id),
                 new MessageActionRow().addComponents(
                     new MessageButton()
@@ -53,7 +53,7 @@ module.exports.button = async (client, interaction) => {
                 )
             ]});
         }, damages.length * 1000)
-    else setTimeout(() => interaction.editReply({content: `\`\`\`diff\n- you were defeated by Boss ${user.boss}\`\`\``, embeds: [client.fight({id: user.boss, interaction: interaction})[0]], components: [
+    else setTimeout(async () => interaction.editReply({content: `\`\`\`diff\n- you were defeated by Boss ${user.boss}\`\`\``, embeds: [(await client.fight({id: user.boss, interaction: interaction}))[0]], components: [
         client.rpgmenu(user.boss, 'fight', interaction.user.id),
         new MessageActionRow().addComponents(
             new MessageButton()

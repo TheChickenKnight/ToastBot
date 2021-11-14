@@ -10,8 +10,8 @@ const { MessageActionRow, MessageButton } = require('discord.js');
 
 module.exports.run = async (client, message, args) => {
     const user = await client.redis.get(`users.${message.author.id}.rpg`);
-    const boss = client.fight({id: user.boss, message: message});
-    message.reply({
+    const boss = await client.fight({id: user.boss, message: message});
+    await message.reply({
         embeds: [boss[0]],
         files: [boss[1]],
         components: [

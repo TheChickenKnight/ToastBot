@@ -18,7 +18,6 @@ client.redis.set = async (path, value) => {
     path = path.split('.');
     const key = path.shift();
     let combObj = JSON.stringify(Object.assign(path.reduceRight((acc, key) => ({ [key]: acc }), value), await client.redis.get(key)));
-    console.log(key, combObj)
     await client.redis.oSet(key, combObj);
 };
 client.redis.get = async path => {
@@ -27,7 +26,7 @@ client.redis.get = async path => {
     if (!obj)return undefined;
     if (!path.length)return obj;
     path.forEach(item => obj = Object.keys(obj).includes(item) ? obj[item] : obj);
-    return typeof obj === 'object' && !Object.keys(obj).includes(path.pop()) ? undefined : obj;
+    return typeof obj === 'object' && Object.keys(obj).includes(path.pop()) ? undefined : obj;
 };
 client.redis.init = async (path, def) => {
     if (!(await client.redis.has(path)))await client.redis.set(path, def);
@@ -49,6 +48,7 @@ client.randToastColor = () => ['#ffe6cc', '#996600', '#ffdd99', '#663300', '#331
 client.fight = async (obj) => {
     const boss = require('./commands/rpg/boss.json').bosses[obj.id];
     const user = await client.redis.get(`users.${Object.keys(obj).includes('message') ? obj.message.author.id : obj.interaction.user.id}.rpg`);
+    console.log(user)
     return [
         new MessageEmbed().setDescription(boss.description).setTitle(`FIGHT!\tBoss Number ${obj.id+1}`).setImage(`attachment://${obj.id}.png`).setColor(boss.color).addField(boss.name, `**Attack per second:** ${Math.round(Math.pow(obj.id + 2, 6) / 10)}\n**Defense:** ${Math.round(Math.pow(obj.id + 2, 5.978) / 10)}\n**HP:** ${obj.bossHP || Math.pow(obj.id + 2, 6)}\n${client.barCreate(Math.round(Math.pow(obj.id + 2, 6)/(obj.bossHP||Math.pow(obj.id + 2, 6))*40))}`, true).addField(Object.keys(obj).includes('message') ? obj.message.author.username : obj.interaction.user.username, `**Attack per second:** ${user.stats.attack}\n**Defense:** ${user.stats.defense}\n**HP:** ${obj.playerHP || user.stats.health}\n${client.barCreate(Math.round(obj.playerHP/user.stats.health*40) || 40)}`, true), 
         new MessageAttachment().setFile(`./Images/bosses/${obj.id}.png`), 

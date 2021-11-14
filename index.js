@@ -16,13 +16,16 @@ client.redis.oSet = client.redis.set;
 client.redis.oGet = client.redis.get;
 client.redis.set = async (path, value) => {
     path = path.split('.');
-    await client.redis.oSet(path.shift(), JSON.stringify(path.reduceRight((acc, key) => ({ [key]: acc }), value)));
+    await client.redis.oSet(path.shift(), JSON.stringify(Object.assign(path.reduceRight((acc, key) => ({ [key]: acc }), value), await client.redis.get(path))));
 };
 client.redis.get = async path => {
     path = path.split('.');
     let obj = JSON.parse(await client.redis.oGet(path.shift()));
     if (!obj)return undefined;
-    path.forEach(item => obj = Object.keys(obj).includes(item) ? obj[item] : obj);
+    path.forEach(item => {
+        obj = Object.keys(obj).includes(item) ? obj[item] : obj;
+        console.log(obj)
+    });
     return obj;
 };
 client.redis.init = async (path, def) => {

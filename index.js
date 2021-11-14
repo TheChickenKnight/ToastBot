@@ -16,21 +16,21 @@ client.redis.oSet = client.redis.set;
 client.redis.oGet = client.redis.get;
 client.redis.set = async (path, value) => {
     path = path.split('.');
-    await client.redis.oSet(path.shift(), JSON.stringify(Object.assign(path.reduceRight((acc, key) => ({ [key]: acc }), value), await client.redis.get(path))));
+    const key = path.shift();
+    let combObj = JSON.stringify(Object.assign(path.reduceRight((acc, key) => ({ [key]: acc }), value), await client.redis.get(key)));
+    console.log(key, combObj)
+    await client.redis.oSet(key, combObj);
 };
 client.redis.get = async path => {
     path = path.split('.');
     let obj = JSON.parse(await client.redis.oGet(path.shift()));
     if (!obj)return undefined;
-    path.forEach(item => {
-        obj = Object.keys(obj).includes(item) ? obj[item] : obj;
-        console.log(obj)
-    });
-    return obj;
+    if (!path.length)return obj;
+    path.forEach(item => obj = Object.keys(obj).includes(item) ? obj[item] : obj);
+    return typeof obj === 'object' && !Object.keys(obj).includes(path.pop()) ? undefined : obj;
 };
 client.redis.init = async (path, def) => {
-    const doesit = await client.redis.has(path);
-    if (!doesit)await client.redis.set(path, def);
+    if (!(await client.redis.has(path)))await client.redis.set(path, def);
 }
 
 client.commands = new Collection(), client.aliases = new Collection(), client.cooldowns = new Collection(), client.timeIDs = new Collection(), client.snipe = new Collection(), client.tictactoe = new Collection(), client.toasterbreadmilk = new Collection(), client.queues = new Collection(), client.paused = new Collection();
@@ -119,6 +119,7 @@ client.once('ready', async () => {
     client.user.setPresence({ activities: [{name: 'to my new music commands!', type: 'LISTENING'}], status: 'online'});
     console.log('ToastBot is finally ready!');
     client.on('messageCreate', async message => {
+        if (message.author.bot)return;
         await client.redis.init(`guildSpec.${message.guildId}.prefix`, 'toast ');
         const prefix = await client.redis.get(`guildSpec.${message.guildId}.prefix`);
         if (message.content.includes(process.env.BOT_ID) && message.content.toLowerCase().includes('reset')) {
@@ -130,7 +131,6 @@ client.once('ready', async () => {
             var ami = client.users.cache.get('839202008048599090');
             ami.send({ embeds: [new MessageEmbed().setColor(client.randToastColor()).setAuthor(message.author.username, message.author.displayAvatarURL({format: 'png'}), message.url).setDescription(message.content).setFooter('Click on their name to teleport to the message!')]});
         }
-        if (message.author.bot)return;
         var commandName = message.content.replace(prefix, '').split(' ')[0];
         if (commandFiles.includes(client.aliases.get(commandName) + '.js'))commandName = client.aliases.get(commandName);
         if (!message.content.startsWith(prefix))return;

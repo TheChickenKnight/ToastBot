@@ -29,7 +29,7 @@ module.exports.run = async (client, message, args) => {
     args = args.map(arg => parseInt(arg));
     if (args[0] + args[1] > 10)return message.reply('Numbers TOO BIG!!!!');
     const answer = num.feedForward(args);
-    const filter = m => message.author.id == m.author.id && /[0-9]+/.test(m.content) && parseInt(m.content) <= 10;
+    const filter = m => message.author.id == m.author.id && /[0-9]+/.test(m.content);
     await message.reply('I got `' + answer + '`. What\'s the real answer?');
     message.channel.awaitMessages({ filter, time: 10000, max: 1, errors: ['time']}).then(async messages => {
         for(let i = 0; i < 100; i++)num.backpropagate(args, [parseInt(messages.first().content)]);

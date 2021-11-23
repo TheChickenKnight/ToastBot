@@ -14,6 +14,10 @@ const { MessageEmbed } = require('discord.js');
 
 
 module.exports.run = async (client, message, args) => {
+    if (args[0] == 'reset' && await client.redis.EXISTS('neural_number')) {
+        client.redis.delete('neural_number');
+        return message.reply({ embeds: [new MessageEmbed().setColor(client.randToastColor()).setDescription('Got it! You just reset all of my learning!')]})
+    }
     if (args.length !== 3 || args[1] != '+')return message.reply('Wrong args!');
     var num;
     if (!(await client.redis.EXISTS('neural_number'))) {

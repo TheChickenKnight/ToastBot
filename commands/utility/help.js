@@ -11,7 +11,7 @@ const { MessageEmbed, MessageActionRow, MessageSelectMenu, Collection } = requir
 const prettyMilliseconds = require('pretty-ms');
 
 module.exports.run = async (client, message, args) => {
-    const prefix = await client.redis.get(`guildSpec.${message.guildId}.prefix`);
+    const prefix = await client.redis.HGET(`guildSpec_${message.guildId}`, 'prefix');
     if (!args[0] || client.folders.includes(args[0].toLowerCase())) {
         var section = client.folders[0];
         if (args[0])section = args[0].toLowerCase();
@@ -40,7 +40,7 @@ module.exports.run = async (client, message, args) => {
 module.exports.menu = async (client, interaction) => {
     client.timeIDs.get(interaction.customId.split('_')[0]).get(interaction.user.id).forEach(id => clearTimeout(id));
     client.timeIDs.get(interaction.customId.split('_')[0]).set(interaction.user.id, [setTimeout(async () => await interaction.editReply({components: [new MessageActionRow().addComponents(new MessageSelectMenu().setCustomId('Disabled').setPlaceholder('Disabled!').addOptions([{label: 'disabled', description: 'disabled', value: 'disabled'}]).setDisabled(true))]}), 10000)]);
-    const prefix = await client.redis.get(`guildSpec.${interaction.message.guildId}.prefix`);
+    const prefix = await client.redis.HGET(`guildSpec_${interaction.message.guildId}`, 'prefix');
     const answers = embedCreate(client, interaction.values[0], interaction.user.id, prefix);
     await interaction.update({ embeds: [answers[1]], components: [new MessageActionRow().addComponents(answers[0])]});
 }

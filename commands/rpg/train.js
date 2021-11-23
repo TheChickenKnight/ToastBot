@@ -24,13 +24,13 @@ module.exports.run = async (client, message, args) => {
 }
 
 module.exports.button = async (client, interaction) => {
-    const button = buttons.filter(button => button.value === interaction.values[0])[0];
-    let embed = new MessageEmbed().setTitle(button.label).setDescription(button.description).setColor(client.randToastColor());
-    let row = new MessageActionRow();
     switch(interaction.customId.split('_')[1]) {
         case 'determine':
-            
-        break;
+            const area = ['attack', 'defense', 'health'][Math.floor(Math.random()*3)];
+            await client.redis.add(`users.${interaction.user.id}.rpg.stats.${area}`, 1);
+            return interaction.update({
+                content: `\`\`\`json\n"you gained 1 ${area}!"\n\`\`\``
+            });
         case 'pet':
 
         break;

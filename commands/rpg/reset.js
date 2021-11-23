@@ -13,7 +13,7 @@ module.exports.run = (client, message, args) => message.reply({ content: "Are yo
 
 module.exports.button = async (client, interaction) => {
     if (interaction.customId.split('_')[1] == 'yes') {
-        await client.redis.delete(`users.${interaction.user.id}.rpg`);
+        ['health', 'attack', 'boss', 'regen', 'defense', 'reach', 'inventory', 'equip', 'level', 'gold', 'exp'].forEach(async item => await client.redis.HDEL(`users_${interaction.user.id}`, 'RPG_' + item));
         interaction.update({
             content: 'Mission Accomplished.',
             components: []

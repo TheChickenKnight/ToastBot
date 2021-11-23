@@ -1,36 +1,11 @@
 const { Client, Intents, Collection, MessageEmbed, MessageAttachment, MessageSelectMenu, MessageActionRow } = require('discord.js');
-const fs = require('fs'), dotenv = require('dotenv'), Redis = require('ioredis');
+const fs = require('fs'), dotenv = require('dotenv'), redis = require('async-redis');
 dotenv.config();
 
 const client = new Client({ws: { properties: { $browser: 'Discord iOS'}}, intents: [ Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_WEBHOOKS ]});
 
 console.log('Welcome to ToastBot\'s Console!');
-client.redis = new Redis(10932, 'redis-10932.c267.us-east-1-4.ec2.cloud.redislabs.com', {password: 'PsOk59q1LIraszrKzWg8u02OvH12NLx6'});
-client.redis.add = async (path, amount) => await client.redis.set(path, await client.redis.get(path)+amount);
-client.redis.delete = async path => await client.redis.set(path, undefined);
-client.redis.has = async path => {
-    const object = await client.redis.get(path);
-    return object !== null && object !== undefined;
-};
-client.redis.oSet = client.redis.set;
-client.redis.oGet = client.redis.get;
-client.redis.set = async (path, value) => {
-    path = path.split('.');
-    const key = path.shift();
-    let combObj = JSON.stringify(Object.assign(path.reduceRight((acc, key) => ({ [key]: acc }), value), await client.redis.get(key)));
-    await client.redis.oSet(key, combObj);
-};
-client.redis.get = async path => {
-    path = path.split('.');
-    let obj = JSON.parse(await client.redis.oGet(path.shift()));
-    if (!obj)return undefined;
-    if (!path.length)return obj;
-    path.forEach(item => obj = Object.keys(obj).includes(item) ? obj[item] : obj);
-    return typeof obj === 'object' && Object.keys(obj).includes(path.pop()) ? undefined : obj;
-};
-client.redis.init = async (path, def) => {
-    if (!(await client.redis.has(path)))await client.redis.set(path, def);
-}
+client.redis = redis.createClient({url: 'redis://PsOk59q1LIraszrKzWg8u02OvH12NLx6@redis-10932.c267.us-east-1-4.ec2.cloud.redislabs.com:10932'});
 
 client.commands = new Collection(), client.aliases = new Collection(), client.cooldowns = new Collection(), client.timeIDs = new Collection(), client.snipe = new Collection(), client.tictactoe = new Collection(), client.toasterbreadmilk = new Collection(), client.queues = new Collection(), client.paused = new Collection();
 
@@ -47,10 +22,9 @@ client.randToastColor = () => ['#ffe6cc', '#996600', '#ffdd99', '#663300', '#331
 
 client.fight = async (obj) => {
     const boss = require('./commands/rpg/boss.json').bosses[obj.id];
-    const user = await client.redis.get(`users.${Object.keys(obj).includes('message') ? obj.message.author.id : obj.interaction.user.id}.rpg`);
-    console.log(user)
+    const user = await client.redis.HGETALL(`users_${Object.keys(obj).includes('message') ? obj.message.author.id : obj.interaction.user.id}`);
     return [
-        new MessageEmbed().setDescription(boss.description).setTitle(`FIGHT!\tBoss Number ${obj.id+1}`).setImage(`attachment://${obj.id}.png`).setColor(boss.color).addField(boss.name, `**Attack per second:** ${Math.round(Math.pow(obj.id + 2, 6) / 10)}\n**Defense:** ${Math.round(Math.pow(obj.id + 2, 5.978) / 10)}\n**HP:** ${obj.bossHP || Math.pow(obj.id + 2, 6)}\n${client.barCreate(Math.round(Math.pow(obj.id + 2, 6)/(obj.bossHP||Math.pow(obj.id + 2, 6))*40))}`, true).addField(Object.keys(obj).includes('message') ? obj.message.author.username : obj.interaction.user.username, `**Attack per second:** ${user.stats.attack}\n**Defense:** ${user.stats.defense}\n**HP:** ${obj.playerHP || user.stats.health}\n${client.barCreate(Math.round(obj.playerHP/user.stats.health*40) || 40)}`, true), 
+        new MessageEmbed().setDescription(boss.description).setTitle(`FIGHT!\tBoss Number ${obj.id+1}`).setImage(`attachment://${obj.id}.png`).setColor(boss.color).addField(boss.name, `**Attack per second:** ${Math.round(Math.pow(obj.id + 2, 6) / 10)}\n**Defense:** ${Math.round(Math.pow(obj.id + 2, 5.978) / 10)}\n**HP:** ${obj.bossHP || Math.pow(obj.id + 2, 6)}\n${client.barCreate(Math.round(Math.pow(obj.id + 2, 6)/(obj.bossHP||Math.pow(obj.id + 2, 6))*40))}`, true).addField(Object.keys(obj).includes('message') ? obj.message.author.username : obj.interaction.user.username, `**Attack per second:** ${user.RPG_attack}\n**Defense:** ${user.RPG_defense}\n**HP:** ${obj.playerHP || user.RPG_health}\n${client.barCreate(Math.round(obj.playerHP/user.RPG_health*40) || 40)}`, true), 
         new MessageAttachment().setFile(`./Images/bosses/${obj.id}.png`), 
         { hp: obj.playerHP || Math.pow(obj.id + 2, 6), def: Math.round(Math.pow(obj.id + 2, 5.978) / 10), att: Math.round(Math.pow(obj.id + 2, 6) / 10)}
     ];
@@ -82,7 +56,7 @@ var sections = [
     }
 ]
 client.rpgmenu = (id, currSection, author) => {
-    var menu = new MessageSelectMenu().setCustomId(`rpg_menu_${author}_rpg`);
+    const menu = new MessageSelectMenu().setCustomId(`rpg_menu_${author}_rpg`);
     sections.forEach(section => {
         section.option.default = currSection == section.option.value;
         if (section.boss < id)menu.addOptions(section.option);
@@ -120,10 +94,9 @@ client.once('ready', async () => {
     console.log('ToastBot is finally ready!');
     client.on('messageCreate', async message => {
         if (message.author.bot)return;
-        await client.redis.init(`guildSpec.${message.guildId}.prefix`, 'toast ');
-        const prefix = await client.redis.get(`guildSpec.${message.guildId}.prefix`);
+        const prefix = await client.redis.HGET(`guildSpec_${message.guild.id}`, 'prefix');
         if (message.content.includes(process.env.BOT_ID) && message.content.toLowerCase().includes('reset')) {
-            client.redis.set(`guildSpec.${message.guildId}.prefix`, 'toast ');
+            client.redis.HSET(`guildSpec_${message.guildId}`, 'prefix', 'toast ');
             return message.reply('Got it! the prefix has been reset to `toast `!');
         }
         if (message.content.includes(process.env.BOT_ID))return message.reply(`My prefix is \`${prefix}\`!`);
@@ -145,7 +118,7 @@ client.once('ready', async () => {
             }
         }
         if (commandObj.info.section == 'admin' && message.author.id != process.env.OWNER_ID)return;
-        if (commandObj.info.section == 'rpg' && commandObj.info.name != 'start' && !client.redis.has(`users.${message.author.id}.rpg`))return message.reply('You haven\'t started your adventure yet! do <`prefix`>start to begin!');
+        if (commandObj.info.section == 'rpg' && commandObj.info.name != 'start' && !client.redis.get(`users_${message.author.id}`, 'rpg'))return message.reply('You haven\'t started your adventure yet! do <`prefix`>start to begin!');
         client.cooldowns.get(commandName).set(message.author.id, Date.now());
         message.channel.sendTyping();
         commandObj.run(client, message, message.content.replace(prefix, '').replace(/^(.+?( |$))/, '').split(' ').filter(item => item.length > 0));

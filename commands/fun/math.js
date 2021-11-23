@@ -4,7 +4,9 @@ module.exports.info = {
     aliases: ['num'],
     section: 'fun',
     description: 'n u m b e r s',
-    usage: '<`prefix`>math'
+    usage: '<`prefix`>math <1-10> + <1-10>',
+    important: 'The actual sum of the two numbers has to be less than 10!',
+    ps: 'Yeah it\'s incredibly simple I know'
 };
 
 const Dannjs = require('dannjs');

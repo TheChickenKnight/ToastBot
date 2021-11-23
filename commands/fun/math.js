@@ -12,7 +12,6 @@ module.exports.info = {
 const Dannjs = require('dannjs');
 const { MessageEmbed } = require('discord.js');
 
-
 module.exports.run = async (client, message, args) => {
     if (args[0] == 'reset' && await client.redis.EXISTS('neural_number')) {
         client.redis.DEL('neural_number');

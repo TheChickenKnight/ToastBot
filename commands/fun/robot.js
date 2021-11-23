@@ -9,7 +9,7 @@ module.exports.info = {
 
 const Dannjs = require('dannjs');
 
-module.exports.run = (client, message, args) => {
+module.exports.run = async (client, message, args) => {
     if (args.length !== 4 || args[0].length !== 3 || args[1].length !== 3 || args[2].length !== 3)return message.reply('Wrong args!');
     if (!(await client.redis.EXISTS('neural_tictactoe'))) {
         num = new Dannjs.dann(9, 1);

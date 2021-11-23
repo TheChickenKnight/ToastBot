@@ -90,7 +90,7 @@ client.folders.forEach(folder => fs.readdirSync(`./commands/${folder}/`).filter(
 console.log(`Loaded all ${commandFiles.length} commands`);
 
 client.once('ready', async () => {
-    client.user.setPresence({ activities: [{name: 'to my new music commands!', type: 'LISTENING'}], status: 'online'});
+    client.user.setPresence({ activities: [{name: 'Addition is too hard! (<prefix>help math', type: 'PLAYING'}], status: 'online'});
     console.log('ToastBot is finally ready!');
     client.on('messageCreate', async message => {
         if (message.author.bot)return;

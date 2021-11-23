@@ -18,6 +18,7 @@ module.exports.run = async (client, message, args) => {
     if (!(await client.redis.EXISTS('neural_number'))) {
         num = new Dannjs.dann(2, 1);
         num.makeWeights();
+        num.outputActivation('leakyReLU');
     } else num = Dann.createFromJSON(JSON.parse(await client.redis.get('neural_number')));
     args.splice(1, 1);
     args = args.map(arg => parseInt(arg));

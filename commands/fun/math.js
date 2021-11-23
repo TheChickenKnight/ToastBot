@@ -12,6 +12,7 @@ module.exports.info = {
 const Dannjs = require('dannjs');
 const { MessageEmbed } = require('discord.js');
 
+
 module.exports.run = async (client, message, args) => {
     if (args.length !== 3 || args[1] != '+')return message.reply('Wrong args!');
     var num;
@@ -25,9 +26,9 @@ module.exports.run = async (client, message, args) => {
     if (args[0] + args[1] > 10)return message.reply('Numbers TOO BIG!!!!')
     const answer = num.feedForward(args);
     const filter = m => message.author.id == m.author.id && /[0-9]+/.test(m.content) && parseInt(m.content) <= 10;
-    const msg = await message.reply({embeds: [new MessageEmbed().setColor(client.randToastColor()).setDescription('I got `' + answer*10 + '`. What\'s the real answer?').setFooter('I\'ll take an answer from anyone!')]});
+    const msg = await message.reply({embeds: [new MessageEmbed().setColor(client.randToastColor()).setDescription('I got `' + answer + '`. What\'s the real answer?').setFooter('I\'ll take an answer from anyone!')]});
     message.channel.awaitMessages({ filter, time: 60000, max: 1, errors: ['time']}).then(async messages => {
-        num.backpropagate(args, [parseInt(messages.first().content)]);
+        for(let i = 0; i < 100; i++)num.backpropagate(args, [parseInt(messages.first().content)]);
         await client.redis.set('neural_number', JSON.stringify(num.toJSON()));
         msg.edit({embeds: [new MessageEmbed().setColor(client.randToastColor()).setDescription('Thanks for telling me that it\'s `' + messages.first().content + '`! I\'m putting complete faith in you that you didn\'t lie!')]});
     });

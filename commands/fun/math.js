@@ -21,7 +21,7 @@ module.exports.run = async (client, message, args) => {
     args = args.map(arg => parseInt(arg));
     if (args[0] + args[1] > 10)return message.reply('Numbers TOO BIG!!!!')
     const answer = num.feedForward(args);
-    const filter = m => /[0-9]+/.test(m.content) && parseInt(m.content) <= 10;
+    const filter = m => message.author.id == m.author.id && /[0-9]+/.test(m.content) && parseInt(m.content) <= 10;
     const msg = await message.reply({embeds: [new MessageEmbed().setColor(client.randToastColor()).setDescription('I got ' + answer*10 + '. What\'s the real answer?').setFooter('I\'ll take an answer from anyone!')]});
     message.channel.awaitMessages({ filter, time: 60000, max: 1, errors: ['time']}).then(async messages => {
         num.backpropagate(args, [parseInt(messages.first().content)]);

@@ -15,8 +15,6 @@ module.exports.run = async (client, message, args) => {
     var num;
     if (!(await client.redis.EXISTS('neural_number'))) {
         num = new Dannjs.dann(2, 1);
-        num.addHiddenLayer(4, 'sigmoid');
-        num.addHiddenLayer(2, 'sigmoid');
         num.makeWeights();
     } else num = Dann.createFromJSON(JSON.parse(await client.redis.get('neural_number')));
     args.splice(1, 1);

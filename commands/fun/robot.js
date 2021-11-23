@@ -10,7 +10,7 @@ module.exports.info = {
 const Dannjs = require('dannjs');
 
 module.exports.run = (client, message, args) => {
-    if (args.length !== 6 || args[0].length !== 3 || args[1].length !== 3 || args[2].length !== 3)return message.reply('Wrong args!');
+    if (args.length !== 4 || args[0].length !== 3 || args[1].length !== 3 || args[2].length !== 3)return message.reply('Wrong args!');
     if (!(await client.redis.EXISTS('neural_tictactoe'))) {
         num = new Dannjs.dann(9, 1);
         num.addHiddenLayer(3, 'sigmoid');
@@ -18,8 +18,7 @@ module.exports.run = (client, message, args) => {
         num.outputActivation('leakyReLU');
     } else num = Dann.createFromJSON(JSON.parse(await client.redis.get('neural_tictactoe')));
     const input = ttt(args.splice(0, 3));
-    const ouput = ttt(args);
-    await thousand(num.backpropagate(input, ouput));
+    await thousand(num.backpropagate(input, parseInt(args[3])));
     await client.redis.set('neural_tictactoe', JSON.stringify(num.toJSON()));
     message.reply('Okay... That make\'s sense');
 }

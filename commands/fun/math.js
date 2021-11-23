@@ -15,7 +15,7 @@ const { MessageEmbed } = require('discord.js');
 
 module.exports.run = async (client, message, args) => {
     if (args[0] == 'reset' && await client.redis.EXISTS('neural_number')) {
-        client.redis.delete('neural_number');
+        client.redis.DEL('neural_number');
         return message.reply({ embeds: [new MessageEmbed().setColor(client.randToastColor()).setDescription('Got it! You just reset all of my learning!')]})
     }
     if (args.length !== 3 || args[1] != '+')return message.reply('Wrong args!');
@@ -27,13 +27,16 @@ module.exports.run = async (client, message, args) => {
     } else num = Dann.createFromJSON(JSON.parse(await client.redis.get('neural_number')));
     args.splice(1, 1);
     args = args.map(arg => parseInt(arg));
-    if (args[0] + args[1] > 10)return message.reply('Numbers TOO BIG!!!!')
+    if (args[0] + args[1] > 10)return message.reply('Numbers TOO BIG!!!!');
     const answer = num.feedForward(args);
     const filter = m => message.author.id == m.author.id && /[0-9]+/.test(m.content) && parseInt(m.content) <= 10;
-    const msg = await message.reply({embeds: [new MessageEmbed().setColor(client.randToastColor()).setDescription('I got `' + answer + '`. What\'s the real answer?').setFooter('I\'ll take an answer from anyone!')]});
-    message.channel.awaitMessages({ filter, time: 60000, max: 1, errors: ['time']}).then(async messages => {
+    await message.reply('I got `' + answer + '`. What\'s the real answer?');
+    message.channel.awaitMessages({ filter, time: 10000, max: 1, errors: ['time']}).then(async messages => {
         for(let i = 0; i < 100; i++)num.backpropagate(args, [parseInt(messages.first().content)]);
         await client.redis.set('neural_number', JSON.stringify(num.toJSON()));
-        msg.edit({embeds: [new MessageEmbed().setColor(client.randToastColor()).setDescription('Thanks for telling me that it\'s `' + messages.first().content + '`! I\'m putting complete faith in you that you didn\'t lie!')]});
+        message.channel.send('Thanks for telling me that it\'s `' + messages.first().content + '`! I\'m putting complete faith in you that you didn\'t lie!');
+    }).catch(collected => {
+        for(let i = 0; i < 100; i++)num.backpropagate(args, [Math.round(answer)]);
+        message.channel.send('I\'ll just assume I\'m right YOU CAN\'t STOP ME AHAHAHHAHA');
     });
 }

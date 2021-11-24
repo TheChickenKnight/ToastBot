@@ -54,7 +54,7 @@ module.exports.run = async (client, message, args) => {
         client.tictactoe.set(message.author.id, target.id);
         client.tictactoe.set(target.id, message.author.id);
         await message.reply({
-            embeds: [embed.setColor(message.author.id > target.id ? "RED" : "BLUE").setAuthor(`${turner.username}'s turn! ${message.author.id > target.id ? "🟥" : "🟦"}`, turner.displayAvatarURL({format: 'png'}))],
+            embeds: [embed.setColor(message.author.id > target.id ? "BLUE" : "RED").setAuthor(`${turner.username}'s turn! ${message.author.id > target.id ? "🟦" : "🟥"}`, turner.displayAvatarURL({format: 'png'}))],
             components: boardInit(game)
         });  
     }

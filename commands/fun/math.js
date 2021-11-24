@@ -46,6 +46,7 @@ module.exports.run = async (client, message, args) => {
             const add2 = Math.floor(Math.random() * (11 - add1));
             num.backpropagate([add1, add2], [add1 + add2]);
         }
+        await client.redis.set('neural_number', JSON.stringify(num.toJSON()));
         message.reply('Okay man. Just searched up the answers lol');
     }
 }

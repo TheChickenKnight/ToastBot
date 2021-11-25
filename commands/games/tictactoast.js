@@ -65,16 +65,24 @@ module.exports.button = async (client, interaction) => {
     var games = client.tictactoe.get(parseInt(interaction.user.id) + parseInt(target));
     games.board[interaction.customId.split('_')[1].charAt(0)][interaction.customId.split('_')[1].charAt(1)] = interaction.user.id > target ? "x" : "o";
     if (!Object.keys(games).includes('history'))games.history = [];
-    games.history.push({ turn: games.turn, board: games.board[0].concat(games.board[1], games.board[2]).map(slot => slot == "" ? '0' : slot), move: parseInt(interaction.customId.split('_').charAt(0)) * 3 + interaction.customId.split('_').charAt(1) + 1 });
+    games.history.push({ turn: games.turn, board: games.board[0].concat(games.board[1], games.board[2]), move: parseInt(interaction.customId.split('_').charAt(0)) * 3 + interaction.customId.split('_').charAt(1) + 1 });
     games.turn = target;
     const winner = await client.users.fetch(interaction.user.id);
     const turner = await client.users.fetch(target);
     const turnout = hasWon(games.board);
-    if (turnout == 'x' || turnout == 'o') {
+    if (turnout === 'x' || turnout === 'o') {
+        const nn = await client.neural({input: 9, output: 1, name: 'tictactoe', layers: [{ nodes: 3}], activation: 'leakyReLU'});
+        games.history.filter(game => game.turn === interaction.user.id).forEach(game => {
+            for(let i = 0; i < 1000; i++)nn.backpropagate(ttt(game.board, turnout), [game.move]);
+        });
         games.board = games.board.map(row => row.map(square => square ? square : 'fin'));
         client.tictactoe.delete(parseInt(interaction.user.id) + parseInt(target));
         embed.setColor(target > interaction.user.id ? "BLUE" : "RED").setAuthor(`${winner.username} has won! ${target > interaction.user.id ? "🟥" : "🟦"}`, winner.displayAvatarURL({format: 'png'}));
     } else if (turnout == 'tie') {
+        const nn = await client.neural({input: 9, output: 1, name: 'tictactoe', layers: [{ nodes: 3}], activation: 'leakyReLU'});
+        games.history.forEach(game => {
+            for(let i = 0; i < 500; i++)nn.backpropagate(ttt(game.board, turnout), game.move);
+        });
         client.tictactoe.delete(parseInt(interaction.user.id) + parseInt(target));
         embed.setDescription('Aw it was a tie.');
     } else {
@@ -93,3 +101,5 @@ module.exports.button = async (client, interaction) => {
         });  
     }
 }
+
+const ttt = (arr, me) => arr[0].split('').concat(arr[1].split(''), arr[2].split('')).map(item => (me === 'x' ? ['', 'o', 'x'] : ['', 'x', 'o']).indexOf(item));

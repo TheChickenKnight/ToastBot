@@ -39,14 +39,13 @@ const hasWon = board => {
 
 module.exports.run = async (client, message, args) => { 
     var embed = new MessageEmbed().setColor(client.randToastColor()).setTitle("** **              TicTacToe              ** **");
-    var target = message.mentions.members.first() ? message.mentions.members.first() : { id: 'bot' };
-    if (target.id == message.author.id)embed.setDescription("❌ You can't play TicTacToe by yourself!").setFooter("Are you really this lonely?");
+    var target = message.mentions.members.first();
+    if (!target || target.id == message.author.id)embed.setDescription("❌ You can't play TicTacToe by yourself!").setFooter("Are you really this lonely?");
     else if (client.tictactoe.has(message.author.id + target.id))embed.setDescription(`❌ You're already in a game with ${target}!`);
     else {
         const turn = Math.round(Math.random()) ? message.author.id : target.id;
-        const turner = (turn == 'bot' ? await client.users.fetch(client.user.id) : await client.users.fetch(turn));
+        const turner = await client.users.fetch(turn);
         const game = {
-            solo: target.id == 'bot',
             turn: turn,
             board: [ ["", "", ""], ["", "", ""], ["", "", ""] ]
         };
@@ -62,24 +61,12 @@ module.exports.run = async (client, message, args) => {
 
 module.exports.button = async (client, interaction) => {
     var embed = new MessageEmbed().setColor(client.randToastColor()).setTitle("** **              TicTacToe              ** **");
-    var target = await client.tictactoe.get(interaction.user.id) || 0;
+    const target = await client.tictactoe.get(interaction.user.id) || 0;
     var games = client.tictactoe.get(parseInt(interaction.user.id) + parseInt(target));
     games.board[interaction.customId.split('_')[1].charAt(0)][interaction.customId.split('_')[1].charAt(1)] = interaction.user.id > target ? "x" : "o";
-    if (games.solo) {
-        setTimeout(() => {
-            var x, y;
-            do {
-                x = Math.floor(Math.random() * 3);
-                y = Math.floor(Math.random() * 3);
-            } while (games.board[x][y])
-            games.board[x][y] = interaction.user.id > target ? "o" : "x";
-            interaction.customId = `tictactoast_${x}${y}_${games.turn}_games`;
-            this.button(client, interaction);
-        }, 2000);
-    }
+    client.tictactoe.set(parseInt(interaction.user.id) + parseInt(target))
     games.turn = target;
     const winner = await client.users.fetch(interaction.user.id);
-    if (target == 'bot')target = client.user.id;
     const turner = await client.users.fetch(target);
     const turnout = hasWon(games.board);
     if (turnout == 'x' || turnout == 'o') {

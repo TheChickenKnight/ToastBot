@@ -1,5 +1,5 @@
 const { Client, Intents, Collection, MessageEmbed, MessageAttachment, MessageSelectMenu, MessageActionRow } = require('discord.js');
-const fs = require('fs'), dotenv = require('dotenv'), redis = require('async-redis');
+const fs = require('fs'), dotenv = require('dotenv'), redis = require('async-redis'), Dann = require('dannjs');
 dotenv.config();
 
 const client = new Client({ws: { properties: { $browser: 'Discord iOS'}}, intents: [ Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_WEBHOOKS ]});
@@ -28,6 +28,18 @@ client.fight = async (obj) => {
         new MessageAttachment().setFile(`./Images/bosses/${obj.id}.png`), 
         { hp: obj.playerHP || Math.pow(obj.id + 2, 6), def: Math.round(Math.pow(obj.id + 2, 5.978) / 10), att: Math.round(Math.pow(obj.id + 2, 6) / 10)}
     ];
+}
+
+
+client.neural = async (obj) => {
+    if (Object.keys(obj).includes('net'))return;
+    if (!(await client.redis.EXISTS('neural_' + obj.name))) {
+        obj.net = new Dann.dann(obj.input || 1, obj.output || 1);
+        obj.layers.forEach(layer => obj.net.addHiddenLayer(layer.nodes, layer.type || 'sigmoid'));
+        obj.net.makeWeights();
+        if (Object.keys(obj).includes('activation'))obj.net.outputActivation(obj.activation);
+    } else obj.net = Dann.createFromJSON(JSON.parse(await client.redis.get('neural_' + obj.name)));
+    return obj.net;
 }
 var sections = [
     {

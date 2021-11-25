@@ -7,16 +7,9 @@ module.exports.info = {
     usage: '<`prefix`>robot X00 XOO XO0',
 };
 
-const Dannjs = require('dannjs');
-
 module.exports.run = async (client, message, args) => {
     if (args.length !== 4 || args[0].length !== 3 || args[1].length !== 3 || args[2].length !== 3)return message.reply('Wrong args!');
-    if (!(await client.redis.EXISTS('neural_tictactoe'))) {
-        num = new Dannjs.dann(9, 1);
-        num.addHiddenLayer(3, 'sigmoid');
-        num.makeWeights();
-        num.outputActivation('leakyReLU');
-    } else num = Dann.createFromJSON(JSON.parse(await client.redis.get('neural_tictactoe')));
+    const num = await client.neural({input: 9, output: 1, name: 'tictactoe', layers: [{ nodes: 3}], activation: 'leakyReLU'});
     const input = ttt(args.splice(0, 3));
     await thousand(num.backpropagate(input, parseInt(args[3])));
     await client.redis.set('neural_tictactoe', JSON.stringify(num.toJSON()));

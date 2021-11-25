@@ -18,12 +18,7 @@ module.exports.run = async (client, message, args) => {
         return message.reply({ embeds: [new MessageEmbed().setColor(client.randToastColor()).setDescription('Got it! You just reset all of my learning!')]})
     } 
     if ((args.length !== 3 || args[1] != '+') && args[0] !== 'auto')return message.reply('Wrong args!');
-    var num;
-    if (!(await client.redis.EXISTS('neural_number'))) {
-        num = new Dannjs.dann(2, 1);
-        num.makeWeights();
-        num.outputActivation('leakyReLU');
-    } else num = Dann.createFromJSON(JSON.parse(await client.redis.get('neural_number')));
+    const num = await client.neural({input: 2, output: 1, name: 'number', layers: [], activation: 'leakyReLU'});
     if (args[0] !== 'auto') {
         args.splice(1, 1);
         args = args.map(arg => parseInt(arg));

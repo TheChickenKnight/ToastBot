@@ -64,7 +64,8 @@ module.exports.button = async (client, interaction) => {
     const target = await client.tictactoe.get(interaction.user.id) || 0;
     var games = client.tictactoe.get(parseInt(interaction.user.id) + parseInt(target));
     games.board[interaction.customId.split('_')[1].charAt(0)][interaction.customId.split('_')[1].charAt(1)] = interaction.user.id > target ? "x" : "o";
-    client.tictactoe.set(parseInt(interaction.user.id) + parseInt(target))
+    if (!Object.keys(games).includes('history'))games.history = [];
+    games.history.push({ turn: games.turn, board: games.board[0].concat(games.board[1], games.board[2]).map(slot => slot == "" ? '0' : slot), move: parseInt(interaction.customId.split('_').charAt(0)) * 3 + interaction.customId.split('_').charAt(1) + 1 });
     games.turn = target;
     const winner = await client.users.fetch(interaction.user.id);
     const turner = await client.users.fetch(target);

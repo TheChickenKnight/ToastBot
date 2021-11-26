@@ -10,7 +10,6 @@ const { createAudioPlayer, createAudioResource, joinVoiceChannel, AudioPlayerSta
 const { MessageEmbed, MessageActionRow, MessageSelectMenu } = require('discord.js');
 const { searchVideo } = require('usetube');
 const play  = require('play-dl');
-const { getBasicInfo } = require('ytdl-core');
 
 
 module.exports.run = async (client, message, args) => {

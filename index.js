@@ -1,4 +1,5 @@
 const { Client, Intents, Collection, MessageEmbed, MessageAttachment, MessageSelectMenu, MessageActionRow } = require('discord.js');
+const { getBasicInfo } = require('ytdl-core');
 const fs = require('fs'), dotenv = require('dotenv'), redis = require('async-redis'), Dann = require('dannjs');
 dotenv.config();
 

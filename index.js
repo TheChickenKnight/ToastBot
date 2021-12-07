@@ -85,7 +85,7 @@ client.once('ready', async () => {
     client.on('interactionCreate', interaction => {
         if (interaction.customId == 'disabled')return;
         let props = require(`./commands/${interaction.customId.split('_').pop()}/${interaction.customId.split('_').shift()}.js`);
-        if (!interaction.customId.split('_')[2].split('<->').includes(interaction.user.id))return interaction.reply({content: 'This isn\'t your toast!', ephemeral: true});
+        if (!interaction.customId.split('_')[2].split('<->').includes(interaction.user.id) && interaction.customId.split('_')[2] !== 'all')return interaction.reply({content: 'This isn\'t your toast!', ephemeral: true});
         if (interaction.isSelectMenu())props.menu(client, interaction);
         else if (interaction.isButton())props.button(client, interaction);
         else console.log(interaction);

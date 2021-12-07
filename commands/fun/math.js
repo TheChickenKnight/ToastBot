@@ -9,16 +9,23 @@ module.exports.info = {
     ps: 'Yeah it\'s incredibly simple I know'
 };
 
-const Dannjs = require('dannjs');
 const { MessageEmbed } = require('discord.js');
 
 module.exports.run = async (client, message, args) => {
     if (args[0] === 'reset' && await client.redis.EXISTS('neural_number')) {
         await client.redis.DEL('neural_number');
-        return message.reply({ embeds: [new MessageEmbed().setColor(client.randToastColor()).setDescription('Got it! You just reset all of my learning!')]})
+        return message.reply({ 
+            embeds: [new MessageEmbed().setColor(client.randToastColor()).setDescription('Got it! You just reset all of my learning!')]
+        });
     } 
     if ((args.length !== 3 || args[1] != '+') && args[0] !== 'auto')return message.reply('Wrong args!');
-    const num = await client.neural({input: 2, output: 1, name: 'number', layers: [], activation: 'leakyReLU'});
+    const num = await client.neural({
+        input: 2, 
+        output: 1, 
+        name: 'number', 
+        layers: [], 
+        activation: 'leakyReLU'
+    });
     if (args[0] !== 'auto') {
         args.splice(1, 1);
         args = args.map(arg => parseInt(arg));

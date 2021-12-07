@@ -1,6 +1,6 @@
 const { Client, Intents, Collection, MessageEmbed, MessageAttachment, MessageSelectMenu, MessageActionRow } = require('discord.js');
 const { getBasicInfo } = require('ytdl-core');
-const fs = require('fs'), dotenv = require('dotenv'), redis = require('async-redis'), Dann = require('dannjs');
+const fs = require('fs'), dotenv = require('dotenv'), redis = require('async-redis');
 dotenv.config();
 
 const client = new Client({ws: { properties: { $browser: 'Discord iOS'}}, intents: [ Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_WEBHOOKS ]});
@@ -20,62 +20,6 @@ client.barCreate = per => {
 }
 
 client.randToastColor = () => ['#ffe6cc', '#996600', '#ffdd99', '#663300', '#331a00'][Math.floor(Math.random() * 5)];
-
-client.fight = async (obj) => {
-    const boss = require('./commands/rpg/boss.json').bosses[obj.id];
-    const user = await client.redis.HGETALL(`users_${Object.keys(obj).includes('message') ? obj.message.author.id : obj.interaction.user.id}`);
-    return [
-        new MessageEmbed().setDescription(boss.description).setTitle(`FIGHT!\tBoss Number ${obj.id+1}`).setImage(`attachment://${obj.id}.png`).setColor(boss.color).addField(boss.name, `**Attack per second:** ${Math.round(Math.pow(obj.id + 2, 6) / 10)}\n**Defense:** ${Math.round(Math.pow(obj.id + 2, 5.978) / 10)}\n**HP:** ${obj.bossHP || Math.pow(obj.id + 2, 6)}\n${client.barCreate(Math.round(Math.pow(obj.id + 2, 6)/(obj.bossHP||Math.pow(obj.id + 2, 6))*40))}`, true).addField(Object.keys(obj).includes('message') ? obj.message.author.username : obj.interaction.user.username, `**Attack per second:** ${user.RPG_attack}\n**Defense:** ${user.RPG_defense}\n**HP:** ${obj.playerHP || user.RPG_health}\n${client.barCreate(Math.round(obj.playerHP/user.RPG_health*40) || 40)}`, true), 
-        new MessageAttachment().setFile(`./Images/bosses/${obj.id}.png`), 
-        { hp: obj.playerHP || Math.pow(obj.id + 2, 6), def: Math.round(Math.pow(obj.id + 2, 5.978) / 10), att: Math.round(Math.pow(obj.id + 2, 6) / 10)}
-    ];
-}
-
-
-client.neural = async (obj) => {
-    if (Object.keys(obj).includes('net'))return;
-    if (!(await client.redis.EXISTS('neural_' + obj.name))) {
-        obj.net = new Dann.dann(obj.input || 1, obj.output || 1);
-        obj.layers.forEach(layer => obj.net.addHiddenLayer(layer.nodes, layer.type || 'sigmoid'));
-        obj.net.makeWeights();
-        if (Object.keys(obj).includes('activation'))obj.net.outputActivation(obj.activation);
-    } else obj.net = Dann.createFromJSON(JSON.parse(await client.redis.get('neural_' + obj.name)));
-    return obj.net;
-}
-var sections = [
-    {
-        boss: -1,
-        option: {
-            label: 'Training',
-            description: 'Get Stronger! kinda slow tho',
-            value: 'train'
-        }
-    },
-    {
-        boss: -1,
-        option: {
-            label: 'Fight!',
-            value: 'fight',
-            description: 'get em I guess'
-        }
-    },
-    {
-        boss: 2,
-        option: {
-            label: 'Pet',
-            value: 'pet',
-            description: 'Take care of your pet!'
-        }
-    }
-]
-client.rpgmenu = (id, currSection, author) => {
-    const menu = new MessageSelectMenu().setCustomId(`rpg_menu_${author}_rpg`);
-    sections.forEach(section => {
-        section.option.default = currSection == section.option.value;
-        if (section.boss < id)menu.addOptions(section.option);
-    });
-    return new MessageActionRow().addComponents(menu);
-}
 
 client.createEmbed = async (url, author, queue) => {
     const info = (await getBasicInfo(url, { lang: 'en'})).videoDetails;

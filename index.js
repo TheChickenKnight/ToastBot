@@ -3,21 +3,49 @@ const { getBasicInfo } = require('ytdl-core');
 const fs = require('fs'), dotenv = require('dotenv'), redis = require('async-redis');
 dotenv.config();
 
-const client = new Client({ws: { properties: { $browser: 'Discord iOS'}}, intents: [ Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_WEBHOOKS ]});
+const client = new Client({
+    ws: { 
+        properties: { 
+            $browser: 'Discord iOS'
+        }
+    }, 
+    intents: [ 
+        Intents.FLAGS.GUILDS, 
+        Intents.FLAGS.GUILD_MESSAGES, 
+        Intents.FLAGS.GUILD_VOICE_STATES, 
+        Intents.FLAGS.DIRECT_MESSAGES, 
+        Intents.FLAGS.GUILD_WEBHOOKS 
+    ]
+});
 
 console.log('Welcome to ToastBot\'s Console!');
-client.redis = redis.createClient({url: 'redis://PsOk59q1LIraszrKzWg8u02OvH12NLx6@redis-10932.c267.us-east-1-4.ec2.cloud.redislabs.com:10932'});
+client.redis = redis.createClient({
+    url: 'redis://PsOk59q1LIraszrKzWg8u02OvH12NLx6@redis-10932.c267.us-east-1-4.ec2.cloud.redislabs.com:10932'
+});
 
 client.commands = new Collection(), client.aliases = new Collection(), client.cooldowns = new Collection(), client.timeIDs = new Collection(), client.snipe = new Collection(), client.tictactoe = new Collection(), client.toasterbreadmilk = new Collection(), client.queues = new Collection(), client.paused = new Collection();
 
-client.barCreate = per => {
+const creBar = (type, level) => '<:' + type + level + 'Bar:' + (type == 'l' ? (level == 0 ? '897903792371171379' : (level == 1 ? '897904228109008907' : (level == 2 ? '897904571064672287' : (level == 3 ? '897904670780055573' : (level == 4 ? '897904771439136798' : '897903598829178950'))))) : (type == 'r' ? (level == 0 ? '897905864118251602' : (level == 1 ? '897905324990791721' : (level == 2 ? '897905425205321768' : (level == 3 ? '897905541362376704' : (level == 4 ? '897905636992503848' : '897905716256469052'))))) : (level == 0 ? '897906311495303168' : (level == 1 ? '897906423030222899' : (level == 2 ? '897906503397298186' : (level == 3 ? '897906621039140865' : (level == 4 ? '897906714471465061' : '897906793768964136'))))))) + '>';
+
+/*client.barCreate = per => {
     if (per < 5)return (per == 0 ? '<:l0Bar:897903792371171379>' : (per == 1 ? '<:l1Bar:897904228109008907>' : (per == 2 ? '<:l2Bar:897904571064672287>' : (per == 3 ? '<:l3Bar:897904670780055573>' : '<:l4Bar:897904771439136798>')))) + '<:m0Bar:897906311495303168><:m0Bar:897906311495303168><:m0Bar:897906311495303168><:m0Bar:897906311495303168><:m0Bar:897906311495303168><:m0Bar:897906311495303168><:r0Bar:897905864118251602>';
     let bar = ['<:l5Bar:897903598829178950>'];
     for (let i = 0; i < ((per-5)/5); i++)bar.push(per-5-(i*5) >= 5 ? '<:m5Bar:897906793768964136>' : (per-5-(i*5) === 1 ? '<:m1Bar:897906423030222899>' : (per-5-(i*5) === 2 ? '<:m2Bar:897906503397298186>' : (per-5-(i*5) === 3 ? '<:m3Bar:897906621039140865>' : '<:m4Bar:897906714471465061>'))));
     if (bar.length == 8)bar.length--;
     for (let i = 0; i < ((40-per)/5)-1; i++)bar.push('<:m0Bar:897906311495303168>');
     return (bar.join('')) + (per-35 <= 0 ? '<:r0Bar:897905864118251602>' : (per-35 == 1 ? '<:r1Bar:897905324990791721>' : (per-35 == 2 ? '<:r2Bar:897905425205321768>' : (per-35 == 3 ? '<:r3Bar:897905541362376704>' : (per-35 == 4 ? '<:r4Bar:897905636992503848>' : '<:r5Bar:897905716256469052>')))));
+}*/
+
+client.barCreate = per => {
+    let bar = [creBar('l', Math.round(per / 2))];
+    const extra = per - (Math.floor(per / 10) * 10);
+    per-=extra; let i;
+    for (i = 1; i < per / 10; i++) bar.push(creBar(i == 10 ? 'r' : 'm', 5));
+    bar.push(creBar(i == 10 ? 'r' : 'm', Math.round(extra / 2)));
+    for (let j = 0; j < 10 - ((per / 10) + (extra > 0 ? 1 : 0)); j++) bar.push(creBar(i + j + 2 == 10 ? 'r' : 'm', 0));
+    return bar.join('');
 }
+
 
 client.randToastColor = () => ['#ffe6cc', '#996600', '#ffdd99', '#663300', '#331a00'][Math.floor(Math.random() * 5)];
 

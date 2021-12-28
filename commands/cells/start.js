@@ -26,13 +26,17 @@ module.exports.button = async (client, interaction) => {
         xp: 0,
         level: 1,
         DNA: 0,
-        cells: 1,
-        upgrades_membrane: 0,
-        upgrades_flagella: 0,
-        upgrades_mitochondria: 0,
-        upgrades_eukaryotes: false,
-        upgrades_size: 1,
-        upgrades_pili: 0
+        p_upgrades_membrane: 0,
+        p_upgrades_flagella: 0,
+        p_upgrades_mitochondrion: 0,
+        p_upgrades_nucleus: false,
+        p_upgrades_multi: false,
+        p_upgrades_size: 1,
+        p_upgrades_pili: 0,
+        p_upgrades_cell_wall_thickness: 0,
+        m_upgrades_cells: 1,
+        m_upgrades_cells: 0,
+        DNA_complexity: 5
     });
-    require('./cell.js').run(client, message, args);
+    require('./cell.js').run(client, message, []);
 }

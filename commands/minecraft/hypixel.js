@@ -7,7 +7,7 @@ module.exports.info = {
     usage: 'mcst/mcstatus <server ip>'
 };
 
-module.exports.run = async (client, message, args) => message.reply('The Hypixel API has currently broken because of JSON-schema \:(');
+module.exports.run = async (client, message, args) => client.error(message, 'The Hypixel API has currently broken because of JSON-schema \:(');
 
 /*
 const { MessageEmbed, MessageActionRow, MessageSelectMenu } = require('discord.js');

@@ -9,10 +9,10 @@ module.exports.info = {
 const { MessageEmbed } = require("discord.js");
 
 module.exports.run = (client, message, args) => {
-    if (!message.member.voice.channel.id)message.reply({embeds: [new MessageEmbed().setColor('RED').setDescription('You have to be in a VC to use this command!')]});
+    if (!message.member.voice.channel.id)client.error(message, 'You have to be in a VC to use this command!');
     else if (client.paused.has(message.guild.id)) {
         client.player.unpause();
         message.reply({ embeds: [new MessageEmbed().setDescription('Song was unpaused.')]});   
         client.paused.delete(message.guild.id);
-    } else message.reply({ embeds: [new MessageEmbed().setColor('RED').setDescription('Nothing is currently paused!')]});
+    } else client.error(message, 'Nothing is currently paused!');
 }

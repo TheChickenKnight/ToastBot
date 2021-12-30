@@ -10,7 +10,6 @@ module.exports.info = {
 const { MessageActionRow, MessageSelectMenu, MessageEmbed } = require("discord.js");
 
 module.exports.run = async (client, message, args) => {
-    let poll = [];
     let menu = new MessageSelectMenu()
         .addOptions({
             label: 'End', 
@@ -37,11 +36,11 @@ module.exports.run = async (client, message, args) => {
             }
         )
     } else {
-        if (args[1] == '1' || args[1] == '0')return message.reply('you need more than 1 options in a poll!');
+        if (args[1] == '1' || args[1] == '0')return client.error(message, 'you need more than 1 options in a poll!');
         try {
             args[1] = Math.floor(parseInt(args[1]));
         } catch {
-            return message.reply('you have to either give me nothing for a yes or no poll or a number!')
+            return client.error(message, 'you have to either give me nothing for a yes or no poll or a number!');
         }
         const filter = m => m.split(' ').length == 2 && m.author.id == message.author.id;
         await message.reply('Please send all ' + i +' option numbers in the syntax `label emoji`');
@@ -50,7 +49,7 @@ module.exports.run = async (client, message, args) => {
             time: 60000,
             max: args[1],
             errors: ['time']
-        }).catch(() => message.reply('You didn\'t give me all ' + args[0] + 'options you mentioned before'));
+        }).catch(() => client.error(message, 'You didn\'t give me all ' + args[0] + 'options you mentioned before'));
         menu.addOptions(
             answer.map(m => {
                 m = m.split(' ');

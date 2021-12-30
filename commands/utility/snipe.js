@@ -18,5 +18,5 @@ module.exports.run = async (client, message, args) => {
         const del = client.snipe.get(message.guildId);
         const person = await client.users.fetch(del.author.id);
         await webhooks[0][1].send({ content: del.content, username:  person.username, avatarURL: person.displayAvatarURL({format: 'png'})});
-    } else message.reply({ embeds: [new MessageEmbed().setDescription('❌ There was nothing to snipe!').setColor("#ff0000")]});
+    } else client.error(message, '❌ There was nothing to snipe!');
 }

@@ -10,7 +10,7 @@ module.exports.info = {
 };
 
 module.exports.run = async (client, message, args) => {
-    if (!args[0])return message.reply('You need to suggest something!');
+    if (!args[0])return client.error(message, 'You need to suggest something!');
     let embed = new MessageEmbed().setColor(client.randToastColor()).setTitle(args.map(arg => arg.charAt(0).toUpperCase() + arg.slice(1).toLowerCase()).join(' '));
     let suggestions = [message.author.id];
     let suggestors = await client.redis.KEYS('suggestion_*');

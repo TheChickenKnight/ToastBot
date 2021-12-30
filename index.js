@@ -37,6 +37,7 @@ client.barCreate = per => {
     return bar.join('');
 }
 
+client.error = (message, text) => message.reply({ embeds: [new MessageEmbed().setColor('RED').setDescription(':x: ' + text)]});
 
 client.randToastColor = () => ['#ffe6cc', '#996600', '#ffdd99', '#663300', '#331a00'][Math.floor(Math.random() * 5)];
 

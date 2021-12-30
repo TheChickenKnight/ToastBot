@@ -14,7 +14,7 @@ const play  = require('play-dl');
 
 module.exports.run = async (client, message, args) => {
     const video = await searchVideo(args.join(' '));
-    if (video.videos.length === 0)message.reply('I\'m sorry but I couldn\'t find this video on youtube!');
+    if (video.videos.length === 0)client.error(message, 'This search did not return anything.');
     else message.reply({ content: video.didyoumean.length !== 0 ? "Did you mean " + video.didyoumean + "?" : "\u200b", components: [new MessageActionRow().addComponents(new MessageSelectMenu().setPlaceholder('Result(s):').setCustomId(`play_menu_${message.author.id}_music`).addOptions(video.videos.map(item => { return { label: item.title, value: item.id, description: (item.artist.length === 0 ? sToF(item.duration) : sToF(item.duration) + ', by ' + item.artist)}}), { label: 'None of these!', value: 'none', emoji: '❌', description: 'Click to quit!'}))]});
 }
 

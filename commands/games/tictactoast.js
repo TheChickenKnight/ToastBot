@@ -78,10 +78,8 @@ module.exports.run = async (client, message, args) => {
         .setColor(client.randToastColor())
         .setTitle("** **              TicTacToe              ** **");
     var target = message.mentions.members.first();
-    if (!target || target.id == message.author.id)embed
-        .setDescription("❌ You can't play TicTacToe by yourself!")
-        .setFooter("Are you really this lonely?");
-    else if (client.tictactoe.has(message.author.id + target.id))embed.setDescription(`❌ You're already in a game with ${target}!`);
+    if (!target || target.id == message.author.id)return client.error(message, 'You can\'t play TicTacToast by youself')
+    else if (client.tictactoe.has(message.author.id + target.id))return client.error(message, `You're already in a game with ${target}`);
     else {
         const turn = Math.round(Math.random()) ? message.author.id : target.id;
         const turner = await client.users.fetch(turn);

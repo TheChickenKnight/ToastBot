@@ -9,7 +9,7 @@ module.exports.info = {
 const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 
 module.exports.run = async (client, message, args) => {
-    if (await client.redis.EXISTS('cell_' + message.author.id))return message.reply('You have already started! Do <prefix>reset delete all of your progress then come back!');
+    if (await client.redis.EXISTS('cell_' + message.author.id))return client.error(message, 'You have already started! Do <prefix>reset delete all of your progress then come back!');
     message.reply({
         embeds: [new MessageEmbed().setDescription('Are you sure you would like to start?')],
         components: [new MessageActionRow().addComponents(new MessageButton().setStyle('SUCCESS').setLabel('✔️').setCustomId(`start_yes_${message.author.id}_cells`), new MessageButton().setStyle('DANGER').setLabel('❌').setCustomId(`start_no_${message.author.id}_cells`))]        

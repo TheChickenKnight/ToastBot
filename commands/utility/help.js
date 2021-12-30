@@ -24,7 +24,7 @@ module.exports.run = async (client, message, args) => {
         if (client.timeIDs.get('help').has(message.author.id))await client.timeIDs.get('help').get(message.author.id).forEach(id => clearTimeout(id));
         await client.timeIDs.get('help').set(message.author.id, [setTimeout(async () => await msg.edit({components: [new MessageActionRow().addComponents(new MessageSelectMenu().setCustomId('Disabled').setPlaceholder('Disabled!').addOptions([{label: 'disabled', description: 'disabled', value: 'disabled'}]).setDisabled(true))]}), 10000)]);
     } else {
-        if (!client.commands.has(args[0].toLowerCase()))return message.reply('That\'s not a valid command! Spell better lmao');
+        if (!client.commands.has(args[0].toLowerCase()))return client.error(message, 'Your search doesn\'t match any commands.');
         const infObj = client.commands.get(args[0].toLowerCase()).info;
         var infoEmbed = new MessageEmbed()
             .setColor(client.randToastColor())

@@ -25,7 +25,7 @@ module.exports.menu = async (client, interaction) => {
         const queue = client.queues.get(interaction.member.guild.id) || { queue: [], titles: []};
         const info = await client.createEmbed(interaction.values[0], interaction.user.id, queue);
         if (info[0]) {
-            if (queue.queue.length !== 0)client.queues.set(interaction.member.guild.id, { loop: queue.loop, pos: queue.pos, queue: queue.queue.concat([info[2]]), titles: [queue.titles.concat([info[3]])]});
+            if (queue.queue.length !== 0)client.queues.set(interaction.member.guild.id, { loop: queue.loop, pos: queue.pos, queue: queue.queue.concat([info[2]]), titles: queue.titles.concat([info[3]])});
             else {
                 client.queues.set(interaction.member.guild.id, { loop: queue.loop, pos: 0, queue: [info[2]], titles: [info[3]]});
                 client.player = createAudioPlayer();
@@ -41,12 +41,12 @@ module.exports.menu = async (client, interaction) => {
                 client.player.on(AudioPlayerStatus.Idle, async () => {
                     let queue = client.queues.get(interaction.member.guild.id);
                     let embed = new MessageEmbed();
-                    if (queue.queue.length-1 === queue.pos && !queue.loop) {
+                    if ((queue.queue.length-1 === queue.pos || queue.queue.length === 0) && !queue.loop) {
                         connection.destroy();
                         client.queues.set(interaction.member.guild.id, { loop: queue.loop, pos: 0, queue: [], titles: []});
                         embed.setColor('RED').setDescription('Queue is empty, leaving...');
                     } else {
-                        queue = { loop: queue.loop, pos: queue.loop ? (queue.queue.length === queue.pos+1 ? 0 : queue.pos+1) : queue.pos+1, queue: queue.queue, titles: queue.titles};
+                        queue = { loop: queue.loop, pos: queue.loop ? (queue.queue.length === queue.pos+1 ? 0 : queue.pos+1) : queue.pos+1, queue: queue.queue, titles: queue.titles };
                         client.queues.set(interaction.member.guild.id, queue);
                         embed = (await client.createEmbed(queue.queue[queue.pos], interaction.user.id, queue))[1];
                         const stream = await play.stream(queue.queue[queue.pos]);

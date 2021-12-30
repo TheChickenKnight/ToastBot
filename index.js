@@ -1,4 +1,4 @@
-const { Client, Intents, Collection, MessageEmbed, MessageAttachment, MessageSelectMenu, MessageActionRow } = require('discord.js');
+const { Client, Intents, Collection, MessageEmbed, MessageSelectMenu, MessageActionRow } = require('discord.js');
 const { getBasicInfo } = require('ytdl-core');
 const fs = require('fs'), dotenv = require('dotenv'), redis = require('async-redis');
 dotenv.config();
@@ -42,14 +42,20 @@ client.randToastColor = () => ['#ffe6cc', '#996600', '#ffdd99', '#663300', '#331
 
 client.createEmbed = async (url, author, queue) => {
     const info = (await getBasicInfo(url, { lang: 'en'})).videoDetails;
-    if (info.age_restricted)return [false, new MessageEmbed().setColor('RED').setDescription('Sorry, but this video is NSFW')];
-    return [
+    return info.age_restricted ? [false, new MessageEmbed().setColor('RED').setDescription('Sorry, but this video is NSFW')] : [
         true, 
-        new MessageEmbed().setColor('GREEN').setDescription('**[' + info.title + '](' + info.video_url + ')**').setThumbnail(info.thumbnails[0].url).setAuthor('By ' + info.author.name + (info.author.verified ? ' \✔️' : ''), info.author.thumbnails[0].url, info.ownerProfileUrl).addFields({name: 'Likes', value: info.likes.toLocaleString('en-US'), inline: true}, {name: 'Dislikes', value: info.dislikes.toLocaleString('en-US'), inline: true}, {name: 'Views', value: parseInt(info.viewCount).toLocaleString('en-US'), inline: false}, {name: 'Track Length', value: sToF(info.lengthSeconds)}), 
-        info.video_url,
+        new MessageEmbed().setColor('GREEN').setDescription('**[' + info.title + '](' + info.video_url + ')**').setThumbnail(info.thumbnails[0].url).setAuthor('By ' + info.author.name + (info.author.verified ? ' \✔️' : ''), info.author.thumbnails[0].url, info.ownerProfileUrl).addFields({name: 'Likes', value: parseInt(info.likes).toLocaleString('en-US'), inline: true}, {name: 'Views', value: parseInt(info.viewCount).toLocaleString('en-US'), inline: false}, {name: 'Track Length', value: sToF(info.lengthSeconds)}), 
+        info.video_url.split('=').pop(),
         info.title,
-        new MessageActionRow().addComponents(new MessageSelectMenu().setCustomId(`queue_menu_${author}_music`).addOptions(queue.titles.map((item, i) => new Object({ name: item, value, value: queue.queue[i]}))))
+        new MessageActionRow().addComponents(new MessageSelectMenu().setCustomId(`queue_menu_${author}_music`).addOptions(queue.titles.map((item, i) => new Object({ label: item, value: queue.queue[i], description: sToF(info.lengthSeconds)}))))
     ];
+}
+
+const sToF = d => {
+    d = Number(d);
+    const h = Math.floor(d / 3600);
+    const m = Math.floor(d % 3600 / 60);
+    return (h > 0 ? h + 'h ' : '') + (m > 0 ? m + 'm' : '') + (h == 0 ? ' ' + (d - h*3600 - m*60) + 's' : ''); 
 }
 
 client.folders = fs.readdirSync('./commands/');

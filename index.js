@@ -44,7 +44,7 @@ client.createEmbed = async (url, author, queue) => {
     const info = (await getBasicInfo(url, { lang: 'en'})).videoDetails;
     return info.age_restricted ? [false, new MessageEmbed().setColor('RED').setDescription('Sorry, but this video is NSFW')] : [
         true, 
-        new MessageEmbed().setColor('GREEN').setDescription('**[' + info.title + '](' + info.video_url + ')**').setThumbnail(info.thumbnails[0].url).setAuthor('By ' + info.author.name + (info.author.verified ? ' \✔️' : ''), info.author.thumbnails[0].url, info.ownerProfileUrl).addFields({name: 'Likes', value: parseInt(info.likes).toLocaleString('en-US'), inline: true}, {name: 'Views', value: parseInt(info.viewCount).toLocaleString('en-US'), inline: false}, {name: 'Track Length', value: sToF(info.lengthSeconds)}), 
+        new MessageEmbed().setColor('GREEN').setDescription('**"[' + info.title + '](' + info.video_url + ')"** `' + sToF(info.lengthSeconds) + '`\n' + parseInt(info.likes).toLocaleString('en-US') + '👍 | ' + parseInt(info.viewCount).toLocaleString('en-US') + ' **Views**').setImage(info.thumbnails[0].url).setAuthor('By ' + info.author.name + (info.author.verified ? ' ✔️' : ''), info.author.thumbnails[0].url, info.ownerProfileUrl), 
         info.video_url.split('=').pop(),
         info.title,
         new MessageActionRow().addComponents(new MessageSelectMenu().setCustomId(`queue_menu_${author}_music`).addOptions(queue.titles.map((item, i) => new Object({ label: item, value: queue.queue[i], description: sToF(info.lengthSeconds)}))))

@@ -15,19 +15,19 @@ const play  = require('play-dl');
 module.exports.run = async (client, message, args) => {
     const video = await searchVideo(args.join(' '));
     if (video.videos.length === 0)client.error(message, 'This search did not return anything.');
-    else message.reply({ content: video.didyoumean.length !== 0 ? "Did you mean " + video.didyoumean + "?" : "\u200b", components: [new MessageActionRow().addComponents(new MessageSelectMenu().setPlaceholder('Result(s):').setCustomId(`play_menu_${message.author.id}_music`).addOptions(video.videos.map(item => { return { label: item.title, value: item.id, description: (item.artist.length === 0 ? sToF(item.duration) : sToF(item.duration) + ', by ' + item.artist)}}), { label: 'None of these!', value: 'none', emoji: '❌', description: 'Click to quit!'}))]});
+    else message.reply({ content: video.didyoumean.length !== 0 ? "Did you mean " + video.didyoumean + "?" : "\u200b", components: [new MessageActionRow().addComponents(new MessageSelectMenu().setPlaceholder('Result(s):').setCustomId(`play_menu_${message.author.id}_music`).addOptions(video.videos.map(item => { return { label: item.title, value: item.id, description: (item.artist.length === 0 ? client.stof(item.duration) : client.stof(item.duration) + ', by ' + item.artist)}}), { label: 'None of these!', value: 'none', emoji: '❌', description: 'Click to quit!'}))]});
 }
 
 module.exports.menu = async (client, interaction) => {
     if (interaction.values[0] === "none")interaction.update({embeds: [new MessageEmbed().setColor('RED').setTitle(':frowning2: Aw...')], components: []});
     else if(!interaction.member.voice.channel)interaction.update({embeds: [new MessageEmbed().setColor('RED').setDescription('You have to be in a voice channel to play a video!')]})
     else {
-        const queue = client.queues.get(interaction.member.guild.id) || { queue: [], titles: []};
+        const queue = client.queues.get(interaction.member.guild.id) || { queue: [], titles: [], times: []};
         const info = await client.createEmbed(interaction.values[0], interaction.user.id, queue);
         if (info[0]) {
-            if (queue.queue.length !== 0)client.queues.set(interaction.member.guild.id, { loop: queue.loop, pos: queue.pos, queue: queue.queue.concat([info[2]]), titles: queue.titles.concat([info[3]])});
+            if (queue.queue.length !== 0)client.queues.set(interaction.member.guild.id, { loop: queue.loop, pos: queue.pos, queue: queue.queue.concat([info[2]]), titles: queue.titles.concat([info[3]]), times: queue.times.concat([info[5]])});
             else {
-                client.queues.set(interaction.member.guild.id, { loop: queue.loop, pos: 0, queue: [info[2]], titles: [info[3]]});
+                client.queues.set(interaction.member.guild.id, { loop: queue.loop, pos: 0, queue: [info[2]], titles: [info[3]], times: [info[5]]});
                 client.player = createAudioPlayer();
                 const stream = await play.stream(info[2]);
                 client.player.play(createAudioResource(stream.stream, { inputType: stream.type}));
@@ -43,10 +43,10 @@ module.exports.menu = async (client, interaction) => {
                     let embed = new MessageEmbed();
                     if ((queue.queue.length-1 === queue.pos || queue.queue.length === 0) && !queue.loop) {
                         connection.destroy();
-                        client.queues.set(interaction.member.guild.id, { loop: queue.loop, pos: 0, queue: [], titles: []});
+                        client.queues.delete(interaction.member.guild.id);
                         embed.setColor('RED').setDescription('Queue is empty, leaving...');
                     } else {
-                        queue = { loop: queue.loop, pos: queue.loop ? (queue.queue.length === queue.pos+1 ? 0 : queue.pos+1) : queue.pos+1, queue: queue.queue, titles: queue.titles };
+                        queue = { loop: queue.loop, pos: queue.loop ? (queue.queue.length === queue.pos+1 ? 0 : queue.pos+1) : queue.pos+1, queue: queue.queue, titles: queue.titles, times: queue.times };
                         client.queues.set(interaction.member.guild.id, queue);
                         embed = (await client.createEmbed(queue.queue[queue.pos], interaction.user.id, queue))[1];
                         const stream = await play.stream(queue.queue[queue.pos]);
@@ -62,5 +62,3 @@ module.exports.menu = async (client, interaction) => {
         });
     }
 }
-
-const sToF = (seconds) => (seconds >= 3600 ? Math.floor(seconds/3600) + ":" : "") + (Math.floor(seconds/60) - Math.floor(seconds/3600) * 60) + ':' + (seconds%60 < 10 ? '0' : '') + seconds%60;

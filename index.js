@@ -37,7 +37,7 @@ client.barCreate = per => {
     return bar.join('');
 }
 
-client.error = (message, text) => message.reply({ embeds: [new MessageEmbed().setColor('RED').setDescription(':x: ' + text)]});
+client.error = (message, text) => message.reply({ embeds: [new MessageEmbed().setColor('RED').setDescription('`❌` ' + text)]});
 
 client.randToastColor = () => ['#ffe6cc', '#996600', '#ffdd99', '#663300', '#331a00'][Math.floor(Math.random() * 5)];
 
@@ -45,14 +45,15 @@ client.createEmbed = async (url, author, queue) => {
     const info = (await getBasicInfo(url, { lang: 'en'})).videoDetails;
     return info.age_restricted ? [false, new MessageEmbed().setColor('RED').setDescription('Sorry, but this video is NSFW')] : [
         true, 
-        new MessageEmbed().setColor('GREEN').setDescription('**"[' + info.title + '](' + info.video_url + ')"** `' + sToF(info.lengthSeconds) + '`\n' + parseInt(info.likes).toLocaleString('en-US') + '👍 | ' + parseInt(info.viewCount).toLocaleString('en-US') + ' **Views**').setImage(info.thumbnails[0].url).setAuthor('By ' + info.author.name + (info.author.verified ? ' ✔️' : ''), info.author.thumbnails[0].url, info.ownerProfileUrl), 
-        info.video_url.split('=').pop(),
+        new MessageEmbed().setColor('GREEN').setDescription('**"[' + info.title + '](' + info.video_url + ')"** `' + client.stof(info.lengthSeconds) + '`\n' + parseInt(info.likes).toLocaleString('en-US') + '👍 | ' + parseInt(info.viewCount).toLocaleString('en-US') + ' **Views**').setImage(info.thumbnails[0].url).setAuthor('By ' + info.author.name + (info.author.verified ? ' ✔️' : ''), info.author.thumbnails[0].url, info.ownerProfileUrl), 
+        url,
         info.title,
-        new MessageActionRow().addComponents(new MessageSelectMenu().setCustomId(`queue_menu_${author}_music`).addOptions(queue.titles.map((item, i) => new Object({ label: item, value: queue.queue[i], description: sToF(info.lengthSeconds)}))))
+        new MessageActionRow().addComponents(new MessageSelectMenu().setCustomId(`queue_menu_${author}_music`).addOptions(queue.titles.map((item, i) => new Object({ label: item, value: queue.queue[i], description: client.stof(info.lengthSeconds)})))),
+        client.stof(info.lengthSeconds)
     ];
 }
 
-const sToF = d => {
+client.stof = d => {
     d = Number(d);
     const h = Math.floor(d / 3600);
     const m = Math.floor(d % 3600 / 60);

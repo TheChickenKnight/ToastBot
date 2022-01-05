@@ -20,7 +20,7 @@ module.exports.run = async (client, message, args) => {
                 var embed = new MessageEmbed().setTitle((res.hostname || `${res.ip}:${res.port}`) + (!(!res.version) ? `(${res.version})` : ' ')).setColor("RED").setDescription("❌ This server is currently offline!").setThumbnail('attachment://DefaultMinecraft.png');
                 if (res.online) {
                     file = new MessageAttachment(new Buffer.from(res.icon.split(',')[1], 'base64'), 'img.png');
-                    embed.setThumbnail('attachment://img.png').setColor(client.randToastColor()).setDescription(`**${res.motd.clean[Math.floor(Math.random() * res.motd.clean.length)]}**\n\`${res.players.online}\` out of \`${res.players.max}\` players are currently playing!`)
+                    embed.setThumbnail('attachment://img.png').setColor('GREEN').setDescription(`**${res.motd.clean[Math.floor(Math.random() * res.motd.clean.length)]}**\n\`${res.players.online}\` out of \`${res.players.max}\` players are currently playing!`)
                     if (res.players.list)embed.addField("Players:", res.players.list.map(player => player.replace(/(?=_|\*|`|~|\||\\)/g, '\\')).join('\n'));
                 }
             } 

@@ -21,7 +21,7 @@ module.exports.run = async (client, message, args) => {
                 if (res.online) {
                     file = new MessageAttachment(new Buffer.from(res.icon.split(',')[1], 'base64'), 'img.png');
                     embed.setThumbnail('attachment://img.png').setColor('GREEN').setDescription(`**${res.motd.clean[Math.floor(Math.random() * res.motd.clean.length)]}**\n\`${res.players.online}\` out of \`${res.players.max}\` players are currently playing!`)
-                    if (res.players.list)embed.addField("Players:", res.players.list.map((player, i) => `**${i}.** ${player.replace(/(?=_|\*|`|~|\||\\)/g, '\\')}`).join('\n'));
+                    if (res.players.list)embed.addField("Players:", res.players.list.map((player, i) => `**${i+1}.** ${player.replace(/(?=_|\*|`|~|\||\\)/g, '\\')}`).join('\n'));
                 }
             } 
             await message.reply({embeds: [embed], files: [file], components: [new MessageActionRow().addComponents(new MessageButton().setCustomId(`mcstatus_${args.join(' ')}_all_minecraft`).setLabel('Make Default?').setStyle('SECONDARY').setDisabled(args.length == 0 || ((await client.redis.HGET(`guildSpec_${message.channel.guildId}`, 'default_mc_server')) && (await client.redis.HGET(`guildSpec_${message.channel.guildId}`, 'default_mc_server')) == args.join(' '))))]});

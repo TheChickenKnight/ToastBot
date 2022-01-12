@@ -9,9 +9,9 @@ module.exports.info = {
 };
 
 module.exports.run = (client, message, args) => {
-    if (!args[0])return client.error(message, 'You need to mention the person you want to fight.');
     const target = message.mentions.members.first();
-    if (!target)return client.error(message, 'You can\'t fight a bot.');
+    if (!target || target.user.id == message.author.id)return client.error(message, 'You can\'t fight by yourself!');
+    if (target.user.bot)return client.error(message, 'bots can\'t fight back.');
     const healthPlusShield = '❤️ ' + client.barCreate(100) + '\n**100%**\n🛡️ ' + client.barCreate(0) + '\n**0%**';
     const first = [
         target.user,

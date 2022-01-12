@@ -28,13 +28,12 @@ client.commands = new Collection(), client.aliases = new Collection(), client.co
 const creBar = (type, level) => '<:' + type + level + 'Bar:' + (type == 'l' ? (level == 0 ? '897903792371171379' : (level == 1 ? '897904228109008907' : (level == 2 ? '897904571064672287' : (level == 3 ? '897904670780055573' : (level == 4 ? '897904771439136798' : '897903598829178950'))))) : (type == 'r' ? (level == 0 ? '897905864118251602' : (level == 1 ? '897905324990791721' : (level == 2 ? '897905425205321768' : (level == 3 ? '897905541362376704' : (level == 4 ? '897905636992503848' : '897905716256469052'))))) : (level == 0 ? '897906311495303168' : (level == 1 ? '897906423030222899' : (level == 2 ? '897906503397298186' : (level == 3 ? '897906621039140865' : (level == 4 ? '897906714471465061' : '897906793768964136'))))))) + '>';
 
 client.barCreate = per => {
-    let bar = [creBar('l', Math.round(per / 2))];
-    const extra = per - (Math.floor(per / 10) * 10);
-    per-=extra; let i;
-    for (i = 1; i < per / 10; i++) bar.push(creBar(i == 10 ? 'r' : 'm', 5));
-    bar.push(creBar(i == 10 ? 'r' : 'm', Math.round(extra / 2)));
-    for (let j = 0; j < 10 - ((per / 10) + (extra > 0 ? 1 : 0)); j++) bar.push(creBar(i + j + 2 == 10 ? 'r' : 'm', 0));
-    return bar.join('');
+    if (per > 100)per = 100;
+    if (per < 0)per = 0;
+    per /= 2;
+    var bar = creBar('l', per > 5 ? 5 : Math.round(per));
+    for (let i = 2; i <= 9; i++) bar += creBar('m', Math.round(per + 5 - i*5 > 5 ? 5 : (per + 5 - i*5 < 0 ? 0 : per + 5 - i*5)));
+    return bar + creBar('r', per - 45 < 0 ? 0 : Math.floor(per - 45)); 
 }
 
 client.error = (message, text) => message.reply({ embeds: [new MessageEmbed().setColor('RED').setDescription('`❌` ' + text)]});

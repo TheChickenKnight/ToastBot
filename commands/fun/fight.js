@@ -102,7 +102,10 @@ module.exports.button = async (client, interaction) => {
 
             var difference = shield;
             shield+=Math.floor(Math.random()*12);
-            if (shield > 5 && shield != 11) shield-=Math.floor(Math.random()*5);
+            if (shield > 5 && shield != 11) {
+                shield-=Math.floor(Math.random()*5);
+                if (shield < difference)shield = difference;
+            }
             else if (shield == 11) {
                 status += ' **DRASTICALLY**';
                 shield += Math.floor(Math.random()*5);
@@ -134,10 +137,10 @@ module.exports.button = async (client, interaction) => {
     }
     if (first.health < 0) {
         disabled = true;
-        status+=`\n$**${first.username}** IS OUT COLD!!! **${second.username}** IS WINS!!!!`;
+        status+=`\n**${first.username}** IS OUT COLD!!! **${second.username}** WINS!!!!`;
     } else if (second.health < 0) {
         disabled = true;
-        status+=`\n$**${second.username}** IS OUT COLD!!! **${first.username}** IS WINS!!!!`;
+        status+=`\n**${second.username}** IS OUT COLD!!! **${first.username}** WINS!!!!`;
     }
     
 

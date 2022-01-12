@@ -135,10 +135,10 @@ module.exports.button = async (client, interaction) => {
             disabled = true;
         break;
     }
-    if (first.health < 0) {
+    if (first.health <= 0) {
         disabled = true;
         status+=`\n**${first.username}** IS OUT COLD!!! **${second.username}** WINS!!!!`;
-    } else if (second.health < 0) {
+    } else if (second.health <= 0) {
         disabled = true;
         status+=`\n**${second.username}** IS OUT COLD!!! **${first.username}** WINS!!!!`;
     }

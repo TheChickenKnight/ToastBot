@@ -73,8 +73,8 @@ module.exports.button = async (client, interaction) => {
         case 'punch':
             var damage = Math.floor(Math.random() * 27);
             var crit = false;
-            if (damage == 26) {
-                damage+=Math.floor(Math.random() * 26);
+            if (damage >= 23) {
+                damage+=Math.floor(Math.random() * 16) + 10;
                 crit = true;
             }
             damage-=Math.floor((first.turn ? second.shield : first.shield)/100*damage);

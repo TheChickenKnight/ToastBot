@@ -8,14 +8,41 @@ module.exports.info = {
 
 const { createAudioPlayer, createAudioResource, joinVoiceChannel, AudioPlayerStatus } = require('@discordjs/voice');
 const { MessageEmbed, MessageActionRow, MessageSelectMenu } = require('discord.js');
-const { searchVideo } = require('usetube');
+const ytsr = require('ytsr');
 const play  = require('play-dl');
 
 
 module.exports.run = async (client, message, args) => {
-    const video = await searchVideo(args.join(' '));
-    if (video.videos.length === 0)client.error(message, 'This search did not return anything.');
-    else message.reply({ content: video.didyoumean.length !== 0 ? "Did you mean " + video.didyoumean + "?" : "\u200b", components: [new MessageActionRow().addComponents(new MessageSelectMenu().setPlaceholder('Result(s):').setCustomId(`play_menu_${message.author.id}_music`).addOptions(video.videos.map(item => { return { label: item.title, value: item.id, description: (item.artist.length === 0 ? client.stof(item.duration) : client.stof(item.duration) + ', by ' + item.artist)}}), { label: 'None of these!', value: 'none', emoji: '❌', description: 'Click to quit!'}))]});
+    var video = await ytsr(args.join(' '), {
+        safeSearch: !message.channel.nsfw,
+        limit: 10
+    });
+    video.items = video.items.filter(item => item.type == 'video' || item.type == 'movie');
+    if (video.items.length === 0)client.error(message, 'This search did not return anything.');
+    else message.reply({ 
+        content: (video.originalQuery !== video.correctedQuery ? "Did you mean " + video.correctedQuery + "?" : "\u200b") + (message.channel.nsfw ? '\nThis channel is marked as NSFW so the results could be explicit!' : ''), 
+        components: [
+            new MessageActionRow().addComponents(
+                new MessageSelectMenu()
+                    .setPlaceholder('Result(s):')
+                    .setCustomId(`play_menu_${message.author.id}_music`)
+                    .addOptions(
+                        video.items.map(item => { 
+                            return { 
+                                label: item.title, 
+                                value: item.id, 
+                                description: item.duration + ' | by ' + item.author.name + (item.author.ownerBadges.includes('Verified') ? ' ✔️' : '')
+                            }
+                        }), { 
+                            label: 'None of these!', 
+                            value: 'none', 
+                            emoji: '❌', 
+                            description: 'Click to quit!'
+                        }
+                    )
+            )
+        ]
+    });
 }
 
 module.exports.menu = async (client, interaction) => {

@@ -20,8 +20,8 @@
     "play-dl": "^1.2.7",
     "pm2": "^5.1.2",
     "pretty-ms": "^7.0.1",
-    "usetube": "^2.1.4",
-    "ytdl-core": "^4.9.2"
+    "ytdl-core": "^4.9.2",
+    "ytsr": "^3.6.0"
   },
   "devDependencies": {
     "@types/node-fetch": "^3.0.3",

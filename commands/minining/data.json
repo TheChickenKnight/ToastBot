@@ -1,0 +1,20 @@
+{
+    "mines": {
+        "generic": {
+            "name": "generic",
+            "description": "the \"mine\" of mines. Yeah, pretty boring. You have to start somewhere...",
+            "color": "#ffffff",
+            "ores": {
+                "small": {
+                    "chance": 50
+                },
+                "medium": {
+                    
+                }
+            }
+        }
+    },
+    "ores": {
+
+    }
+}

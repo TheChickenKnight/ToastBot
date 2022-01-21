@@ -3,7 +3,7 @@ const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 module.exports.info = {
     name: 'fight',
     cooldown: 1,
-    section: 'fun',
+    section: 'games',
     description: 'FIGHT FIGHT FIGHT',
     usage: 'fight <@ someone>'
 };
@@ -42,15 +42,15 @@ module.exports.run = (client, message, args) => {
         components: [
             new MessageActionRow().addComponents(
                 new MessageButton()
-                    .setCustomId(`fight_punch_${first.id}_${first.id}_100_0_${second.id}_100_0_fun`)
+                    .setCustomId(`fight_punch_${first.id}_${first.id}_100_0_${second.id}_100_0_games`)
                     .setStyle('PRIMARY')
                     .setLabel('Punch'),
                 new MessageButton()
-                    .setCustomId(`fight_defend_${first.id}_${first.id}_100_0_${second.id}_100_0_fun`)
+                    .setCustomId(`fight_defend_${first.id}_${first.id}_100_0_${second.id}_100_0_games`)
                     .setStyle('SECONDARY')
                     .setLabel('Defend'),
                 new MessageButton()
-                    .setCustomId(`fight_run_${first.id}_${first.id}_100_0_${second.id}_100_0_fun`)
+                    .setCustomId(`fight_run_${first.id}_${first.id}_100_0_${second.id}_100_0_games`)
                     .setStyle('DANGER')
                     .setLabel('Run'),
             )
@@ -168,17 +168,17 @@ module.exports.button = async (client, interaction) => {
         components: [
             new MessageActionRow().addComponents(
                 new MessageButton()
-                    .setCustomId(`fight_punch_${interaction.customId[2] == first.id ? second.id : first.id}_${first.id}_${first.health}_${first.shield}_${second.id}_${second.health}_${second.shield}_fun`)
+                    .setCustomId(`fight_punch_${interaction.customId[2] == first.id ? second.id : first.id}_${first.id}_${first.health}_${first.shield}_${second.id}_${second.health}_${second.shield}_games`)
                     .setStyle('PRIMARY')
                     .setLabel('Punch')
                     .setDisabled(disabled),
                 new MessageButton()
-                    .setCustomId(`fight_defend_${interaction.customId[2] == first.id ? second.id : first.id}_${first.id}_${first.health}_${first.shield}_${second.id}_${second.health}_${second.shield}_fun`)
+                    .setCustomId(`fight_defend_${interaction.customId[2] == first.id ? second.id : first.id}_${first.id}_${first.health}_${first.shield}_${second.id}_${second.health}_${second.shield}_games`)
                     .setStyle('SECONDARY')
                     .setLabel('Defend')
                     .setDisabled(disabled),
                 new MessageButton()
-                    .setCustomId(`fight_run_${interaction.customId[2] == first.id ? second.id : first.id}_${first.id}_${first.health}_${first.shield}_${second.id}_${second.health}_${second.shield}_fun`)
+                    .setCustomId(`fight_run_${interaction.customId[2] == first.id ? second.id : first.id}_${first.id}_${first.health}_${first.shield}_${second.id}_${second.health}_${second.shield}_games`)
                     .setStyle('DANGER')
                     .setLabel('Run')
                     .setDisabled(disabled),

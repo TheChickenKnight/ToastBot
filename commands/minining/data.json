@@ -4,17 +4,44 @@
             "name": "generic",
             "description": "the \"mine\" of mines. Yeah, pretty boring. You have to start somewhere...",
             "color": "#ffffff",
+            "levelRequired": 0,
+            "traps": {
+                "trap": {
+                    "name": "trap",
+                    "chance": 1,
+                    "damage": 1,
+                    "time": 72
+                }
+            },
             "ores": {
                 "small": {
-                    "chance": 50
-                },
-                "medium": {
-                    
+                    "name": "small",
+                    "chance": 50,
+                    "purity": 100,
+                    "veinMin": 1,
+                    "veinMax": 2
                 }
             }
         }
     },
     "ores": {
+        "small": {
+            "name": "small",
+            "description": "really just so normal. it's hard to discern from stone.",
+            "color": "#eeeeee",
+            "levelRequired": 1,
+            "weight": 0.005,
+            "cost": 0.05
+        },
+        "medium": {
 
+        }
+    },
+    "traps": {
+        "trap": {
+            "name": "trap",
+            "description": "classic trap trap. Does trap things. You know.",
+            "file": "trap"
+        }
     }
 }

@@ -1,4 +1,4 @@
-module.exports.info = {
+export const info = {
     name: 'pokedex',
     aliases: ['dex'],
     cooldown: 2,
@@ -7,18 +7,25 @@ module.exports.info = {
     usage: 'not yet'
 }
 
-const { MessageEmbed } = require('discord.js');
-const fetch = require('node-fetch');
+import { MessageEmbed } from 'discord.js';
+import fetch from 'node-fetch';
 var pokemons;
-fetch('https://pokeapi.co/api/v2/pokemon/?limit=10220').then(res => res.json()).then(res => pokemons = res.results);
-const isForms = (object) => object.filter(pokemon => pokemon.name)
+fetch('https://pokeapi.co/api/v2/pokemon/?limit=10220')
+    .then(res => res.json())
+    .then(res => pokemons = res.results);
+function isForms(object) {
+    return object.filter(pokemon => pokemon.name)
+}
 
-module.exports.run = async (client, message, args) => {
-    if (!args[0])return client.error(message, 'You have to specify a Pokemon!');
-    if (/(mega|gmax|galar|totem|alola|(fe|)male)/i.test(args[0].toLowerCase()) && args[1])args[0] = `${args[1]}-${args[0]}`;
+export async function run(client, message, args) {
+    if (!args[0])
+        return client.error(message, 'You have to specify a Pokemon!');
+    if (/(mega|gmax|galar|totem|alola|(fe|)male)/i.test(args[0].toLowerCase()) && args[1])
+        args[0] = `${args[1]}-${args[0]}`;
     const object = pokemons.filter(species => species.name.includes(args[0]));
     var embed = new MessageEmbed().setColor(client.randToastColor());
-    if (!object.length)embed.setColor("#ff0000").setTitle(args[0]).setDescription('Your search isn\'t included in my database.');
+    if (!object.length)
+        embed.setColor("#ff0000").setTitle(args[0]).setDescription('Your search isn\'t included in my database.');
     else if (object.length == 1 || isForms(object)) {
         var pokemon, species; 
         await fetch(object[0].url).then(res => res.json()).then(res => pokemon = res);

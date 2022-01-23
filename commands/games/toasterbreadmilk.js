@@ -1,4 +1,4 @@
-module.exports.info = {
+export const info = {
     name: 'toasterbreadmilk',
     aliases: ['rps', 'rockpaperscissors'],
     cooldown: 20,
@@ -9,13 +9,15 @@ module.exports.info = {
     usage: 'toasterbreadmilk/rockpaperscissors/rps <@ someone>'
 };
 
-const { MessageActionRow, MessageButton, MessageEmbed } = require("discord.js");
+import { MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
 var toasterButton = new MessageButton().setEmoji('<:toaster:877591407668396043>').setStyle('SECONDARY'),
 milkButton = new MessageButton().setEmoji('🥛').setStyle('SECONDARY'),
 breadButton = new MessageButton().setEmoji('🍞').setStyle('SECONDARY');
-const victory = (choice, answer) => (choice == answer) ? 'tied.' : ((choice == '<:toaster:877591407668396043>' && answer == '🍞') || (choice == '🍞' && answer == '🥛') || (choice == '🥛' && answer == '<:toaster:877591407668396043>')) ? 'won!' : 'lost.';           
+function victory(choice, answer) {
+    return (choice == answer) ? 'tied.' : ((choice == '<:toaster:877591407668396043>' && answer == '🍞') || (choice == '🍞' && answer == '🥛') || (choice == '🥛' && answer == '<:toaster:877591407668396043>')) ? 'won!' : 'lost.';           
+} 
 
-module.exports.run = (client, message, args) => {
+export function run(client, message, args) {
     var embed = new MessageEmbed().setColor(client.randToastColor()).setTitle('~~RockPa~~ TOASTERBREADMILK').setFooter('try the help command for what beats what.');
     const target = message.mentions.members.first();
     var ids;
@@ -42,7 +44,7 @@ module.exports.run = (client, message, args) => {
     });
 }
 
-module.exports.button = async (client, interaction) => {
+export async function button (client, interaction) {
     var embed = new MessageEmbed().setColor(client.randToastColor()).setTitle('TOASTERBREADMILK');
     const interArray = interaction.customId.split('_');
     if (!interaction.customId.includes('<->')) {
@@ -67,15 +69,17 @@ module.exports.button = async (client, interaction) => {
                     )
             ]
         });
-        setTimeout(async () => {
+        setTimeout(async function() {
             await interaction.editReply({embeds: [embed.setDescription('Chosen! Toaster!')]});
-            setTimeout(async () => {
+            setTimeout(async function() {
                 await interaction.editReply({embeds: [embed.setDescription('Chosen! Bread!')]});
-                setTimeout(async () => {
+                setTimeout(async function() {
                     await interaction.editReply({embeds: [embed.setDescription('Chosen! Milk!')]});
-                    setTimeout(async () => {
+                    setTimeout(async function() {
                         await interaction.editReply({embeds: [embed.setDescription('SHOOT!')]});
-                        setTimeout(async () => await interaction.editReply({embeds: [embed.setDescription(`Hm. It seems you have ${victory(interArray[1], answer)}`).addFields({ name: 'You Chose:', value: interArray[1], inline: true }, { name: 'I Chose:', value: answer, inline: true })]}), 1000)
+                        setTimeout(async function() {
+                            await interaction.editReply({embeds: [embed.setDescription(`Hm. It seems you have ${victory(interArray[1], answer)}`).addFields({ name: 'You Chose:', value: interArray[1], inline: true }, { name: 'I Chose:', value: answer, inline: true })]}), 1000
+                        }, 1000)
                     }, 1000);
                 }, 1000);
             }, 1000);
@@ -106,15 +110,15 @@ module.exports.button = async (client, interaction) => {
                     breadButton.setDisabled(true)
                 )
             ]});   
-            setTimeout(async () => {
+            setTimeout(async function() {
                 await interaction.editReply({embeds: [embed.setDescription('Toaster!')]});
-                setTimeout(async () => {
+                setTimeout(async function() {
                     await interaction.editReply({embeds: [embed.setDescription('Bread!')]});
-                    setTimeout(async () => {
+                    setTimeout(async function() {
                         await interaction.editReply({embeds: [embed.setDescription('Milk!')]});
-                        setTimeout(async () => {
+                        setTimeout(async function() {
                             await interaction.editReply({embeds: [embed.setDescription('SHOOT!')]});
-                            setTimeout(async () => {
+                            setTimeout(async function() {
                                 await interaction.editReply({embeds: [new MessageEmbed()
                                     .setColor(client.randToastColor())
                                     .setTitle('TOASTBREADMILK')

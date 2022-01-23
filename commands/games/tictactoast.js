@@ -1,4 +1,4 @@
-module.exports.info = {
+export const info = {
     name: 'tictactoast',
     aliases: ['ttt', 'tictactoe'],
     cooldown: 20,
@@ -8,9 +8,9 @@ module.exports.info = {
     usage: 'ttt/tictactoe/tictactoast <@ someone>'
 };
 
-const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
+import { MessageEmbed, MessageActionRow, MessageButton } from "discord.js";
 
-const boardInit = game => {
+function boardInit(game) {
     var array2D = [];
     game.board.forEach((row, x) => {
         var ActionRow = new MessageActionRow();
@@ -48,7 +48,7 @@ const boardInit = game => {
     });
     return array2D;
 }
-const hasWon = board => {
+function hasWon(board) {
     var tie = true, hor = false;
     board.forEach(row => {
         if (row[0] == 'x' && row[1] == 'x' && row[2] == 'x')hor = 'x';
@@ -73,7 +73,7 @@ const hasWon = board => {
         );
 } 
 
-module.exports.run = async (client, message, args) => { 
+export async function run(client, message, args) { 
     var embed = new MessageEmbed()
         .setColor(client.randToastColor())
         .setTitle("** **              TicTacToe              ** **");
@@ -105,7 +105,7 @@ module.exports.run = async (client, message, args) => {
     }
 }     
 
-module.exports.button = async (client, interaction) => {
+export async function button(client, interaction) {
     var embed = new MessageEmbed()
         .setColor(client.randToastColor())
         .setTitle("** **              TicTacToe              ** **");
@@ -154,4 +154,6 @@ module.exports.button = async (client, interaction) => {
     }
 }
 
-const ttt = (arr, me) => arr[0].split('').concat(arr[1].split(''), arr[2].split('')).map(item => (me === 'x' ? ['', 'o', 'x'] : ['', 'x', 'o']).indexOf(item));
+function ttt(arr, me) {
+    return arr[0].split('').concat(arr[1].split(''), arr[2].split('')).map(item => (me === 'x' ? ['', 'o', 'x'] : ['', 'x', 'o']).indexOf(item));
+} 

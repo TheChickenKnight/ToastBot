@@ -1,4 +1,4 @@
-module.exports.info = {
+export const info = {
     name: 'mcstatus',
     cooldown: 3,
     aliases: ['mcst'],
@@ -7,10 +7,10 @@ module.exports.info = {
     usage: 'mcst/mcstatus <server ip>'
 };
 
-const { MessageEmbed, MessageAttachment, MessageActionRow, Message, MessageButton } = require('discord.js');
-const fetch = require('node-fetch');
+import { MessageEmbed, MessageAttachment, MessageActionRow, MessageButton } from 'discord.js';
+import fetch from 'node-fetch';
 
-module.exports.run = async (client, message, args) => {
+export async function run(client, message, args) {
     if (!args[0] && !(await client.redis.HEXISTS(`guildSpec_${message.channel.guildId}`, 'default_mc_server')))client.error(message, 'You have to include a server ip!');
     else {
         fetch(`https://api.mcsrvstat.us/2/${args.length > 0 ? args.join(' ') : (await client.redis.HGET(`guildSpec_${message.channel.guildId}`, 'default_mc_server'))}`).then(res => res.json()).then(async res => {
@@ -29,4 +29,6 @@ module.exports.run = async (client, message, args) => {
     }
 }
 
-module.exports.button = (client, interaction) => client.redis.HSET(`guildSpec_${interaction.channel.guildId}`, 'default_mc_server', interaction.customId.split('_')[1]);
+export function button(client, interaction) {
+    client.redis.HSET(`guildSpec_${interaction.channel.guildId}`, 'default_mc_server', interaction.customId.split('_')[1]);
+} 

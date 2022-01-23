@@ -1,4 +1,4 @@
-module.exports.info = {
+export const info = {
     name: 'queue',
     cooldown: 2,
     section: 'music',
@@ -6,9 +6,9 @@ module.exports.info = {
     usage: '<`prefix`>queue'
 };
 
-const { MessageSelectMenu, MessageActionRow } = require("discord.js");
+import { MessageSelectMenu, MessageActionRow } from 'discord.js';
 
-module.exports.run = async (client, message, args) => {
+export async function run(client, message, args) {
     const queue = client.queues.get(message.channel.guildId) || undefined;
     if (!queue)return client.error(message, 'The queue is currently empty.');
     const embed = await client.createEmbed(queue.queue[queue.pos], message.author.id, queue);
@@ -36,7 +36,7 @@ module.exports.run = async (client, message, args) => {
     });
 }
 
-module.exports.menu = async (client, interaction) => {
+export async function menu(client, interaction) {
     const queue = client.queues.get(interaction.channel.guildId) || undefined;
     if (!queue)return client.error(message, 'The queue is currently empty.');
     interaction.update({

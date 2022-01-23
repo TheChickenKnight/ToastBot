@@ -1,4 +1,4 @@
-module.exports.info = {
+export const info = {
     name: 'loop',
     cooldown: 2,
     section: 'music',
@@ -6,9 +6,9 @@ module.exports.info = {
     usage: '<`prefix`>loop'
 };
 
-const { MessageEmbed } = require("discord.js");
+import { MessageEmbed } from "discord.js";
 
-module.exports.run = (client, message, args) => {
+export function run(client, message, args) {
     const queue = client.queues.get(message.guild.id);
     client.queues.set(message.guild.id, { loop: !queue.loop, pos: queue.pos, queue: queue.queue });
     message.reply({embeds: [new MessageEmbed().setColor('GREEN').setDescription(queue.loop ? 'stopped the current loop!' : 'looping the current queue!')]});

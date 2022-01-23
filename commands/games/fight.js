@@ -1,6 +1,6 @@
-const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
+import { MessageEmbed, MessageActionRow, MessageButton } from 'discord.js';
 
-module.exports.info = {
+export const info = {
     name: 'fight',
     cooldown: 1,
     section: 'games',
@@ -8,7 +8,7 @@ module.exports.info = {
     usage: 'fight <@ someone>'
 };
 
-module.exports.run = (client, message, args) => {
+export function run(client, message, args) {
     const target = message.mentions.members.first();
     if (!target || target.user.id == message.author.id)return client.error(message, 'You can\'t fight by yourself!');
     if (target.user.bot)return client.error(message, 'bots can\'t fight back.');
@@ -58,7 +58,7 @@ module.exports.run = (client, message, args) => {
     })
 };
 
-module.exports.button = async (client, interaction) => {
+export async function button(client, interaction) {
     var status, disabled = false;
     interaction.customId = interaction.customId.split('_');
     var first = await client.users.cache.get(interaction.customId[3]);

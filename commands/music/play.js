@@ -1,4 +1,4 @@
-module.exports.info = {
+export const info = {
     name: 'play',
     cooldown: 2,
     section: 'music',
@@ -6,53 +6,58 @@ module.exports.info = {
     usage: '<`prefix`>play'
 };
 
-const { createAudioPlayer, createAudioResource, joinVoiceChannel, AudioPlayerStatus } = require('@discordjs/voice');
-const { MessageEmbed, MessageActionRow, MessageSelectMenu } = require('discord.js');
-const ytsr = require('ytsr');
-const play  = require('play-dl');
+import { createAudioPlayer, createAudioResource, joinVoiceChannel, AudioPlayerStatus } from '@discordjs/voice';
+import { MessageEmbed, MessageActionRow, MessageSelectMenu } from 'discord.js';
+import ytsr from 'ytsr';
+import play from 'play-dl';
 
 
-module.exports.run = async (client, message, args) => {
+export async function run(client, message, args) {
     var video = await ytsr(args.join(' '), {
         safeSearch: !message.channel.nsfw,
         limit: 10
     });
     video.items = video.items.filter(item => item.type == 'video' || item.type == 'movie');
-    if (video.items.length === 0)client.error(message, 'This search did not return anything.');
-    else message.reply({ 
-        content: (video.originalQuery !== video.correctedQuery ? "Did you mean " + video.correctedQuery + "?" : "\u200b") + (message.channel.nsfw ? '\nThis channel is marked as NSFW so the results could be explicit!' : ''), 
-        components: [
-            new MessageActionRow().addComponents(
-                new MessageSelectMenu()
-                    .setPlaceholder('Result(s):')
-                    .setCustomId(`play_menu_${message.author.id}_music`)
-                    .addOptions(
-                        video.items.map(item => { 
-                            return { 
-                                label: item.title, 
-                                value: item.id, 
-                                description: item.duration + ' | by ' + item.author.name + (item.author.ownerBadges.includes('Verified') ? ' ✔️' : '')
+    if (video.items.length === 0)
+        client.error(message, 'This search did not return anything.');
+    else 
+        message.reply({ 
+            content: (video.originalQuery !== video.correctedQuery ? "Did you mean " + video.correctedQuery + "?" : "\u200b") + (message.channel.nsfw ? '\nThis channel is marked as NSFW so the results could be explicit!' : ''), 
+            components: [
+                new MessageActionRow().addComponents(
+                    new MessageSelectMenu()
+                        .setPlaceholder('Result(s):')
+                        .setCustomId(`play_menu_${message.author.id}_music`)
+                        .addOptions(
+                            video.items.map(item => { 
+                                return { 
+                                    label: item.title, 
+                                    value: item.id, 
+                                    description: item.duration + ' | by ' + item.author.name + (item.author.ownerBadges.includes('Verified') ? ' ✔️' : '')
+                                }
+                            }), { 
+                                label: 'None of these!', 
+                                value: 'none', 
+                                emoji: '❌', 
+                                description: 'Click to quit!'
                             }
-                        }), { 
-                            label: 'None of these!', 
-                            value: 'none', 
-                            emoji: '❌', 
-                            description: 'Click to quit!'
-                        }
-                    )
-            )
-        ]
+                        )
+                )
+            ]
     });
 }
 
-module.exports.menu = async (client, interaction) => {
-    if (interaction.values[0] === "none")interaction.update({embeds: [new MessageEmbed().setColor('RED').setTitle(':frowning2: Aw...')], components: []});
-    else if(!interaction.member.voice.channel)interaction.update({embeds: [new MessageEmbed().setColor('RED').setDescription('You have to be in a voice channel to play a video!')]})
+export async function menu(client, interaction) {
+    if (interaction.values[0] === "none")
+        interaction.update({embeds: [new MessageEmbed().setColor('RED').setTitle(':frowning2: Aw...')], components: []});
+    else if(!interaction.member.voice.channel)
+        interaction.update({embeds: [new MessageEmbed().setColor('RED').setDescription('You have to be in a voice channel to play a video!')]})
     else {
         const queue = client.queues.get(interaction.member.guild.id) || { queue: [], titles: [], times: []};
         const info = await client.createEmbed(interaction.values[0], interaction.user.id, queue);
         if (info[0]) {
-            if (queue.queue.length !== 0)client.queues.set(interaction.member.guild.id, { loop: queue.loop, pos: queue.pos, queue: queue.queue.concat([info[2]]), titles: queue.titles.concat([info[3]]), times: queue.times.concat([info[5]])});
+            if (queue.queue.length !== 0)
+                client.queues.set(interaction.member.guild.id, { loop: queue.loop, pos: queue.pos, queue: queue.queue.concat([info[2]]), titles: queue.titles.concat([info[3]]), times: queue.times.concat([info[5]])});
             else {
                 client.queues.set(interaction.member.guild.id, { loop: queue.loop, pos: 0, queue: [info[2]], titles: [info[3]], times: [info[5]]});
                 client.player = createAudioPlayer();

@@ -26,7 +26,6 @@
     "ytsr": "^3.6.0"
   },
   "devDependencies": {
-    "@types/node-fetch": "^3.0.3",
-    "prisma": "^3.2.1"
+    "@types/node-fetch": "^3.0.3"
   }
 }

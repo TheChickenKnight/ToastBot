@@ -11,6 +11,9 @@
     "type": "git",
     "url": "git+https://github.com/TheChickenKnight/ToastBot.git"
   },
+  "engines": {
+    "node": "17.4.0"
+  },
   "author": "TheChickenKnight",
   "license": "ISC",
   "bugs": {

@@ -18,7 +18,7 @@ function victory(choice, answer) {
 } 
 
 export function run(client, message, args) {
-    var embed = new MessageEmbed().setColor(client.randToastColor()).setTitle('~~RockPa~~ TOASTERBREADMILK').setFooter('try the help command for what beats what.');
+    var embed = new MessageEmbed().setColor(client.randToastColor()).setTitle('~~RockPa~~ TOASTERBREADMILK').setFooter({ text: 'try the help command for what beats what.'});
     const target = message.mentions.members.first();
     var ids;
     if (!target) {
@@ -97,7 +97,7 @@ export async function button (client, interaction) {
         presser = await client.users.fetch(presser);
         embed.addField(presser.id == interArray[2].split('<->')[0] ? presser.username : otherguy.username, client.toasterbreadmilk.has(interArray[2].split('<->')[0]) ? '`  `' : 'Choosing...', true)
         .addField(otherguy.id == interArray[2].split('<->')[1] ? otherguy.username : presser.username, client.toasterbreadmilk.has(interArray[2].split('<->')[1]) ? '`  `' : 'Choosing...', true);
-        if (!client.toasterbreadmilk.has(otherguy.id))await interaction.update({embeds: [embed.setFooter('try the help command for what beats what.')]});
+        if (!client.toasterbreadmilk.has(otherguy.id))await interaction.update({embeds: [embed.setFooter({ text: 'try the help command for what beats what.'})]});
         else {
             var win = victory(client.toasterbreadmilk.get(interArray[2].split('<->')[0]), client.toasterbreadmilk.get(interArray[2].split('<->')[1]))
             if (win == 'won!')win = presser.id == interArray[2].split('<->')[0] ? presser.username : otherguy.username + ' has won!';

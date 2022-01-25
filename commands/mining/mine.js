@@ -21,10 +21,9 @@ export async function run(client, message, args) {
         miningStatus = 'You are currently not mining!';
     else {
         miningStatus = user.miningStatus.split('_');
-        if (miningStatus[0] == 'dead')
-            miningStatus = `You died by a **${miningStatus[1].charAt(0).toUpperCase() + miningStatus[1].slice(1)} Trap** in the **${miningStatus[1].charAt(0).toUpperCase() + miningStatus[1].slice(1)} Mines**.`;
-        else 
-            miningStatus = `You are currently mining in the **${miningStatus[1].charAt(0).toUpperCase() + miningStatus[1].slice(1)} Mines**!`;
+        miningStatus = (miningStatus[0] == 'dead') ? 
+            (`You died by a **${miningStatus[1].charAt(0).toUpperCase() + miningStatus[1].slice(1)} Trap** in the **${miningStatus[1].charAt(0).toUpperCase() + miningStatus[1].slice(1)} Mines**.`) : 
+            (`You are currently mining in the **${miningStatus[1].charAt(0).toUpperCase() + miningStatus[1].slice(1)} Mines**!`);
     }
     message.reply({
         embeds: [new MessageEmbed()

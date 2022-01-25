@@ -1,4 +1,4 @@
-import { MessageEmbed } from 'discord.js';
+import { MessageActionRow, MessageEmbed, MessageSelectMenu } from 'discord.js';
 
 export const info = {
     name: 'mine',
@@ -38,6 +38,16 @@ export async function run(client, message, args) {
                     name: 'Mining Status',
                     value: miningStatus
                 }
-            )]
+            )
+        ],
+        components: [new MessageActionRow().addComponents(
+            new MessageSelectMenu()
+                .setCustomId(`mine_menu_${message.author.id}_mining`)
+                .addOptions(
+                    { label: 'Profile', description: 'A list of your stats', default: true, value: 'mine', emoji: '🧍'},
+                    { label: 'Inventory', description: 'Current ores from your mine!', value: 'inventory' },
+                    { label: 'Status', description: 'More stats on your current expedition', value: 'mineStatus' }
+                )
+        )]
     });
 }

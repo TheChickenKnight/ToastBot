@@ -84,7 +84,7 @@ client.mineGet = async id => {
                         await client.redis.HSET(`user_${id}`, key, '');
                     break;
                     case 'pickaxe':
-                        value = 'fist';
+                        value = 'finger';
                         await client.redis.HSET(`user_${id}`, key, value);
                     break;
                     case 'stats':
@@ -95,18 +95,14 @@ client.mineGet = async id => {
                             luck: 1,
                             stamina: 10
                         };
-                        await client.redis.HSET(`user_${id}`, key, value);
+                        await client.redis.HSET(`user_${id}`, key, JSON.stringify(value));
                     break;
                 }
             } else
                 value = await client.redis.HGET(`user_${id}`, key);
             res[key] = value;
-            if (key == 'inventory') {
-                if (res.inventory.length > 0)
-                    res.inventory = res.inventory.split('<->').map(obj => JSON.parse(obj));
-                else 
-                    res.inventory = [];
-            }
+            if (key == 'inventory' && res.inventory.length > 0)
+                res.inventory = res.inventory.split('<->').map(obj => JSON.parse(obj));
     }
     return res;
 }
@@ -117,10 +113,9 @@ client.mineSet = async (id, obj) => {
         obj.inventory = obj.inventory.map(item => JSON.parse(item)).join('<->');
     else if (keys.includes('stats'))
         obj.stats = JSON.stringify(obj.stats);
-    for (let key of ['level', 'miningStatus', 'inventory', 'pickaxe', 'stats']) {
+    for (let key of ['level', 'miningStatus', 'inventory', 'pickaxe', 'stats'])
         if (keys.includes(key))
             await client.redis.HSET(`user_${id}`, 'mine_'+key, obj.level);
-    }
 }
 
 client.folders = fs.readdirSync('./commands/');

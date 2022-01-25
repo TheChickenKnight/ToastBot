@@ -174,8 +174,6 @@ client.once('ready', async () => {
         }
         if (commandObj.info.section == 'admin' && message.author.id != process.env.OWNER_ID)
             return;
-        if (commandObj.info.section == 'rpg' && commandObj.info.name != 'start' && !client.redis.get(`users_${message.author.id}`, 'rpg'))
-            return message.reply('You haven\'t started your adventure yet! do <`prefix`>start to begin!');
         client.cooldowns.get(commandName).set(message.author.id, Date.now());
         message.channel.sendTyping();
         commandObj.run(client, message, message.content.replace(prefix, '').replace(/^(.+?( |$))/, '').split(' ').filter(item => item.length > 0));

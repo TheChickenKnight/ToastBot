@@ -4,6 +4,9 @@
   "description": "Developing Discord Bot",
   "main": "index.js",
   "type": "module",
+  "engines": {
+    "node": "17.x"
+  },
   "scripts": {
     "test": "node index.js"
   },

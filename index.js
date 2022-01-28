@@ -138,6 +138,8 @@ client.once('ready', async () => {
     client.on('messageCreate', async message => {
         if (message.author.bot)
             return;
+        if (!(await client.redis.HEXISTS(`guildSpec_${message.guild.id}`, 'prefix')))
+            await client.redis.HSET(`guildSpec_${message.guild.id}`, 'prefix', 'toast ');
         const prefix = await client.redis.HGET(`guildSpec_${message.guild.id}`, 'prefix');
         if (message.content.includes(process.env.BOT_ID) && message.content.toLowerCase().includes('reset')) {
             client.redis.HSET(`guildSpec_${message.guildId}`, 'prefix', 'toast ');

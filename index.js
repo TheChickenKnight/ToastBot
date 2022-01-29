@@ -67,7 +67,7 @@ client.stof = d => {
 
 client.mineGet = async id => {
     var res = {};
-    for (let key of ['miningStatus', 'level', 'inventory', 'pickaxe', 'stats']) {
+    for (let key of ['miningStatus', 'level', 'inventory', 'pickaxe', 'stats', 'backpack']) {
         var value;
             if (!(await client.redis.HEXISTS(`user_${id}`, key))) {
                 switch(key.split('mine_').join('')) {
@@ -77,6 +77,9 @@ client.mineGet = async id => {
                     break;
                     case 'miningStatus': 
                         value = 'idle'; 
+                        value = {
+                            status: 'idle',
+                        };
                         await client.redis.HSET(`user_${id}`, key, value);
                     break;
                     case 'inventory': 
@@ -97,6 +100,14 @@ client.mineGet = async id => {
                         };
                         await client.redis.HSET(`user_${id}`, key, JSON.stringify(value));
                     break;
+                    case 'backpack':
+                        value = {
+                            item: 'back',
+                            total: 10,
+                            empty: 10,
+                            ores: []
+                        };
+                        await client.redis.HSET(`user_${id}`, key, JSON.stringify(value));
                 }
             } else
                 value = await client.redis.HGET(`user_${id}`, key);
@@ -113,7 +124,7 @@ client.mineSet = async (id, obj) => {
         obj.inventory = obj.inventory.map(item => JSON.parse(item)).join('<->');
     else if (keys.includes('stats'))
         obj.stats = JSON.stringify(obj.stats);
-    for (let key of ['level', 'miningStatus', 'inventory', 'pickaxe', 'stats'])
+    for (let key of ['level', 'miningStatus', 'inventory', 'pickaxe', 'stats', 'backpack'])
         if (keys.includes(key))
             await client.redis.HSET(`user_${id}`, 'mine_'+key, obj.level);
 }

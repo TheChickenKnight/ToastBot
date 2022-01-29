@@ -4,7 +4,8 @@
             "name": "generic",
             "description": "the \"mine\" of mines. Yeah, pretty boring. You have to start somewhere...",
             "color": "#ffffff",
-            "levelRequired": 0,
+            "order": 0,
+            "level": 0,
             "traps": {
                 "trap": {
                     "name": "trap",
@@ -18,10 +19,38 @@
                     "name": "small",
                     "chance": 50,
                     "purity": 100,
-                    "veinMin": 1,
-                    "veinMax": 2
+                    "vein": {
+                        "min": 1,
+                        "max": 2
+                    }
                 }
-            }
+            },
+            "drops": [
+                {
+                    "name": "finger",
+                    "chance": 5,
+                    "level": {
+                        "min": 1,
+                        "max": 1
+                    }
+                },
+                {
+                    "name": "rock candy",
+                    "chance": 7,
+                    "level": {
+                        "min": 1,
+                        "max": 2
+                    }
+                },
+                {
+                    "name": "fist",
+                    "chance": 2,
+                    "level": {
+                        "min": 1,
+                        "max": 2
+                    }
+                }
+            ]
         }
     },
     "ores": {
@@ -32,26 +61,14 @@
             "level": 0,
             "weight": 0.01,
             "cost": 0.05
-        },
-        "medium": {
-
         }
     },
     "traps": {
         "trap": {
             "name": "trap",
             "description": "classic trap trap. Does trap things. You know.",
+            "order": 0,
             "file": "trap"
-        }
-    },
-    "pickaxes": {
-        "finger": {
-            "name": "finger",
-            "description": "The beginnings. The very beginning.",
-            "color": "#ffffff",
-            "level": 0,
-            "speed": 1,
-            "unlock": "start"
         }
     },
     "items": {
@@ -59,10 +76,72 @@
             "name": "finger",
             "type": "pickaxe",
             "description": "The beginnings. The very beginning.",
-            "color": "#ffffff",
+            "color": "#ffe6a1",
+            "consumable": false,
             "level": 0,
-            "speed": 1,
-            "unlock": "start"
+            "order": 0,
+            "stats": {
+                "skill": {
+                    "operator": "+",
+                    "amount": 1
+                }
+            },
+            "unlock": {
+                "type": "multiple",
+                "types": [
+                    {
+                        "type": "drop",
+                        "locations": ["generic"]
+                    },
+                    {
+                        "type": "start",
+                        "level": 0
+                    }
+                ]
+            }
+        },
+        "rock candy": {
+            "name": "rock candy",
+            "type": "consumable",
+            "description": "You have been down in the mines for so long that rock candy seems to appear around you. You can probably eat this?",
+            "color": "#808080",
+            "consumable": true,
+            "level": 1,
+            "order": 0,
+            "effect": {
+                "stamina": {
+                    "operator": "+",
+                    "amount": 10,
+                    "current": true
+                }
+            },
+            "unlock": {
+                "type": "drop",
+                "locations": ["generic"]
+            }
+        },
+        "fist": {
+            "name": "fist",
+            "type": "pickaxe",
+            "description": "At this point, you have broken all of your fingers, what now? You look down and your hand is a closed fist.",
+            "color": "#ffe6a1",
+            "consumable": false,
+            "level": 2,
+            "order": 1,
+            "stats": {
+                "strength": {
+                    "operator": "+",
+                    "amount": 1
+                },
+                "skill": {
+                    "operator": "*",
+                    "amount": 1.15
+                }
+            },
+            "unlock": {
+                "type": "drop",
+                "locations": ["generic"]
+            }
         }
     }
 }

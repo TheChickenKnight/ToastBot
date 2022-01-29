@@ -45,8 +45,9 @@ export async function run(client, message, args) {
                 .setCustomId(`mine_menu_${message.author.id}_mining`)
                 .addOptions(
                     { label: 'Profile', description: 'A list of your stats', default: true, value: 'mine', emoji: '🧍'},
-                    { label: 'Inventory', description: 'Current ores from your mine!', value: 'inventory' },
-                    { label: 'Status', description: 'More stats on your current expedition', value: 'mineStatus' }
+                    { label: 'Ores Inventory', description: 'Current ores from your mine!', value: 'ores', emoji: '<:iron:869701384235253771>'},
+                    { label: 'Mores Inventory', description: 'Every other item is here', value: 'inventory', emoji: '⛏️' },
+                    { label: 'Status', description: 'More stats on your current expedition', value: 'mineStatus', emoji: '🔁' }
                 )
         )]
     });

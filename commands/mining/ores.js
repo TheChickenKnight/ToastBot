@@ -1,3 +1,5 @@
+import { MessageEmbed } from "discord.js";
+
 export const info = {
     name: 'ores',
     cooldown: 5,

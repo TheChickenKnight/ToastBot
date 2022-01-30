@@ -4,7 +4,7 @@
             "name": "generic",
             "description": "the \"mine\" of mines. Yeah, pretty boring. You have to start somewhere...",
             "color": "#ffffff",
-            "order": 0,
+            "id": 0,
             "level": 0,
             "traps": {
                 "trap": {
@@ -67,7 +67,7 @@
         "trap": {
             "name": "trap",
             "description": "classic trap trap. Does trap things. You know.",
-            "order": 0,
+            "id": 0,
             "file": "trap"
         }
     },
@@ -79,7 +79,7 @@
             "color": "#ffe6a1",
             "consumable": false,
             "level": 0,
-            "order": 0,
+            "id": 0,
             "stats": {
                 "skill": {
                     "operator": "+",
@@ -107,7 +107,7 @@
             "color": "#808080",
             "consumable": true,
             "level": 1,
-            "order": 0,
+            "id": 0,
             "effect": {
                 "stamina": {
                     "operator": "+",
@@ -127,7 +127,7 @@
             "color": "#ffe6a1",
             "consumable": false,
             "level": 2,
-            "order": 1,
+            "id": 1,
             "stats": {
                 "strength": {
                     "operator": "+",

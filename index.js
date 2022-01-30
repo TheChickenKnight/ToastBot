@@ -87,8 +87,35 @@ client.mineGet = async id => {
                         await client.redis.HSET(`user_${id}`, key, '');
                     break;
                     case 'pickaxe':
-                        value = 'finger';
-                        await client.redis.HSET(`user_${id}`, key, value);
+                        value = {
+                            name: "finger",
+                            type: "pickaxe",
+                            description: "The beginnings. The very beginning.",
+                            color: "#ffe6a1",
+                            consumable: false,
+                            level: 0,
+                            id: 0,
+                            stats: {
+                                skill: {
+                                    operator: "+",
+                                    amount: 1
+                                }
+                            },
+                            unlock: {
+                                type: "multiple",
+                                types: [
+                                    {
+                                        type: "drop",
+                                        locations: ["generic"]
+                                    },
+                                    {
+                                        type: "start",
+                                        level: 0
+                                    }
+                                ]
+                            }
+                        }
+                        await client.redis.HSET(`user_${id}`, key, JSON.stringify(value));
                     break;
                     case 'stats':
                         value = {
@@ -112,6 +139,8 @@ client.mineGet = async id => {
             } else
                 value = await client.redis.HGET(`user_${id}`, key);
             res[key] = value;
+            if (res[key].includes('{"'))
+                res[key] = JSON.parse(res[key]);
             if (key == 'inventory' && res.inventory.length > 0)
                 res.inventory = res.inventory.split('<->').map(obj => JSON.parse(obj));
     }
@@ -122,14 +151,16 @@ client.mineSet = async (id, obj) => {
     const keys = Object.keys(obj);
     if (keys.includes('inventory'))
         obj.inventory = obj.inventory.map(item => JSON.parse(item)).join('<->');
-    else if (keys.includes('stats'))
-        obj.stats = JSON.stringify(obj.stats);
-    else if (keys.includes('backpack'))
-        obj.backpack = JSON.stringify(obj.backpack);
+    else 
+        for (let key of ['stats', 'backpack', 'pickaxe'])
+            if (keys.includes(key))
+                obj[key] == JSON.stringify(obj[key]);
     for (let key of ['level', 'miningStatus', 'inventory', 'pickaxe', 'stats', 'backpack'])
         if (keys.includes(key))
             await client.redis.HSET(`user_${id}`, 'mine_'+key, obj.level);
 }
+
+client.caps = text => text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
 
 client.folders = fs.readdirSync('./commands/');
 var commandFiles = [];

@@ -1,12 +1,11 @@
-import { MessageEmbed, MessageActionRow, MessageSelectMenu } from "discord.js";
+import { MessageActionRow, MessageEmbed, MessageSelectMenu } from 'discord.js';
 
 export const info = {
-    name: 'mineStatus',
+    name: 'profile',
     cooldown: 5,
     section: 'mining',
-    aliases: ['mst'],
     description: 'Currently under development!',
-    usage: 'mineStatus'
+    usage: 'profile'
 };
 
 export async function run(client, message, args, interaction) {
@@ -18,22 +17,41 @@ export async function run(client, message, args, interaction) {
         });
     const user = await client.mineGet(message.author.id);
     console.log(user);
-    const embed = new MessageEmbed().setDescription('this is a test!');
-    if (interaction)
-        interaction.update({ embeds: [embed]});
+    var miningStatus;
+    if (user.miningStatus.status == 'idle')
+        miningStatus = 'You are currently not mining!';
     else 
-        message.reply({ 
+        miningStatus = (user.miningStatus.status == 'dead') ? 
+            (`You died by a **${client.caps(user.miningStatus.trap)} Trap** in the **${client.caps(user.miningStatus.location)} Mines**.`) : 
+            (`You are currently mining in the **${client.caps(user.miningStatus.location)} Mines**!`);
+    const embed = new MessageEmbed()
+        .setColor(client.randToastColor())
+        .setTitle('Mining Interface')
+        .addFields(
+            {
+                name: `Level ${Math.floor(user.level / 100)}`,
+                value: `${client.barCreate(user.level - (user.level % 100))}\n**${user.level - (user.level % 100)}/100** XP`
+            },
+            {
+                name: 'Mining Status',
+                value: miningStatus
+            }
+        )
+    if (interaction)
+        interaction.update({embeds: [embed]});
+    else 
+        message.reply({
             embeds: [embed],
             components: [
                 new MessageActionRow().addComponents(
                     new MessageSelectMenu()
                         .setCustomId(`mine_menu_${message.author.id}_mining`)
                         .addOptions(
-                            { label: 'Profile', description: 'A list of your stats', value: 'profile', emoji: '🧍'},
+                            { label: 'Profile', description: 'A list of your stats', default: true, value: 'profile', emoji: '🧍'},
                             { label: 'Mines', description: 'All of the mines you can go to and start mining!', value: 'mine', emoji: '🧍'},
                             { label: 'Ores Inventory', description: 'Current ores from your mine!', value: 'ores', emoji: '<:iron:869701384235253771>'},
                             { label: 'Mores Inventory', description: 'Every other item is here', value: 'inventory', emoji: '⛏️' },
-                            { label: 'Status', description: 'More stats on your current expedition', default: true, value: 'mineStatus', emoji: '🔁' }
+                            { label: 'Status', description: 'More stats on your current expedition', value: 'mineStatus', emoji: '🔁' }
                         )
                     )
             ]

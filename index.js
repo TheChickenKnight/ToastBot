@@ -1,3 +1,16 @@
+const lastCommand = {};
+process.on('uncaughtException', (error, origin) => {
+    console.log('----- Uncaught exception -----\n' + error + '\n----- Exception origin -----\n' + origin);
+    client.users.cache.get(process.env.OWNER_ID).send('**----- Uncaught exception -----**\n' + error + '\n----- Exception origin -----\n' + origin + '\n---------------\nCommand ' + (Object.keys(lastCommand).includes('commandObj') ? lastCommand.commandObj.info.name : 'Unknown'));
+});
+process.on('unhandledRejection', (reason, promise) => {
+    console.log('----- Unhandled Rejection at -----\n' + promise + '\n----- Reason -----\n' + reason);
+    if (lastCommand.message)
+        lastCommand.message.reply(`It seems you have encountered an error while using this command! The developer has been notified!`);
+    client.users.cache.get(process.env.OWNER_ID).send('**----- Unhandled Rejection at -----**\n' + promise + '\n----- Reason -----\n' + reason + '\n---------------\nCommand ' + (Object.keys(lastCommand).includes('commandObj') ? lastCommand.commandObj.info.name : 'Unknown') + '\n' + lastCommand.message.url);
+});
+
+
 import { Client, Intents, Collection, MessageEmbed, MessageSelectMenu, MessageActionRow } from 'discord.js';
 import pkg from 'ytdl-core';
 const { getBasicInfo } = pkg;
@@ -67,7 +80,7 @@ client.stof = d => {
 
 client.mineGet = async id => {
     var res = {};
-    for (let key of ['miningStatus', 'level', 'inventory', 'pickaxe', 'stats', 'backpack']) {
+    for (let key of ['miningStatus', 'level', 'inventory', 'pickaxe', 'stats', 'backpack', 'discovered']) {
         var value;
             if (!(await client.redis.HEXISTS(`user_${id}`, key))) {
                 switch(key.split('mine_').join('')) {
@@ -123,7 +136,11 @@ client.mineGet = async id => {
                             defense: 0,
                             strength: 1,
                             luck: 1,
-                            stamina: 10
+                            stamina: {
+                                max: 10,
+                                current: 10,
+                                regen: 1
+                            }
                         };
                         await client.redis.HSET(`user_${id}`, key, JSON.stringify(value));
                     break;
@@ -132,9 +149,20 @@ client.mineGet = async id => {
                             item: 'back',
                             total: 10,
                             empty: 10,
-                            ores: []
+                            totalores: 0,
+                            totalweight: 0,
+                            ores: {}
                         };
                         await client.redis.HSET(`user_${id}`, key, JSON.stringify(value));
+                    break;
+                    case 'discovered': 
+                        value = {
+                            traps: [],
+                            ores: [],
+                            items: ['finger']
+                        };
+                        await client.redis.HSET(`user_${id}`, key, JSON.stringify(value));
+                    break;
                 }
             } else
                 value = await client.redis.HGET(`user_${id}`, key);
@@ -152,7 +180,7 @@ client.mineSet = async (id, obj) => {
     if (keys.includes('inventory'))
         obj.inventory = obj.inventory.map(item => JSON.parse(item)).join('<->');
     else 
-        for (let key of ['stats', 'backpack', 'pickaxe'])
+        for (let key of ['stats', 'backpack', 'pickaxe', 'discovered'])
             if (keys.includes(key))
                 obj[key] == JSON.stringify(obj[key]);
     for (let key of ['level', 'miningStatus', 'inventory', 'pickaxe', 'stats', 'backpack'])
@@ -217,6 +245,8 @@ client.once('ready', async () => {
             return;
         client.cooldowns.get(commandName).set(message.author.id, Date.now());
         message.channel.sendTyping();
+        lastCommand.message = message;
+        lastCommand.commandObj = commandObj;
         commandObj.run(client, message, message.content.replace(prefix, '').replace(/^(.+?( |$))/, '').split(' ').filter(item => item.length > 0));
     });
 

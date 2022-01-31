@@ -17,29 +17,29 @@ export async function run(client, message, args, interaction) {
                 .setDescription('Sorry, this command is currently unavailable but is being actively developed!')]
         });
     const user = await client.mineGet(message.author.id);
-    console.log(user);
     const embed = new MessageEmbed().setDescription('this is a test!');
-    if (interaction)
-        interaction.update({ embeds: [embed]});
-    else 
-        message.reply({ 
-            embeds: [embed],
+    const parameters = {
+        embeds: [embed],
             components: [
                 new MessageActionRow().addComponents(
                     new MessageSelectMenu()
-                        .setCustomId(`mine_menu_${message.author.id}_mining`)
+                        .setCustomId(`mineStatus_menu_${message.author.id}_mining`)
                         .addOptions(
                             { label: 'Profile', description: 'A list of your stats', value: 'profile', emoji: '🧍'},
-                            { label: 'Mines', description: 'All of the mines you can go to and start mining!', value: 'mine', emoji: '🧍'},
+                            { label: 'Mines', description: 'All of the mines you can go to and start mining!', value: 'mine', emoji: '⛰️'},
                             { label: 'Ores Inventory', description: 'Current ores from your mine!', value: 'ores', emoji: '<:iron:869701384235253771>'},
                             { label: 'Mores Inventory', description: 'Every other item is here', value: 'inventory', emoji: '⛏️' },
                             { label: 'Status', description: 'More stats on your current expedition', default: true, value: 'mineStatus', emoji: '🔁' }
                         )
                     )
             ]
-        });
+    }
+    if (interaction)
+        interaction.update(parameters);
+    else 
+        message.reply(parameters);
 }
 
-export async function menu(client, interaction) {
+export function menu(client, interaction) {
     import('./' + interaction.values[0] +'.js').then(file => file.run(client, { author: interaction.user }, [], interaction));
 }

@@ -1,16 +1,3 @@
-const lastCommand = {};
-process.on('uncaughtException', (error, origin) => {
-    console.log('----- Uncaught exception -----\n' + error + '\n----- Exception origin -----\n' + origin);
-    client.users.cache.get(process.env.OWNER_ID).send('**----- Uncaught exception -----**\n' + error + '\n----- Exception origin -----\n' + origin + '\n---------------\nCommand ' + (Object.keys(lastCommand).includes('commandObj') ? lastCommand.commandObj.info.name : 'Unknown'));
-});
-process.on('unhandledRejection', (reason, promise) => {
-    console.log('----- Unhandled Rejection at -----\n' + promise + '\n----- Reason -----\n' + reason);
-    if (lastCommand.message)
-        lastCommand.message.reply(`It seems you have encountered an error while using this command! The developer has been notified!`);
-    client.users.cache.get(process.env.OWNER_ID).send('**----- Unhandled Rejection at -----**\n' + promise + '\n----- Reason -----\n' + reason + '\n---------------\nCommand ' + (Object.keys(lastCommand).includes('commandObj') ? lastCommand.commandObj.info.name : 'Unknown') + '\n' + lastCommand.message.url);
-});
-
-
 import { Client, Intents, Collection, MessageEmbed, MessageSelectMenu, MessageActionRow } from 'discord.js';
 import pkg from 'ytdl-core';
 const { getBasicInfo } = pkg;
@@ -32,6 +19,27 @@ const client = new Client({
         Intents.FLAGS.DIRECT_MESSAGES, 
         Intents.FLAGS.GUILD_WEBHOOKS 
     ]
+});
+
+let lastCommand;
+let lastTime = Date.now();
+process.on('uncaughtException', async (error, origin) => {
+    if (Date.now() - lastTime < 1000)
+        return;
+    console.log('----- Uncaught exception -----\n' + error + '\n----- Exception origin -----\n' + origin);
+    (await client.users.fetch(process.env.OWNER_ID)).send('**----- Uncaught exception -----**\n' + error + '\n----- Exception origin -----\n' + origin + '\n---------------\nCommand ' + ((Object.keys(lastCommand).includes('commandObj') && lastCommand.commandObj.info.name) ? lastCommand.commandObj.info.name : 'Unknown'));
+    if (lastCommand)
+        lastCommand = undefined;
+});
+process.on('unhandledRejection', async (reason, promise) => {
+    if (Date.now() - lastTime < 1000)
+        return;
+    console.log('----- Unhandled Rejection at -----\n' + promise + '\n----- Reason -----\n' + reason);
+    if (lastCommand)
+        lastCommand.message.reply(`It seems you have encountered an error while using this command! The developer has been notified!`);
+    (await client.users.fetch(process.env.OWNER_ID)).send('**----- Unhandled Rejection at -----**\n' + promise + '\n----- Reason -----\n' + reason + '\n---------------\nCommand ' + (lastCommand ? lastCommand.commandObj.info.name : 'Unknown'));
+    if (lastCommand)
+        lastCommand = undefined;
 });
 
 console.log('Welcome to ToastBot\'s Console!');
@@ -239,8 +247,10 @@ client.once('ready', async () => {
             return;
         client.cooldowns.get(commandName).set(message.author.id, Date.now());
         message.channel.sendTyping();
-        lastCommand.message = message;
-        lastCommand.commandObj = commandObj;
+        lastCommand = {
+            message: message,
+            commandObj: commandObj
+        }
         commandObj.run(client, message, message.content.replace(prefix, '').replace(/^(.+?( |$))/, '').split(' ').filter(item => item.length > 0));
     });
 

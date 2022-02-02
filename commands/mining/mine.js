@@ -1,5 +1,6 @@
 import { MessageEmbed, MessageActionRow, MessageSelectMenu, MessageButton } from "discord.js";
 import { createRequire } from "module";
+import { Miner } from "./class/Miner.js";
 const require = createRequire(import.meta.url);
 const data = require("./data.json");
 
@@ -19,7 +20,12 @@ export async function run(client, message, args, interaction) {
                 .setColor(client.randToastColor())
                 .setDescription('Sorry, this command is currently unavailable but is being actively developed!')]
         });
-    const user = await client.mineGet(message.author.id);
+    console.log(message.author.id.length)
+    const me = new Miner(message.author.id);
+    console.log(me.toString() + '\n\n\n\n\n\n');
+    const copy = new Miner(me.toString());
+    console.log(copy.toString());
+    /*const user = await client.mineGet(message.author.id);
     const mines = Object.keys(data.mines).filter(mine => data.mines[mine].level <= user.level / 100).map(mine => data.mines[mine]);
     var parameters = { 
         embeds: [new MessageEmbed()
@@ -64,6 +70,7 @@ export async function run(client, message, args, interaction) {
         interaction.update(parameters);
     else 
         message.reply(parameters);
+    */
 }
 
 export async function button(client, interaction) {
@@ -71,8 +78,6 @@ export async function button(client, interaction) {
     if (interaction.customId.split('_')[1] == 'start') {
         if (user.backpack.empty == 0)
             return client.error(interaction, 'You should sell your ores first. Your inventory is full!');
-        if (user.stats.stamina.current == 0)
-            return client.error(interaction, 'You\'re too tired to start mining now! Keep resting or eat something.');
         Object.keys(data.mines[interaction.customId.split('_')[3]].ores).forEach(ore => user.backpack.ores[ore] = 0);
         user.miningStatus = {
             status: 'mining',
@@ -82,35 +87,40 @@ export async function button(client, interaction) {
     } else {
         const mine = data.mines[user.miningStatus.location];
         if (user.miningStatus.status == 'mining') {
-            var time = Date.now() - user.miningStatus.start;
-            if (time > user.stats.stamina.current * 3600000) {
-                user.miningStatus.status = 'tired';
-                user.miningStatus.end = user.miningStatus.start + user.stats.stamina.current * 3600000;
-                user.stats.stamina.current = 0;
-            }
-            const hours = (user.miningStatus.end - user.miningStatus.start) / 3600000;
+            const hours = (Date.now() - user.miningStatus.start) / 3600000;
             for (let i = 0; i < hours; i++) {
                 const random = Math.floor(Math.random() * 100) + 1;
                 if (user.backpack.empty > 0) {
+                    let ores = [];
+                    let weight = user.backpack.empty;
+                    let totalOres = 0;
                     Object.keys(data.mines[interaction.customId.split('_')[3]].ores).forEach(ore => {
-                        if (data.mines[interaction.customId.split('_')[3]].ores[ore].min <= random && random <= data.mines[interaction.customId.split('_')[3]].ores[ore].max && user.backpack.empty - data.ores[ore].weight >= 0) {
-                            user.backpack.ores[ore]++; 
-                            user.backpack.empty-=data.ores[ore].weight;
-                            user.backpack.totalores++;
+                        if (data.mines[interaction.customId.split('_')[3]].ores[ore].min <= random && random <= data.mines[interaction.customId.split('_')[3]].ores[ore].max && user.backpack.empty - weight >= 0) {
+                            ores.push(ore);
+                            weight-=data.ores[ore].weight;
+                            totalOres++;
                         }
                     });
                 } else 
                     break;
             }
             const random = Math.floor(Math.random() * 7) - 2;
-            if ((user.miningStatus.end || Date.now()) - user.miningStatus.start / 7200000 + random > user.backpack.empty) {
+            if (Date.now() - user.miningStatus.start / 7200000 + random > user.backpack.empty) {
                 user.miningStatus.status = 'full';
                 user.miningStatus.end = user.backpack.totalores * 3600000 + user.miningStatus.start;
             }
+            
         }
 
+        var description = ((user.miningStatus.status == 'mining') 
+            ? 'You stopped your mining session early!' : 
+            ((user.miningStatus.status == 'full') 
+                ? 'You had returned earlier because your backpack was full!' : 
+                    'You died on your trip because of a trap!'
+            )
+        );
 
-
+        
             
     }
 }

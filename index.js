@@ -89,7 +89,6 @@ client.mineGet = async id => {
                         await client.redis.HSET(`user_${id}`, key, value);
                     break;
                     case 'miningStatus': 
-                        value = 'idle'; 
                         value = {
                             status: 'idle',
                         };
@@ -136,11 +135,6 @@ client.mineGet = async id => {
                             defense: 0,
                             strength: 1,
                             luck: 1,
-                            stamina: {
-                                max: 10,
-                                current: 10,
-                                regen: 1
-                            }
                         };
                         await client.redis.HSET(`user_${id}`, key, JSON.stringify(value));
                     break;

@@ -9,7 +9,7 @@
             "traps": {
                 "trap": {
                     "name": "trap",
-                    "chance": 1,
+                    "chance": 60,
                     "damage": 1,
                     "time": 72
                 }

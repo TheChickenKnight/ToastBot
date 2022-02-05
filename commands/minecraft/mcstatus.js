@@ -14,7 +14,7 @@ export async function run(client, message, args) {
     if (!args[0] && !(await client.redis.HEXISTS(`guildSpec_${message.channel.guildId}`, 'default_mc_server')))client.error(message, 'You have to include a server ip!');
     else {
         fetch(`https://api.mcsrvstat.us/2/${args.length > 0 ? args.join(' ') : (await client.redis.HGET(`guildSpec_${message.channel.guildId}`, 'default_mc_server'))}`).then(res => res.json()).then(async res => {
-            var file = new MessageAttachment('.../DefaultMinecraft.png');;
+            var file = new MessageAttachment('./DefaultMinecraft.png');;
             if (res.ip == "127.0.0.1")return client.error(message, 'That doesn\'t seem to be a valid server. Perhaps you spelled it wrong?')
             else {
                 var embed = new MessageEmbed().setTitle((res.hostname || `${res.ip}:${res.port}`) + (!(!res.version) ? `(${res.version})` : ' ')).setColor("RED").setDescription("❌ This server is currently offline!").setThumbnail('attachment://DefaultMinecraft.png');

@@ -201,7 +201,8 @@ client.tips = () => {
         'Plans for a playlist command is in the making!',
         'You can\'t currently turn off tips but there are plans for a settings command',
         'Plans for a Mining-based RPG in the making!',
-        'Plans for a feedback command in the making!\nIt will directly message my developer, no matter what it is!\nHave fun 😏!'
+        'Plans for a feedback command in the making!\nIt will directly message my developer, no matter what it is!\nHave fun 😏!',
+        'haha Imagine if a Tip haD sOmE Sort of secret ahahahaha'
     ];
     return tips[Math.floor(Math.random() * tips.length)];
 };

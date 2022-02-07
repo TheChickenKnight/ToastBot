@@ -26,7 +26,7 @@ export class Miner {
                 current: 10,
                 totalores: 0,
                 totalweight: 0,
-                ores: {}
+                ores: new Collection()
             };
             this.discovered = {
                 traps: new Collection(),
@@ -134,28 +134,17 @@ export class Miner {
     }
 
     checkMining() {
-        const hours = (Date.now() - this.start) / 3600000;
-            for (let i = 0; i < hours; i++) {
-                const random = Math.floor(Math.random() * 100) + 1;
-                if (this.storage > 0) {
-                    let ores = [];
-                    let weight = this.storage.current;
-                    let totalOres = 0;
-                    Object.keys(data.mines[interaction.customId.split('_')[3]].ores).forEach(ore => {
-                        if (data.mines[interaction.customId.split('_')[3]].ores[ore].min <= random && random <= data.mines[interaction.customId.split('_')[3]].ores[ore].max && this.storage.empty - weight >= 0) {
-                            ores.push(ore);
-                            weight-=data.ores[ore].weight;
-                            totalOres++;
-                        }
-                    });
-                } else 
-                    break;
-            }
-            const random = Math.floor(Math.random() * 7) - 2;
-            if (Date.now() - this.start / 7200000 + random > this.storage.current) {
-                this.status = 'full';
-                this.end = this.storage.totalores * 3600000 + this.start;
-            }
+        const hours = (Date.now() - this.start) / 3600000,
+            mine = data.mines[this.location];
+        for (let i = 0; i < hours; i++) {
+            const random = Math.floor(Math.random() * 100) + 1;
+
+        }
+        const random = Math.floor(Math.random() * 7) - 2;
+        if (Date.now() - this.start / 7200000 + random > this.storage.current) {
+            this.status = 'full';
+            this.end = this.storage.totalores * 3600000 + this.start;
+        }
     }
     
 }

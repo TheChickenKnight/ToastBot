@@ -192,6 +192,20 @@ client.mineSet = async (id, obj) => {
 
 client.caps = text => text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
 
+client.tips = () => {
+    const tips = [
+        '**TIP** Don\'t like the default prefix? Use `<prefix>prefix <new prefix>` to change it!',
+        'Could there be secrets in this bot???? ? ?!?? ?!!? IDK!! ?',
+        'The `play` command doesn\'t support urls at the moment.\nYou can search any text instead.',
+        'When you get an error message, it DMs my developer only the error message and the command that errored.',
+        'Plans for a playlist command is in the making!',
+        'You can\'t currently turn off tips but there are plans for a settings command',
+        'Plans for a Mining-based RPG in the making!',
+        'Plans for a feedback command in the making!\nIt will directly message my developer, no matter what it is!\nHave fun 😏!'
+    ];
+    return tips[Math.floor(Math.random() * tips.length)];
+};
+
 client.folders = fs.readdirSync('./commands/');
 var commandFiles = [];
 
@@ -210,7 +224,7 @@ client.once('ready', async () => {
     client.user.setPresence({ activities: [{name: 'fighting people! | ping me for prefix', type: 'PLAYING'}], status: 'online'});
     console.log('ToastBot is finally ready!');
     client.on('messageCreate', async message => {
-        if (message.author.bot)
+        if (!message.guild || message.author.bot)
             return;
         if (!(await client.redis.HEXISTS(`guildSpec_${message.guild.id}`, 'prefix')))
             await client.redis.HSET(`guildSpec_${message.guild.id}`, 'prefix', 'toast ');

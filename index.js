@@ -194,7 +194,7 @@ client.caps = text => text.charAt(0).toUpperCase() + text.slice(1).toLowerCase()
 
 client.tips = () => {
     const tips = [
-        '**TIP** Don\'t like the default prefix? Use `<prefix>prefix <new prefix>` to change it!',
+        'Don\'t like the default prefix? Use `<prefix>prefix <new prefix>` to change it!',
         'Could there be secrets in this bot???? ? ?!?? ?!!? IDK!! ?',
         'The `play` command doesn\'t support urls at the moment.\nYou can search any text instead.',
         'When you get an error message, it DMs my developer only the error message and the command that errored.',
@@ -204,8 +204,8 @@ client.tips = () => {
         'Plans for a feedback command in the making!\nIt will directly message my developer, no matter what it is!\nHave fun 😏!',
         'haha ~~i~~magine if a ~~t~~ip ha~~d~~ s~~o~~m~~e~~ ~~s~~ort of secret ahahahaha'
     ];
-    if (Math.floor(Math.random() * 7) == 0)
-        return tips[Math.floor(Math.random() * tips.length)];
+    if (Math.floor(Math.random() * 4) == 0)
+        return '**TIP**: ' + tips[Math.floor(Math.random() * tips.length)];
 };
 
 client.folders = fs.readdirSync('./commands/');

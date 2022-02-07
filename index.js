@@ -223,7 +223,7 @@ client.folders.forEach(folder => fs.readdirSync(`./commands/${folder}/`).filter(
 console.log(`Loaded all ${commandFiles.length} commands`);
 
 client.once('ready', async () => {
-    client.user.setPresence({ activities: [{name: 'fighting people! | ping me for prefix', type: 'PLAYING'}], status: 'online'});
+    client.user.setPresence({ activities: [{name: 'WOOO!! We Made it to top.gg!', type: 'PLAYING'}], status: 'online'});
     console.log('ToastBot is finally ready!');
     client.on('messageCreate', async message => {
         if (!message.guild || message.author.bot)
@@ -249,7 +249,7 @@ client.once('ready', async () => {
         const commandObj = client.commands.get(commandName);
         if (!commandObj)
             return;
-        if (commandObj.info.cooldown >= 1) {
+        if (message.author.id !== process.env.OWNER_ID && commandObj.info.cooldown >= 1) {
             if (!client.cooldowns.has(commandName))
                 client.cooldowns.set(commandName, new Collection());
             var cooldowns = client.cooldowns.get(commandName);

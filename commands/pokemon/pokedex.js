@@ -58,5 +58,5 @@ export async function run(client, message, args) {
         object.forEach((pokemon, i) => results += `${i+1}. ${pokemon.name.split('-').join(' ')}\n\n`); 
         embed.setTitle('Multiple Results:').setDescription(results.replace('undefined', ''));
     }
-    message.reply({ embeds: [embed]});
+    message.reply({content: client.tips(), embeds: [embed]});
 }

@@ -36,7 +36,7 @@ export async function run(client, message, args) {
             .addField('Cooldown', prettyMilliseconds(infObj.cooldown * 1000, {verbose: true}));
         const ignore = ['name', 'description', 'section', 'cooldown'];
         Object.keys(infObj).filter(word => !ignore.includes(word)).forEach(item => infoEmbed.addField(item.charAt(0).toUpperCase() + item.slice(1).replace(/_/g, ' '), infObj[item].toString()));
-        message.reply({embeds: [infoEmbed]});
+        message.reply({content: client.tips(), embeds: [infoEmbed]});
     }
 }
 
@@ -45,7 +45,7 @@ export async function menu(client, interaction) {
     client.timeIDs.get(interaction.customId.split('_')[0]).set(interaction.user.id, [setTimeout(async () => await interaction.editReply({components: [new MessageActionRow().addComponents(new MessageSelectMenu().setCustomId('Disabled').setPlaceholder('Disabled!').addOptions([{label: 'disabled', description: 'disabled', value: 'disabled'}]).setDisabled(true))]}), 10000)]);
     const prefix = await client.redis.HGET(`guildSpec_${interaction.message.guildId}`, 'prefix');
     const answers = embedCreate(client, interaction.values[0], interaction.user.id, prefix);
-    await interaction.update({ embeds: [answers[1]], components: [new MessageActionRow().addComponents(answers[0])]});
+    await interaction.update({content: client.tips(),  embeds: [answers[1]], components: [new MessageActionRow().addComponents(answers[0])]});
 }
 
 function embedCreate(client, section, id, prefix) {

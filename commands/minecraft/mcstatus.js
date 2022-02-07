@@ -24,7 +24,7 @@ export async function run(client, message, args) {
                     if (res.players.list)embed.addField("Players:", res.players.list.map((player, i) => `**${i+1}.** ${player.replace(/(?=_|\*|`|~|\||\\)/g, '\\')}`).join('\n'));
                 }
             } 
-            await message.reply({embeds: [embed], files: [file], components: [new MessageActionRow().addComponents(new MessageButton().setCustomId(`mcstatus_${args.join(' ')}_all_minecraft`).setLabel('Make Default?').setStyle('SECONDARY').setDisabled(args.length == 0 || ((await client.redis.HGET(`guildSpec_${message.channel.guildId}`, 'default_mc_server')) && (await client.redis.HGET(`guildSpec_${message.channel.guildId}`, 'default_mc_server')) == args.join(' '))))]});
+            await message.reply({content: client.tips(), embeds: [embed], files: [file], components: [new MessageActionRow().addComponents(new MessageButton().setCustomId(`mcstatus_${args.join(' ')}_all_minecraft`).setLabel('Make Default?').setStyle('SECONDARY').setDisabled(args.length == 0 || ((await client.redis.HGET(`guildSpec_${message.channel.guildId}`, 'default_mc_server')) && (await client.redis.HGET(`guildSpec_${message.channel.guildId}`, 'default_mc_server')) == args.join(' '))))]});
         });
     }
 }

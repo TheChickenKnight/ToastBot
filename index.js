@@ -63,7 +63,7 @@ client.barCreate = per => {
     return bar + creBar('r', per - 45 < 0 ? 0 : Math.floor(per - 45)); 
 }
 
-client.error = (message, text) => message.reply({ embeds: [new MessageEmbed().setColor('RED').setDescription('`❌` ' + text)]});
+client.error = (message, text) => message.reply({content: client.tips(), embeds: [new MessageEmbed().setColor('RED').setDescription('`❌` ' + text)]});
 
 client.randToastColor = () => ['#ffe6cc', '#996600', '#ffdd99', '#663300', '#331a00'][Math.floor(Math.random() * 5)];
 
@@ -202,9 +202,10 @@ client.tips = () => {
         'You can\'t currently turn off tips but there are plans for a settings command',
         'Plans for a Mining-based RPG in the making!',
         'Plans for a feedback command in the making!\nIt will directly message my developer, no matter what it is!\nHave fun 😏!',
-        'haha Imagine if a Tip haD sOmE Sort of secret ahahahaha'
+        'haha ~~i~~magine if a ~~t~~ip ha~~d~~ s~~o~~m~~e~~ ~~s~~ort of secret ahahahaha'
     ];
-    return tips[Math.floor(Math.random() * tips.length)];
+    if (Math.floor(Math.random() * 7) == 0)
+        return tips[Math.floor(Math.random() * tips.length)];
 };
 
 client.folders = fs.readdirSync('./commands/');

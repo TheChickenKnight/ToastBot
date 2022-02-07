@@ -22,7 +22,7 @@ export async function run(client, message, args) {
         client.error(message, 'This search did not return anything.');
     else 
         message.reply({ 
-            content: (video.originalQuery !== video.correctedQuery ? "Did you mean " + video.correctedQuery + "?" : "\u200b") + (message.channel.nsfw ? '\nThis channel is marked as NSFW so the results could be explicit!' : ''), 
+            content: (video.originalQuery !== video.correctedQuery ? "Did you mean " + video.correctedQuery + "?" : "\u200b") + (message.channel.nsfw ? '\nThis channel is marked as NSFW so the results could be explicit!' : '') + '\n' + client.tips(), 
             components: [
                 new MessageActionRow().addComponents(
                     new MessageSelectMenu()
@@ -49,9 +49,9 @@ export async function run(client, message, args) {
 
 export async function menu(client, interaction) {
     if (interaction.values[0] === "none")
-        interaction.update({embeds: [new MessageEmbed().setColor('RED').setTitle(':frowning2: Aw...')], components: []});
+        interaction.update({content: client.tips(), embeds: [new MessageEmbed().setColor('RED').setTitle(':frowning2: Aw...')], components: []});
     else if(!interaction.member.voice.channel)
-        interaction.update({embeds: [new MessageEmbed().setColor('RED').setDescription('You have to be in a voice channel to play a video!')]})
+        interaction.update({content: client.tips(), embeds: [new MessageEmbed().setColor('RED').setDescription('You have to be in a voice channel to play a video!')]})
     else {
         const queue = client.queues.get(interaction.member.guild.id) || { queue: [], titles: [], times: []};
         const info = await client.createEmbed(interaction.values[0], interaction.user.id, queue);
@@ -84,11 +84,12 @@ export async function menu(client, interaction) {
                         const stream = await play.stream(queue.queue[queue.pos]);
                         client.player.play(createAudioResource(stream.stream, { inputType: stream.type }));
                     }
-                    interaction.followUp({embeds: [embed]});
+                    interaction.followUp({content: client.tips(), embeds: [embed]});
                 });
             } 
         }
         await interaction.update({
+            content: client.tips(), 
             embeds: [info[1]],
             components: []
         });

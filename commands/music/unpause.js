@@ -13,7 +13,7 @@ export function run(client, message, args) {
         client.error(message, 'You have to be in a VC to use this command!');
     else if (client.paused.has(message.guild.id)) {
         client.player.unpause();
-        message.reply({ embeds: [new MessageEmbed().setDescription('Song was unpaused.')]});   
+        message.reply({content: client.tips(), embeds: [new MessageEmbed().setDescription('Song was unpaused.')]});   
         client.paused.delete(message.guild.id);
     } else 
         client.error(message, 'Nothing is currently paused!');

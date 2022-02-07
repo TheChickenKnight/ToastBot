@@ -22,5 +22,5 @@ export async function run(client, message, args) {
         await client.redis.HSET(`guildSpec_${message.guildId}`, 'prefix', newPrefix);
         embed.setDescription(`Got it, the prefix(in this server) has been changed to \`${newPrefix}\`!`).setColor(client.randToastColor()).setFooter({ text: 'Tip: if something isn\'t working right with the prefix, surround it with quotes(") first!'});
     } 
-    message.reply({ embeds: [embed]});
+    message.reply({content: client.tips(), embeds: [embed]});
 }

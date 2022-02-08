@@ -223,7 +223,16 @@ client.folders.forEach(folder => fs.readdirSync(`./commands/${folder}/`).filter(
 console.log(`Loaded all ${commandFiles.length} commands`);
 
 client.once('ready', async () => {
-    client.user.setPresence({ activities: [{name: 'on ' + client.guilds.cache.size + ' servers', type: 'PLAYING'}], status: 'online'});
+    let version = 'TEST';
+    if (process.env.BOT_ID != '893482041604182106' && !(await client.redis.HEXISTS('bot', 'version'))) {
+        version = '1.0';
+        await client.redis.HSET('bot', 'version', '1.0');
+    } else if (process.env.BOT_ID != '893482041604182106') {
+        const split = (await client.redis.HGET('bot', 'version')).split('.');
+        version = split[0] + '.' + (parseInt(split[1]) + 1);
+        await client.redis.HSET('bot', 'version', version);
+    }
+    client.user.setPresence({ activities: [{name: 'on ' + client.guilds.cache.size + ' servers | v' + version, type: 'PLAYING'}], status: 'online'});
     console.log('ToastBot is finally ready!');
     client.on('messageCreate', async message => {
         if (!message.guild || message.author.bot)

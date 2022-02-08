@@ -71,7 +71,7 @@ client.createEmbed = async (url, author, queue) => {
     const info = (await getBasicInfo(url, { lang: 'en'})).videoDetails;
     return info.age_restricted ? [false, new MessageEmbed().setColor('RED').setDescription('Sorry, but this video is NSFW')] : [
         true, 
-        new MessageEmbed().setColor('GREEN').setDescription('**"[' + info.title + '](' + info.video_url + ')"** `' + client.stof(info.lengthSeconds) + '`\n' + parseInt(info.likes).toLocaleString('en-US') + '👍 | ' + parseInt(info.viewCount).toLocaleString('en-US') + ' **Views**').setImage(info.thumbnails[0].url).setAuthor('By ' + info.author.name + (info.author.verified ? ' ✔️' : ''), info.author.thumbnails[0].url, info.ownerProfileUrl), 
+        new MessageEmbed().setColor('GREEN').setDescription('**"[' + info.title + '](' + info.video_url + ')"** `' + client.stof(info.lengthSeconds) + '`\n' + parseInt(info.likes).toLocaleString('en-US') + '👍 | ' + parseInt(info.viewCount).toLocaleString('en-US') + ' **Views**').setImage(info.thumbnails[0].url).setAuthor({name: ('By ' + info.author.name + (info.author.verified ? ' ✔️' : '')), iconURL: info.author.thumbnails[0].url, url: info.ownerProfileUrl}), 
         url,
         info.title,
         new MessageActionRow().addComponents(new MessageSelectMenu().setCustomId(`queue_menu_${author}_music`).addOptions(queue.titles.map((item, i) => new Object({ label: item, value: queue.queue[i], description: client.stof(info.lengthSeconds)})))),
@@ -196,7 +196,7 @@ client.tips = () => {
     const tips = [
         'Don\'t like the default prefix? Use `<prefix>prefix <new prefix>` to change it!',
         'Could there be secrets in this bot???? ? ?!?? ?!!? IDK!! ?',
-        'The `play` command doesn\'t support urls at the moment.\nYou can search any text instead.',
+        'The `play` command both supports direct urls and search terms!',
         'When you get an error message, it DMs my developer only the error message and the command that errored.',
         'Plans for a playlist command is in the making!',
         'You can\'t currently turn off tips but there are plans for a settings command',
@@ -241,7 +241,7 @@ client.once('ready', async () => {
             return message.reply(`My prefix is \`${prefix}\`!`);
         if (/ami|<@839202008048599090>/.test(message.content.toLowerCase()) && message.guildId == '859913455342845982') {
             var ami = client.users.cache.get('839202008048599090');
-            ami.send({ embeds: [new MessageEmbed().setColor(client.randToastColor()).setAuthor(message.author.username, message.author.displayAvatarURL({format: 'png'}), message.url).setDescription(message.content).setFooter('Click on their name to teleport to the message!')]});
+            ami.send({ embeds: [new MessageEmbed().setColor(client.randToastColor()).setAuthor({name: message.author.username, iconURL: message.author.displayAvatarURL({format: 'png'}), url: message.url}).setDescription(message.content).setFooter({text: 'Click on their name to teleport to the message!'})]});
         }
         var commandName = message.content.replace(prefix, '').split(' ')[0];
         if (commandFiles.includes(client.aliases.get(commandName) + '.js'))

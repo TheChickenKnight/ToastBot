@@ -13,38 +13,49 @@ import play from 'play-dl';
 
 
 export async function run(client, message, args) {
-    var video = await ytsr(args.join(' '), {
-        safeSearch: !message.channel.nsfw,
-        limit: 10
-    });
-    video.items = video.items.filter(item => item.type == 'video' || item.type == 'movie');
-    if (video.items.length === 0)
-        client.error(message, 'This search did not return anything.');
-    else 
-        message.reply({ 
-            content: (video.originalQuery !== video.correctedQuery ? "Did you mean " + video.correctedQuery + "?" : "\u200b") + (message.channel.nsfw ? '\nThis channel is marked as NSFW so the results could be explicit!' : '') + '\n' + client.tips(), 
-            components: [
-                new MessageActionRow().addComponents(
-                    new MessageSelectMenu()
-                        .setPlaceholder('Result(s):')
-                        .setCustomId(`play_menu_${message.author.id}_music`)
-                        .addOptions(
-                            video.items.map(item => { 
-                                return { 
-                                    label: item.title, 
-                                    value: item.id, 
-                                    description: item.duration + ' | by ' + item.author.name + (item.author.ownerBadges.includes('Verified') ? ' ✔️' : '')
+    if (!/(https:\/\/|)(www\.youtube\.com\/watch\?v=|youtu.be\/).{11}/g.test(message.content)) {
+        var video = await ytsr(args.join(' '), {
+            safeSearch: !message.channel.nsfw,
+            limit: 10
+        });
+        video.items = video.items.filter(item => item.type == 'video' || item.type == 'movie');
+        if (video.items.length === 0)
+            client.error(message, 'This search did not return anything.');
+        else {
+            const tips = client.tips();
+            message.reply({ 
+                content: (video.originalQuery !== video.correctedQuery ? "Did you mean " + video.correctedQuery + "?" : "\u200b") + (message.channel.nsfw ? '\nThis channel is marked as NSFW so the results could be explicit!' : '') + (tips ? ('\n' + tips) : ''), 
+                components: [
+                    new MessageActionRow().addComponents(
+                        new MessageSelectMenu()
+                            .setPlaceholder('Result(s):')
+                            .setCustomId(`play_menu_${message.author.id}_music`)
+                            .addOptions(
+                                video.items.map(item => { 
+                                    return { 
+                                        label: item.title, 
+                                        value: item.id, 
+                                        description: item.duration + ' | by ' + item.author.name + (item.author.ownerBadges.includes('Verified') ? ' ✔️' : '')
+                                    }
+                                }), { 
+                                    label: 'None of these!', 
+                                    value: 'none', 
+                                    emoji: '❌', 
+                                    description: 'Click to quit!'
                                 }
-                            }), { 
-                                label: 'None of these!', 
-                                value: 'none', 
-                                emoji: '❌', 
-                                description: 'Click to quit!'
-                            }
-                        )
-                )
-            ]
-    });
+                            )
+                    )
+                ]
+            });
+        }
+    } else 
+        menu(client, {
+            values: [message.content.slice(-11)],
+            member: message.member,
+            user: message.author,
+            isNotAnActualInteraction: true,
+            message: message
+        });
 }
 
 export async function menu(client, interaction) {
@@ -84,14 +95,29 @@ export async function menu(client, interaction) {
                         const stream = await play.stream(queue.queue[queue.pos]);
                         client.player.play(createAudioResource(stream.stream, { inputType: stream.type }));
                     }
-                    interaction.followUp({content: client.tips(), embeds: [embed]});
+                    if (interaction.isNotAnActualInteraction)
+                        interaction.message.reply({
+                            content: client.tips(),
+                            embeds: [embed]
+                        });
+                    else
+                        interaction.followUp({
+                            content: client.tips(), 
+                            embeds: [embed]
+                        });
                 });
             } 
         }
-        await interaction.update({
-            content: client.tips(), 
-            embeds: [info[1]],
-            components: []
-        });
+        if (interaction.isNotAnActualInteraction)
+            await interaction.message.reply({
+                content: client.tips(), 
+                embeds: [info[1]],
+            });
+        else
+            await interaction.update({
+                content: client.tips(), 
+                embeds: [info[1]],
+                components: []
+            });
     }
 }

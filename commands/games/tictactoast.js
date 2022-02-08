@@ -98,7 +98,10 @@ export async function run(client, message, args) {
             embeds: [
                 embed
                     .setColor(message.author.id > target.id ? "BLUE" : "RED")
-                    .setAuthor(`${turner.username}'s turn! ${message.author.id > target.id ? "🟦" : "🟥"}`, turner.displayAvatarURL({format: 'png'}))
+                    .setAuthor({
+                        name: `${turner.username}'s turn! ${message.author.id > target.id ? "🟦" : "🟥"}`,
+                        iconURL: turner.displayAvatarURL({format: 'png'})
+                    })
             ],
             components: boardInit(game)
         });  
@@ -129,7 +132,12 @@ export async function button(client, interaction) {
         });
         games.board = games.board.map(row => row.map(square => square ? square : 'fin'));
         client.tictactoe.delete(parseInt(interaction.user.id) + parseInt(target));
-        embed.setColor(target > interaction.user.id ? "BLUE" : "RED").setAuthor(`${winner.username} has won! ${target > interaction.user.id ? "🟥" : "🟦"}`, winner.displayAvatarURL({format: 'png'}));
+        embed
+            .setColor(target > interaction.user.id ? "BLUE" : "RED")
+            .setAuthor({
+                name: `${winner.username} has won! ${target > interaction.user.id ? "🟥" : "🟦"}`,
+                iconURL: winner.displayAvatarURL({format: 'png'})
+            });
     } else if (turnout == 'tie') {
         const nn = await client.neural({input: 9, output: 1, name: 'tictactoe', layers: [{ nodes: 3}], activation: 'leakyReLU'});
         games.history.forEach(game => {
@@ -139,7 +147,12 @@ export async function button(client, interaction) {
         embed.setDescription('Aw it was a tie.');
     } else {
         await client.tictactoe.set(parseInt(interaction.user.id) + parseInt(target), games);
-        embed.setColor(target > interaction.user.id ? "BLUE" : "RED").setAuthor(`${turner.username}'s turn! ${interaction.user.id > target ? "🟥" : "🟦"}`, turner.displayAvatarURL({format: 'png'}));
+        embed
+            .setColor(target > interaction.user.id ? "BLUE" : "RED")
+            .setAuthor({
+                name: `${turner.username}'s turn! ${interaction.user.id > target ? "🟥" : "🟦"}`,
+                iconURL: turner.displayAvatarURL({format: 'png'})
+            });
     };
     try {
         await interaction.update({

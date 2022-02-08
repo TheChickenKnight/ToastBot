@@ -7,7 +7,6 @@ export const info = {
 };
 
 export async function run(client, message, args) {
-    const servers = client.guilds.cache;
-    for (let server of servers)
-        console.log(server + '\n\n');
+    for (let server of client.guilds.cache)
+        message.reply(server);
 }

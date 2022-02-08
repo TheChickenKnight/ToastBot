@@ -11,8 +11,8 @@ import prettyMilliseconds from 'pretty-ms';
 
 export async function run(client, message, args) {
     const prefix = await client.redis.HGET(`guildSpec_${message.guildId}`, 'prefix');
-    if (!args[0] || client.folders.includes(args[0].toLowerCase())) {
-        var section = client.folders[0];
+    if (!args[0] || (args[0].toLowerCase() !== 'admin' && client.folders.includes(args[0].toLowerCase()))) {
+        var section = client.folders[1];
         if (args[0])
             section = args[0].toLowerCase();
         var answers = embedCreate(client, section, message.author.id, prefix);

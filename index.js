@@ -223,7 +223,7 @@ client.folders.forEach(folder => fs.readdirSync(`./commands/${folder}/`).filter(
 console.log(`Loaded all ${commandFiles.length} commands`);
 
 client.once('ready', async () => {
-    client.user.setPresence({ activities: [{name: 'WOOO!! We Made it to top.gg!', type: 'PLAYING'}], status: 'online'});
+    client.user.setPresence({ activities: [{name: 'on ' + client.guilds.cache.size + ' servers', type: 'PLAYING'}], status: 'online'});
     console.log('ToastBot is finally ready!');
     client.on('messageCreate', async message => {
         if (!message.guild || message.author.bot)

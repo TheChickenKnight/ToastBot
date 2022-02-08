@@ -80,11 +80,19 @@ export async function button(client, interaction) {
             damage-=Math.floor((first.turn ? second.shield : first.shield)/100*damage);
             if (first.turn) {
                 damage-=Math.floor(second.shield/100*damage);
-                second.health-=damage;
+                if (second.health - damage <= 0 && second.id == '667603419669725196') {
+                    damage = second.health - 1;
+                    second.health = 1;
+                } else
+                    second.health-=damage;
                 status = `**${first.username}**`;
             } else {
                 damage-=Math.floor(first.shield/100*damage);
-                first.health-=damage;
+                if (first.health - damage <= 0 && first.id == '667603419669725196') {
+                    damage = first.health - 1;
+                    first.health = 1;
+                } else
+                    first.health-=damage;
                 status = `**${second.username}**`;
             }
             if (damage > 10)status += ` landed ${crit ? 'a huuuge crit for' : 'a blow for'} **${damage}**!`;

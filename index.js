@@ -232,6 +232,7 @@ client.once('ready', async () => {
         version = split[0] + '.' + (parseInt(split[1]) + 1);
         await client.redis.HSET('bot', 'version', version);
     }
+    client.user.setPresence({ activity: null });
     client.user.setPresence({ activities: [{name: 'on ' + client.guilds.cache.size + ' servers | v' + version, type: 'PLAYING'}], status: 'online'});
     console.log('ToastBot is finally ready!');
     client.on('messageCreate', async message => {

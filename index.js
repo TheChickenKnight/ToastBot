@@ -228,8 +228,10 @@ client.once('ready', async () => {
     client.on('messageCreate', async message => {
         if (!message.guild || message.author.bot)
             return;
-        if (!(await client.redis.HEXISTS(`guildSpec_${message.guild.id}`, 'prefix')))
+        if (!(await client.redis.HEXISTS(`guildSpec_${message.guild.id}`, 'prefix'))) {
             await client.redis.HSET(`guildSpec_${message.guild.id}`, 'prefix', 'toast ');
+            client.user.setPresence({ activities: [{name: 'on ' + client.guilds.cache.size + ' servers', type: 'PLAYING'}], status: 'online'});
+        }
         const prefix = await client.redis.HGET(`guildSpec_${message.guild.id}`, 'prefix');
         if (message.content.includes(process.env.BOT_ID) && message.content.toLowerCase().includes('reset')) {
             client.redis.HSET(`guildSpec_${message.guildId}`, 'prefix', 'toast ');

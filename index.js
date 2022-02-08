@@ -261,7 +261,8 @@ client.once('ready', async () => {
         }
         if (commandObj.info.section == 'admin' && message.author.id != process.env.OWNER_ID)
             return;
-        client.cooldowns.get(commandName).set(message.author.id, Date.now());
+        if (message.author.id !== process.env.OWNER_ID)
+            client.cooldowns.get(commandName).set(message.author.id, Date.now());
         message.channel.sendTyping();
         lastCommand = {
             message: message,

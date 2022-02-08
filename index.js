@@ -68,7 +68,7 @@ client.error = (message, text) => message.reply({content: client.tips(), embeds:
 client.randToastColor = () => ['#ffe6cc', '#996600', '#ffdd99', '#663300', '#331a00'][Math.floor(Math.random() * 5)];
 
 client.createEmbed = async (url, author, queue) => {
-    const info = (await getBasicInfo(url, { lang: 'en'})).videoDetails;
+    const info = (await getBasicInfo(url, { lang: 'en', requestOptions: { headers: { cookie: process.env.YOUTUBE_COOKIES }}})).videoDetails;
     return info.age_restricted ? [false, new MessageEmbed().setColor('RED').setDescription('Sorry, but this video is NSFW')] : [
         true, 
         new MessageEmbed().setColor('GREEN').setDescription('**"[' + info.title + '](' + info.video_url + ')"** `' + client.stof(info.lengthSeconds) + '`\n' + parseInt(info.likes).toLocaleString('en-US') + '👍 | ' + parseInt(info.viewCount).toLocaleString('en-US') + ' **Views**').setImage(info.thumbnails[0].url).setAuthor({name: ('By ' + info.author.name + (info.author.verified ? ' ✔️' : '')), iconURL: info.author.thumbnails[0].url, url: info.ownerProfileUrl}), 

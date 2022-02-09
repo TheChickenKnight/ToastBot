@@ -201,7 +201,7 @@ client.tips = () => {
         'Plans for a playlist command is in the making!',
         'You can\'t currently turn off tips but there are plans for a settings command',
         'Plans for a Mining-based RPG in the making!',
-        'Plans for a feedback command in the making!\nIt will directly message my developer, no matter what it is!\nHave fun 😏!',
+        'NEW!!! Feedback Command is now IN!!!\nIt will directly message my developer, no matter what it is!\nHave fun 😏!',
         'haha ~~i~~magine if a ~~t~~ip ha~~d~~ s~~o~~m~~e~~ ~~s~~ort of secret ahahahaha'
     ];
     if (Math.floor(Math.random() * 4) == 0)

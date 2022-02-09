@@ -208,6 +208,8 @@ client.tips = () => {
         return '**TIP**: ' + tips[Math.floor(Math.random() * tips.length)];
 };
 
+client.status = 'on ' + client.guilds.cache.size + ' servers';
+
 client.folders = fs.readdirSync('./commands/');
 var commandFiles = [];
 
@@ -233,7 +235,7 @@ client.once('ready', async () => {
         await client.redis.HSET('bot', 'version', version);
     }
     client.user.setPresence({ activity: null });
-    client.user.setPresence({ activities: [{name: 'on ' + client.guilds.cache.size + ' servers | v' + version, type: 'PLAYING'}], status: 'online'});
+    client.user.setPresence({ activities: [{name: client.status + ' | v' + version, type: 'PLAYING'}], status: 'online'});
     console.log('ToastBot is finally ready!');
     client.on('messageCreate', async message => {
         if (!message.guild || message.author.bot)

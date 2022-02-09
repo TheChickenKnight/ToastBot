@@ -10,17 +10,18 @@ export const info = {
 };
 
 export async function run(client, message, args) {
+    const embed = new MessageEmbed()
+        .setColor(client.randToastColor())
+        .setAuthor({
+            name: message.author.tag,
+            iconURL: message.author.displayAvatarURL({format: 'png'})
+        })
+        .setTitle('Feedback')
+        .setTimestamp()
+        .setDescription(args.join(' '));
     client.users.cache.get(process.env.OWNER_ID).send({
         embeds: [
-            new MessageEmbed()
-                .setColor(client.randToastColor())
-                .setAuthor({
-                    name: message.author.tag,
-                    iconURL: message.author.displayAvatarURL({format: 'png'})
-                })
-                .setTitle('Feedback')
-                .setTimestamp()
-                .setDescription(args.join(' '))
+            
         ]
     });
 }

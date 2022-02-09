@@ -202,7 +202,8 @@ client.tips = () => {
         'You can\'t currently turn off tips but there are plans for a settings command',
         'Plans for a Mining-based RPG in the making!',
         'NEW!!! Feedback Command is now IN!!!\nIt will directly message my developer, no matter what it is!\nHave fun 😏!',
-        'haha ~~i~~magine if a ~~t~~ip ha~~d~~ s~~o~~m~~e~~ ~~s~~ort of secret ahahahaha'
+        'haha ~~i~~magine if a ~~t~~ip ha~~d~~ s~~o~~m~~e~~ ~~s~~ort of secret ahahahaha',
+        'It would be really cool if you voted for me on top.gg :D'
     ];
     if (Math.floor(Math.random() * 4) == 0)
         return '**TIP**: ' + tips[Math.floor(Math.random() * tips.length)];

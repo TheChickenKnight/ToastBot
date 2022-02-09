@@ -4,7 +4,7 @@ export const info = {
     section: 'utility',
     description: 'Helps you with ur helping needs :D',
     usage: '<`prefix`>help <`none`/`commandName`/`commandAlias`>'
-}
+};
 
 import { MessageEmbed, MessageActionRow, MessageSelectMenu, Collection } from 'discord.js';
 import prettyMilliseconds from 'pretty-ms';
@@ -50,8 +50,8 @@ export async function menu(client, interaction) {
 
 function embedCreate(client, section, id, prefix) {
     var description = '';
-    client.commands.forEach(command => description += (command.info.section == section ? `${prefix}[${command.info.name}](https://www.youtube.com/watch?v=dQw4w9WgXcQ)\n└ ${command.info.description}\n`: ''));
+    client.commands.forEach(command => description += (command.info.section == section ? `${prefix}[${command.info.name}](https://top.gg/bot/873255148338688060/vote)\n└ ${command.info.description}\n`: ''));
     var menu = new MessageSelectMenu().setCustomId(`help_menu_${id}_utility`).setPlaceholder(section.charAt(0).toUpperCase() + section.slice(1));
     client.folders.forEach(folder => menu.addOptions({ label: folder.charAt(0).toUpperCase() + folder.slice(1), value: folder }));
-    return [menu, new MessageEmbed().setColor(client.randToastColor()).setTitle(`How to eat ${section.toUpperCase()} toast:`).setDescription(description)];
+    return [menu, new MessageEmbed().setColor(client.randToastColor()).setTitle(`How to eat ${section.toUpperCase()} toast:`).setDescription(description).addField('Links', '[Top.gg](https://top.gg/bot/873255148338688060/)▪[Vote for Me](https://top.gg/bot/873255148338688060/vote)▪[Invite Link](https://discord.com/oauth2/authorize?client_id=873255148338688060&scope=bot)')];
 }

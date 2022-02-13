@@ -166,34 +166,34 @@ export async function button(client, interaction) {
                 new MessageActionRow().addComponents(
                     new MessageButton()
                         .setCustomId(`border1`)
-                        .setStyle('DANGER')
+                        .setStyle('SECONDARY')
                         .setLabel('\u200b')
                         .setDisabled(true),
                     new MessageButton()
                         .setCustomId(`border2`)
-                        .setStyle('DANGER')
+                        .setStyle('SECONDARY')
                         .setLabel('\u200b')
                         .setDisabled(true),
                     new MessageButton()
                         .setCustomId(`border3`)
-                        .setStyle('DANGER')
+                        .setStyle('SECONDARY')
                         .setLabel('\u200b')
                         .setDisabled(true),
                     new MessageButton()
                         .setCustomId(`border15`)
-                        .setStyle('DANGER')
+                        .setStyle('SECONDARY')
                         .setLabel('\u200b')
                         .setDisabled(true),
                     new MessageButton()
                         .setCustomId(`border16`)
-                        .setStyle('DANGER')
+                        .setStyle('SECONDARY')
                         .setLabel('\u200b')
                         .setDisabled(true),
                 ),
                 new MessageActionRow().addComponents(
                     new MessageButton()
                         .setCustomId(`border4`)
-                        .setStyle('DANGER')
+                        .setStyle('SECONDARY')
                         .setLabel('\u200b')
                         .setDisabled(true),
                     new MessageButton()
@@ -213,14 +213,14 @@ export async function button(client, interaction) {
                         .setDisabled(true),
                     new MessageButton()
                         .setCustomId(`border5`)
-                        .setStyle('DANGER')
+                        .setStyle('SECONDARY')
                         .setLabel('\u200b')
                         .setDisabled(true),
                 ),
                 new MessageActionRow().addComponents(
                     new MessageButton()
                         .setCustomId(`border6`)
-                        .setStyle('DANGER')
+                        .setStyle('SECONDARY')
                         .setLabel('\u200b')
                         .setDisabled(true),
                     new MessageButton()
@@ -240,14 +240,14 @@ export async function button(client, interaction) {
                         .setDisabled(true),
                     new MessageButton()
                         .setCustomId(`border7`)
-                        .setStyle('DANGER')
+                        .setStyle('SECONDARY')
                         .setLabel('\u200b')
                         .setDisabled(true),
                 ),
                 new MessageActionRow().addComponents(
                     new MessageButton()
                         .setCustomId(`border8`)
-                        .setStyle('DANGER')
+                        .setStyle('SECONDARY')
                         .setLabel('\u200b')
                         .setDisabled(true),
                     new MessageButton()
@@ -267,34 +267,34 @@ export async function button(client, interaction) {
                         .setDisabled(true),
                     new MessageButton()
                         .setCustomId(`border9`)
-                        .setStyle('DANGER')
+                        .setStyle('SECONDARY')
                         .setLabel('\u200b')
                         .setDisabled(true),
                 ),
                 new MessageActionRow().addComponents(
                     new MessageButton()
                         .setCustomId(`border10`)
-                        .setStyle('DANGER')
+                        .setStyle('SECONDARY')
                         .setLabel('\u200b')
                         .setDisabled(true),
                     new MessageButton()
                         .setCustomId(`border11`)
-                        .setStyle('DANGER')
+                        .setStyle('SECONDARY')
                         .setLabel('\u200b')
                         .setDisabled(true),
                     new MessageButton()
                         .setCustomId(`border12`)
-                        .setStyle('DANGER')
+                        .setStyle('SECONDARY')
                         .setLabel('\u200b')
                         .setDisabled(true),
                     new MessageButton()
                         .setCustomId(`border13`)
-                        .setStyle('DANGER')
+                        .setStyle('SECONDARY')
                         .setLabel('\u200b')
                         .setDisabled(true),
                     new MessageButton()
                         .setCustomId(`border14`)
-                        .setStyle('DANGER')
+                        .setStyle('SECONDARY')
                         .setLabel('\u200b')
                         .setDisabled(true),
                 )
@@ -302,7 +302,7 @@ export async function button(client, interaction) {
         });
     }
     await interaction.update({
-        components: gen(pattern.pattern[pattern.current], interaction.user.id, pattern.pattern.length == 1)
+        components: gen(pattern.pattern[pattern.current], interaction.user.id, pattern.pattern.length == 1, false)
     });
     if (pattern.current != pattern.pattern.length - 1) {
         pattern.current++;
@@ -578,7 +578,7 @@ export async function button(client, interaction) {
                 )
             ]
         });
-        setTimeout(async () => await showInteraction(interaction, pattern.pattern, interaction.user.id), 500);
+        setTimeout(async () => await showInteraction(interaction, pattern.pattern, interaction.user.id), 1000);
         
     }
     client.patterns.set(interaction.user.id, pattern);
@@ -586,38 +586,39 @@ export async function button(client, interaction) {
 
 
 function gen(button, id, disabled) {
+    let borderColor = disabled ? 'DANGER' : 'SECONDARY';
     return [
         new MessageActionRow().addComponents(
             new MessageButton()
                 .setCustomId(`border1`)
-                .setStyle('DANGER')
+                .setStyle(borderColor)
                 .setLabel('\u200b')
                 .setDisabled(true),
             new MessageButton()
                 .setCustomId(`border2`)
-                .setStyle('DANGER')
+                .setStyle(borderColor)
                 .setLabel('\u200b')
                 .setDisabled(true),
             new MessageButton()
                 .setCustomId(`border3`)
-                .setStyle('DANGER')
+                .setStyle(borderColor)
                 .setLabel('\u200b')
                 .setDisabled(true),
             new MessageButton()
                 .setCustomId(`border4`)
-                .setStyle('DANGER')
+                .setStyle(borderColor)
                 .setLabel('\u200b')
                 .setDisabled(true),
             new MessageButton()
                 .setCustomId(`border5`)
-                .setStyle('DANGER')
+                .setStyle(borderColor)
                 .setLabel('\u200b')
                 .setDisabled(true),
         ),
         new MessageActionRow().addComponents(
             new MessageButton()
                 .setCustomId(`border6`)
-                .setStyle('DANGER')
+                .setStyle(borderColor)
                 .setLabel('\u200b')
                 .setDisabled(true),
             new MessageButton()
@@ -637,14 +638,14 @@ function gen(button, id, disabled) {
                 .setDisabled(disabled),
             new MessageButton()
                 .setCustomId(`border7`)
-                .setStyle('DANGER')
+                .setStyle(borderColor)
                 .setLabel('\u200b')
                 .setDisabled(true),
         ),
         new MessageActionRow().addComponents(
             new MessageButton()
                 .setCustomId(`border8`)
-                .setStyle('DANGER')
+                .setStyle(borderColor)
                 .setLabel('\u200b')
                 .setDisabled(true),
             new MessageButton()
@@ -664,14 +665,14 @@ function gen(button, id, disabled) {
                 .setDisabled(disabled),
             new MessageButton()
                 .setCustomId(`border9`)
-                .setStyle('DANGER')
+                .setStyle(borderColor)
                 .setLabel('\u200b')
                 .setDisabled(true),
         ),
         new MessageActionRow().addComponents(
             new MessageButton()
                 .setCustomId(`border10`)
-                .setStyle('DANGER')
+                .setStyle(borderColor)
                 .setLabel('\u200b')
                 .setDisabled(true),
             new MessageButton()
@@ -691,34 +692,34 @@ function gen(button, id, disabled) {
                 .setDisabled(disabled),
             new MessageButton()
                 .setCustomId(`border11`)
-                .setStyle('DANGER')
+                .setStyle(borderColor)
                 .setLabel('\u200b')
                 .setDisabled(true),
         ),
         new MessageActionRow().addComponents(
             new MessageButton()
                 .setCustomId(`border12`)
-                .setStyle('DANGER')
+                .setStyle(borderColor)
                 .setLabel('\u200b')
                 .setDisabled(true),
             new MessageButton()
                 .setCustomId(`border13`)
-                .setStyle('DANGER')
+                .setStyle(borderColor)
                 .setLabel('\u200b')
                 .setDisabled(true),
             new MessageButton()
                 .setCustomId(`border14`)
-                .setStyle('DANGER')
+                .setStyle(borderColor)
                 .setLabel('\u200b')
                 .setDisabled(true),
             new MessageButton()
                 .setCustomId(`border15`)
-                .setStyle('DANGER')
+                .setStyle(borderColor)
                 .setLabel('\u200b')
                 .setDisabled(true),
             new MessageButton()
                 .setCustomId(`border16`)
-                .setStyle('DANGER')
+                .setStyle(borderColor)
                 .setLabel('\u200b')
                 .setDisabled(true),
         )
@@ -729,7 +730,7 @@ function gen(button, id, disabled) {
 async function showMsg(msg, steps, id) {
     for (let i = 0; i < steps.length; i++)
         setTimeout(async () => await msg.edit({
-            components: gen(steps[i], id)
+            components: gen(steps[i], id, true)
         }), i * 1000);
     setTimeout(async () => await msg.edit({
         components: gen(10, id, false)
@@ -740,10 +741,10 @@ async function showInteraction(interaction, steps, id) {
     for (let i = 0; i < steps.length; i++) {
         if (i > 0 && steps[i] == steps[i-1]) 
             setTimeout(async () => await interaction.editReply({
-                components: gen(10, id)
+                components: gen(10, id, true)
             }), i * 1000);
         setTimeout(async () => await interaction.editReply({
-            components: gen(steps[i], id)
+            components: gen(steps[i], id, true)
         }), i * 1000);
     }
     setTimeout(async () => await interaction.editReply({

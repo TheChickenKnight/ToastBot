@@ -48,7 +48,7 @@ export async function run(client, message, args) {
             .setDescription(`**A ${infObj.section.charAt(0).toUpperCase()}${infObj.section.slice(1)} Command!**\n${infObj['description']}`)
             .addField('Cooldown', prettyMilliseconds(infObj.cooldown * 1000, {verbose: true}));
         const ignore = ['name', 'description', 'section', 'cooldown'];
-        Object.keys(infObj).filter(word => !ignore.includes(word)).forEach(item => infoEmbed.addField(item.charAt(0).toUpperCase() + item.slice(1).replace(/_/g, ' '), infObj[item].toString()));
+        Object.keys(infObj).filter(word => !ignore.includes(word)).forEach(item => infoEmbed.addField(item.charAt(0).toUpperCase() + item.slice(1).split('_').map(word => client.caps(word)).join(' '), infObj[item].toString()));
         message.reply({content: client.tips(), embeds: [infoEmbed]});
     }
 }

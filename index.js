@@ -21,6 +21,9 @@ const client = new Client({
     ]
 });
 
+client.folders = fs.readdirSync('./commands/');
+var commandFiles = [];
+
 let lastCommand;
 let lastTime = Date.now();
 process.on('uncaughtException', async (error, origin) => {
@@ -47,7 +50,7 @@ client.redis = redis.createClient({
     url: 'redis://PsOk59q1LIraszrKzWg8u02OvH12NLx6@redis-10932.c267.us-east-1-4.ec2.cloud.redislabs.com:10932'
 });
 
-client.commands = new Collection(), client.aliases = new Collection(), client.cooldowns = new Collection(), client.timeIDs = new Collection(), client.snipe = new Collection(), client.tictactoe = new Collection(), client.toasterbreadmilk = new Collection(), client.queues = new Collection(), client.paused = new Collection();
+client.commands = new Collection(), client.aliases = new Collection(), client.cooldowns = new Collection(), client.timeIDs = new Collection(), client.snipe = new Collection(), client.tictactoe = new Collection(), client.toasterbreadmilk = new Collection(), client.queues = new Collection(), client.paused = new Collection(), client.patterns = new Collection();
 
 const creBar = (type, level) => '<:' + type + level + 'Bar:' + (type == 'l' ? (level == 0 ? '897903792371171379' : (level == 1 ? '897904228109008907' : (level == 2 ? '897904571064672287' : (level == 3 ? '897904670780055573' : (level == 4 ? '897904771439136798' : '897903598829178950'))))) : (type == 'r' ? (level == 0 ? '897905864118251602' : (level == 1 ? '897905324990791721' : (level == 2 ? '897905425205321768' : (level == 3 ? '897905541362376704' : (level == 4 ? '897905636992503848' : '897905716256469052'))))) : (level == 0 ? '897906311495303168' : (level == 1 ? '897906423030222899' : (level == 2 ? '897906503397298186' : (level == 3 ? '897906621039140865' : (level == 4 ? '897906714471465061' : '897906793768964136'))))))) + '>';
 
@@ -194,7 +197,7 @@ client.caps = text => text.charAt(0).toUpperCase() + text.slice(1).toLowerCase()
 
 client.tips = () => {
     const tips = [
-        'Don\'t like the default prefix? Use `<prefix>prefix <new prefix>` to change it!',
+        'Don\'t like the default prefix? Use <`prefix`>prefix <`new prefix`> to change it!',
         'Could there be secrets in this bot???? ? ?!?? ?!!? IDK!! ?',
         'The `play` command both supports direct urls and search terms!',
         'When you get an error message, it DMs my developer only the error message and the command that errored.',
@@ -203,7 +206,8 @@ client.tips = () => {
         'Plans for a Mining-based RPG in the making!',
         'NEW!!! Feedback Command is now IN!!!\nIt will directly message my developer, no matter what it is!\nHave fun 😏!',
         'haha ~~i~~magine if a ~~t~~ip ha~~d~~ s~~o~~m~~e~~ ~~s~~ort of secret ahahahaha',
-        'It would be really cool if you voted for me on top.gg :D'
+        'It would be really cool if you voted for me on top.gg :D',
+        'Try out our mini game commands! <`prefix`>help games'
     ];
     if (Math.floor(Math.random() * 4) == 0)
         return '**TIP**: ' + tips[Math.floor(Math.random() * tips.length)];
@@ -211,21 +215,15 @@ client.tips = () => {
 
 client.status = 'on ' + client.guilds.cache.size + ' servers';
 
-client.folders = fs.readdirSync('./commands/');
-var commandFiles = [];
-
-client.folders.forEach(folder => fs.readdirSync(`./commands/${folder}/`).filter(file => file.endsWith('.js')).forEach(async file => {
-    commandFiles.push(file);
-    const command = await import(`./commands/${folder}/${file}`);
-    client.commands.set(command.info.name, command);
-    if (command.info.aliases)
-        command.info.aliases.forEach(alias => client.aliases.set(alias, command.info.name));
-    console.log(`${file} Loaded!`);
-}));
-
-console.log(`Loaded all ${commandFiles.length} commands`);
-
 client.once('ready', async () => {
+    await client.folders.forEach(async folder => fs.readdirSync(`./commands/${folder}/`).filter(async file => file.endsWith('.js')).forEach(async file => {
+        const command = await import(`./commands/${folder}/${file}`);
+        client.commands.set(command.info.name, command);
+        if (command.info.aliases)
+            command.info.aliases.forEach(alias => client.aliases.set(alias, command.info.name));
+        console.log(file + ' Loaded!');
+        commandFiles.push(file);
+    }));
     let version = 'TEST';
     if (process.env.BOT_ID != '893482041604182106' && !(await client.redis.HEXISTS('bot', 'version'))) {
         version = '1.0';
@@ -237,6 +235,7 @@ client.once('ready', async () => {
     }
     client.user.setPresence({ activity: null });
     client.user.setPresence({ activities: [{name: client.status + ' | v' + version, type: 'PLAYING'}], status: 'online'});
+    console.log(`Loaded all ${commandFiles.length} commands`);
     console.log('ToastBot is finally ready!');
     client.on('messageCreate', async message => {
         if (!message.guild || message.author.bot)
@@ -292,7 +291,7 @@ client.once('ready', async () => {
 
 
     client.on('interactionCreate', async interaction => {
-        if (interaction.customId == 'disabled')
+        if (interaction.customId.startsWith('disabled'))
             return;
         let props = await import(`./commands/${interaction.customId.split('_').pop()}/${interaction.customId.split('_').shift()}.js`);
         if (!interaction.customId.split('_')[2].split('<->').includes(interaction.user.id) && interaction.customId.split('_')[2] !== 'all')

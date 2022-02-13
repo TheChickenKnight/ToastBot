@@ -6,10 +6,23 @@ export const info = {
     usage: '<`prefix`>help <`none`/`commandName`/`commandAlias`>'
 };
 
-import { MessageEmbed, MessageActionRow, MessageSelectMenu, Collection } from 'discord.js';
+import { MessageEmbed, MessageActionRow, MessageSelectMenu, Collection, MessageAttachment } from 'discord.js';
 import prettyMilliseconds from 'pretty-ms';
 
 export async function run(client, message, args) {
+    if (args[0] == 'me') {
+        const file = new MessageAttachment('./commands/utility/Images/square.png');
+        return message.reply({
+            content: '**TIP**: ',
+            embeds: [
+                new MessageEmbed()
+                    .setColor('RED')
+                    .setDescription('`❌`')
+                    .setThumbnail('attachment://square.png')
+            ],
+            files: [file]
+        });
+    }
     const prefix = await client.redis.HGET(`guildSpec_${message.guildId}`, 'prefix');
     if (!args[0] || (args[0].toLowerCase() !== 'admin' && client.folders.includes(args[0].toLowerCase()))) {
         var section = client.folders[1];

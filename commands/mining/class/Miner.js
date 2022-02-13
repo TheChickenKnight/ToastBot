@@ -136,9 +136,11 @@ export class Miner {
     checkMining() {
         const hours = (Date.now() - this.start) / 3600000,
             mine = data.mines[this.location];
+        let ores = [];
         for (let i = 0; i < hours; i++) {
             const random = Math.floor(Math.random() * 100) + 1;
-
+            ores.push(Object.keys(mine.ores).filter(ores => ores.chance.min < random && ores.chance.max > random)[0]);
+            
         }
         const random = Math.floor(Math.random() * 7) - 2;
         if (Date.now() - this.start / 7200000 + random > this.storage.current) {

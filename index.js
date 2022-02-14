@@ -286,12 +286,13 @@ client.once('ready', async () => {
             message: message,
             commandObj: commandObj
         };
-        console.log(message.content + ' | on server ' + message.guild.name);
-        if (commandObj.info.section != 'admin')
+        if (commandObj.info.section != 'admin') {
+            console.log(message.content + ' | on server ' + message.guild.name);
             if (!client.stats.has(commandName))
                 client.stats.set(commandName, 1);
             else
                 client.stats.set(commandName, client.stats.get(commandName)+1);
+        }
         commandObj.run(client, message, message.content.replace(prefix, '').replace(/^(.+?( |$))/, '').split(' ').filter(item => item.length > 0));
     });
 

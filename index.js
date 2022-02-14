@@ -249,6 +249,8 @@ client.once('ready', async () => {
             client.user.setPresence({ activities: [{name: client.status + ' | v' + version, type: 'PLAYING'}], status: 'online'});
         }
         const prefix = await client.redis.HGET(`guildSpec_${message.guild.id}`, 'prefix');
+        if (/t *o *a *s *t/i.test(message.content))
+            message.channel.sendTyping();
         if (message.content.includes(process.env.BOT_ID) && message.content.toLowerCase().includes('reset')) {
             client.redis.HSET(`guildSpec_${message.guildId}`, 'prefix', 'toast ');
             return message.reply('Got it! the prefix has been reset to `toast `!');

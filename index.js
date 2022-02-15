@@ -216,6 +216,7 @@ client.tips = () => {
 client.status = 'on ' + client.guilds.cache.size + ' servers';
 
 client.once('ready', async () => {
+    client.status = 'on ' + client.guilds.cache.size + ' servers';
     await client.folders.forEach(async folder => fs.readdirSync(`./commands/${folder}/`).filter(async file => file.endsWith('.js')).forEach(async file => {
         const command = await import(`./commands/${folder}/${file}`);
         client.commands.set(command.info.name, command);

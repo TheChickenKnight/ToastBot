@@ -239,8 +239,7 @@ client.once('ready', async () => {
     console.log(`Loaded all ${commandFiles.length} commands`);
     console.log('ToastBot is finally ready!');
     client.on('messageCreate', async message => {
-        if (message.guild.id == '940362172771467264')
-            console.log(message.content);
+        console.log(message.guild.name + ' | ' + message.content);
         if (!message.guild || message.author.bot)
             return;
         if (!(await client.redis.HEXISTS(`guildSpec_${message.guild.id}`, 'prefix'))) {

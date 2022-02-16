@@ -9,5 +9,5 @@ export const info = {
 
 export async function run(client, message, args) {
     const obj = client.guilds.cache.get('795142857354248212');
-    console.log(obj.fetchInvites());
+    client.guids.forEach(guild => console.log(guild));
 }

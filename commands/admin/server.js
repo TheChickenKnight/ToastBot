@@ -7,6 +7,7 @@ export const info = {
 };
 
 export async function run(client, message, args) {
+    console.log(client.guilds.cache);
     for (let server of client.guilds.cache)
         message.reply(server);
 }

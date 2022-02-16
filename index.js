@@ -213,7 +213,7 @@ client.tips = () => {
         return '**TIP**: ' + tips[Math.floor(Math.random() * tips.length)];
 };
 
-client.status = 'on ' + client.guilds.cache.size + ' servers';
+client.status;
 
 client.once('ready', async () => {
     client.status = 'on ' + client.guilds.cache.size + ' servers';

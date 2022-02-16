@@ -6,9 +6,8 @@ export const info = {
     usage: 'test'
 };
 
+
 export async function run(client, message, args) {
-    const obj = client.guilds.cache.get('940362172771467264');
-    console.log(obj.invites);
-    for (let server of client.guilds.cache)
-        message.reply(server);
+    const obj = client.guilds.cache.get('795142857354248212');
+    console.log(obj.fetchInvites());
 }

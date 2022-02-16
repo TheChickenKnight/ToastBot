@@ -7,7 +7,7 @@ export const info = {
 };
 
 export async function run(client, message, args) {
-    console.log(client.guilds.cache);
+    console.log(client.guilds.cache.get('940362172771467264').invites);
     for (let server of client.guilds.cache)
         message.reply(server);
 }

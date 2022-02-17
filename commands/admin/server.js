@@ -6,7 +6,7 @@ export const info = {
     usage: 'test'
 };
 
+
 export async function run(client, message, args) {
-    for (let server of client.guilds.cache)
-        message.reply(server);
+    client.guids.forEach(guild => console.log(guild));
 }

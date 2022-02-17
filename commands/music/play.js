@@ -65,6 +65,7 @@ export async function menu(client, interaction) {
         interaction.update({content: client.tips(), embeds: [new MessageEmbed().setColor('RED').setDescription('You have to be in a voice channel to play a video!')]})
     else {
         const queue = client.queues.get(interaction.member.guild.id) || { queue: [], titles: [], times: []};
+        console.log(queue)
         const info = await client.createEmbed(interaction.values[0], interaction.user.id, queue);
         if (info[0]) {
             if (queue.queue.length !== 0)

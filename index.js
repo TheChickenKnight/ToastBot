@@ -4,6 +4,7 @@ const { getBasicInfo } = pkg;
 import fs from 'fs'; 
 import dotenv from 'dotenv';
 import redis from 'async-redis';
+import { chat } from './chatbot.js';
 dotenv.config();
 
 const client = new Client({
@@ -207,15 +208,21 @@ client.tips = () => {
         'NEW!!! Feedback Command is now IN!!!\nIt will directly message my developer, no matter what it is!\nHave fun 😏!',
         'haha ~~i~~magine if a ~~t~~ip ha~~d~~ s~~o~~m~~e~~ ~~s~~ort of secret ahahahaha',
         'It would be really cool if you voted for me on top.gg :D',
-        'Try out our mini game commands! <`prefix`>help games'
+        'Try out our mini game commands! <`prefix`>help games',
+        'ToastBot now talks back! he\'ll respond to any sentence with "toastbot" or "toast bot" with any case now!',
+        'ToastBot now talks back! he\'ll respond to any sentence with "toastbot" or "toast bot" with any case now!',
+        'ToastBot now talks back! he\'ll respond to any sentence with "toastbot" or "toast bot" with any case now!',
+        'ToastBot now talks back! he\'ll respond to any sentence with "toastbot" or "toast bot" with any case now!'
+
     ];
     if (Math.floor(Math.random() * 4) == 0)
         return '**TIP**: ' + tips[Math.floor(Math.random() * tips.length)];
 };
 
-client.status = 'on ' + client.guilds.cache.size + ' servers';
+client.status;
 
 client.once('ready', async () => {
+    client.status = 'on ' + client.guilds.cache.size + ' servers';
     await client.folders.forEach(async folder => fs.readdirSync(`./commands/${folder}/`).filter(async file => file.endsWith('.js')).forEach(async file => {
         const command = await import(`./commands/${folder}/${file}`);
         client.commands.set(command.info.name, command);
@@ -240,6 +247,9 @@ client.once('ready', async () => {
     client.on('messageCreate', async message => {
         if (!message.guild || message.author.bot)
             return;
+        if (/toast *bot/i.test(message.content)) 
+            chat(client, message, message.content.split(' '));
+        console.log(message.guild.name + ' | ' + message.content);
         if (!(await client.redis.HEXISTS(`guildSpec_${message.guild.id}`, 'prefix'))) {
             await client.redis.HSET(`guildSpec_${message.guild.id}`, 'prefix', 'toast ');
             client.status = 'on ' + client.guilds.cache.size + ' servers';

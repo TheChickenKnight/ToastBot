@@ -5,6 +5,7 @@ import fs from 'fs';
 import dotenv from 'dotenv';
 import redis from 'async-redis';
 import { chat } from './chatbot.js';
+import { Economier } from "./commands/classes/Economier.js";
 dotenv.config();
 
 const client = new Client({
@@ -22,7 +23,7 @@ const client = new Client({
     ]
 });
 
-client.folders = fs.readdirSync('./commands/');
+client.folders = fs.readdirSync('./commands/').filter(folder => !folder.includes('.') && folder != 'classes');
 var commandFiles = [];
 
 let lastCommand;
@@ -247,14 +248,21 @@ client.once('ready', async () => {
     client.on('messageCreate', async message => {
         if (!message.guild || message.author.bot)
             return;
-        if (/toast *bot/i.test(message.content)) 
+        console.log(await client.redis.get(`economy_${message.author.id}`) || {})
+        let economier = new Economier(await client.redis.get(`economy_${message.author.id}`) || {})
+        console.log(economier.toString())
+        if (/toast *bot/i.test(message.content)) {
             chat(client, message, message.content.split(' '));
+            economier.xp+=Math.floor(Math.random()*6);
+            client.redis.set(`economy_${message.author.id}`, economier.toString());
+            return;
+        } 
         console.log(message.guild.name + ' | ' + message.content);
         if (!(await client.redis.HEXISTS(`guildSpec_${message.guild.id}`, 'prefix'))) {
             await client.redis.HSET(`guildSpec_${message.guild.id}`, 'prefix', 'toast ');
             client.status = 'on ' + client.guilds.cache.size + ' servers';
             const split = (await client.redis.HGET('bot', 'version')).split('.');
-            version = split[0] + '.' + (parseInt(split[1]) + 1);
+            version = split[0] + '.' + (parseInt(split[1]));
             client.user.setPresence({ activity: null });
             client.user.setPresence({ activities: [{name: client.status + ' | v' + version, type: 'PLAYING'}], status: 'online'});
         }
@@ -274,8 +282,12 @@ client.once('ready', async () => {
         var commandName = message.content.replace(prefix, '').split(' ')[0];
         if (commandFiles.includes(client.aliases.get(commandName) + '.js'))
             commandName = client.aliases.get(commandName);
-        if (!message.content.startsWith(prefix))
+        if (!message.content.startsWith(prefix)) {
+            economier.xp+=Math.floor(Math.random()*3);
+            client.redis.set(`economy_${message.author.id}`, economier.toString());
             return;
+        }
+        economier.xp+=Math.floor(Math.random()*6);
         const commandObj = client.commands.get(commandName);
         if (!commandObj)
             return;
@@ -305,6 +317,8 @@ client.once('ready', async () => {
             else
                 client.stats.set(commandName, client.stats.get(commandName)+1);
         }
+        economier.commands++;
+        client.redis.set(`economy_${message.author.id}`, economier.toString());
         commandObj.run(client, message, message.content.replace(prefix, '').replace(/^(.+?( |$))/, '').split(' ').filter(item => item.length > 0));
     });
 

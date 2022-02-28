@@ -1,11 +1,12 @@
 import { MessageActionRow, MessageEmbed, MessageSelectMenu } from 'discord.js';
 
 export const info = {
-    name: 'profile',
+    name: 'mineProfile',
     cooldown: 5,
+    aliases: ['mprofile', 'mprof'],
     section: 'mining',
     description: 'Currently under development!',
-    usage: 'profile'
+    usage: 'mineProfile'
 };
 
 export async function run(client, message, args, interaction) {

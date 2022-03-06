@@ -1,7 +1,7 @@
 export const info = {
     name: 'server',
     cooldown: 10,
-    section: 'utility',
+    section: 'admin',
     description: 'test',
     usage: 'test'
 };

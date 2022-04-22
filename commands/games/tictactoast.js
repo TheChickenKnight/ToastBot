@@ -119,7 +119,7 @@ export async function button(client, interaction) {
     games.history.push({ 
         turn: games.turn, 
         board: games.board[0].concat(games.board[1], games.board[2]), 
-        move: parseInt(interaction.customId.split('_').charAt(0)) * 3 + interaction.customId.split('_').charAt(1) + 1 
+        move: parseInt(interaction.customId.split('_')[1].charAt(0)) * 3 + interaction.customId.split('_')[1].charAt(1) + 1 
     });
     games.turn = target;
     const winner = await client.users.fetch(interaction.user.id);
